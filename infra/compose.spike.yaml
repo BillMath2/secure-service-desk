@@ -1,0 +1,41 @@
+# Disposable interoperability spike, NOT the hardened application deployment.
+name: service-desk-spike
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.4
+    command: [start-dev, --import-realm]
+    environment:
+      KC_HOSTNAME: https://127.0.0.1:18443
+      KC_HTTP_ENABLED: "false"
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/lab/certificate.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/lab/private.key
+    ports: ["127.0.0.1:18443:8443"]
+    volumes:
+      - ../.lab/keycloak:/opt/keycloak/data/import:ro
+      - ../.lab/tls:/opt/keycloak/conf/lab:ro
+    networks: [spike]
+    mem_limit: 1536m
+  postgres:
+    image: postgres:18.3
+    environment:
+      POSTGRES_USER: lab_migrator
+      POSTGRES_DB: service_desk
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    ports: ["127.0.0.1:15432:5432"]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U lab_migrator -d service_desk"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    tmpfs: [/var/lib/postgresql]
+    networks: [spike]
+    mem_limit: 256m
+secrets:
+  postgres_password:
+    file: ../.lab/postgres-password
+networks:
+  spike:
+    # Host-only port bindings above allow the Windows probe to reach these trusted
+    # services. This spike is not the egress-denied adversarial baseline network.
+    internal: false

@@ -1,0 +1,17 @@
+{
+  "oidc_code_pkce_nonce": true,
+  "delegated_user_preserved": true,
+  "delegated_client": "gateway",
+  "delegated_audience": "knowledge",
+  "delegated_scopes": [
+    "knowledge:read"
+  ],
+  "act_claim_present": false,
+  "missing_token_denied": true,
+  "wrong_audience_denied": true,
+  "forged_username_denied": true,
+  "negotiated_protocol": "2025-11-25",
+  "mcp_tool_round_trip": true,
+  "postgres_migrations": true,
+  "knowledge_role_read_only": true
+}

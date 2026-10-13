@@ -1,0 +1,114 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "policy_version": {
+      "pattern": "^[a-z][a-z0-9-]{0,63}$",
+      "title": "Policy Version",
+      "type": "string"
+    },
+    "max_tool_calls": {
+      "default": 12,
+      "exclusiveMinimum": 0,
+      "title": "Max Tool Calls",
+      "type": "integer"
+    },
+    "max_model_tokens": {
+      "default": 16000,
+      "exclusiveMinimum": 0,
+      "title": "Max Model Tokens",
+      "type": "integer"
+    },
+    "task_timeout_seconds": {
+      "default": 120,
+      "exclusiveMinimum": 0,
+      "title": "Task Timeout Seconds",
+      "type": "integer"
+    },
+    "tool_timeout_seconds": {
+      "default": 10,
+      "exclusiveMinimum": 0,
+      "title": "Tool Timeout Seconds",
+      "type": "integer"
+    },
+    "provider_timeout_seconds": {
+      "default": 45,
+      "exclusiveMinimum": 0,
+      "title": "Provider Timeout Seconds",
+      "type": "integer"
+    },
+    "max_retries": {
+      "default": 1,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Max Retries",
+      "type": "integer"
+    },
+    "max_tool_bytes": {
+      "default": 32768,
+      "exclusiveMinimum": 0,
+      "title": "Max Tool Bytes",
+      "type": "integer"
+    },
+    "max_draft_bytes": {
+      "default": 8192,
+      "exclusiveMinimum": 0,
+      "title": "Max Draft Bytes",
+      "type": "integer"
+    },
+    "approval_requests_per_hour": {
+      "default": 5,
+      "exclusiveMinimum": 0,
+      "title": "Approval Requests Per Hour",
+      "type": "integer"
+    },
+    "confirmation_seconds": {
+      "default": 600,
+      "exclusiveMinimum": 0,
+      "title": "Confirmation Seconds",
+      "type": "integer"
+    },
+    "approval_seconds": {
+      "default": 900,
+      "exclusiveMinimum": 0,
+      "title": "Approval Seconds",
+      "type": "integer"
+    },
+    "standard_grant_seconds": {
+      "default": 2592000,
+      "exclusiveMinimum": 0,
+      "maximum": 2592000,
+      "title": "Standard Grant Seconds",
+      "type": "integer"
+    },
+    "privileged_grant_seconds": {
+      "default": 28800,
+      "exclusiveMinimum": 0,
+      "maximum": 28800,
+      "title": "Privileged Grant Seconds",
+      "type": "integer"
+    },
+    "cleanup_seconds": {
+      "default": 60,
+      "exclusiveMinimum": 0,
+      "title": "Cleanup Seconds",
+      "type": "integer"
+    },
+    "review_interval_seconds": {
+      "default": 604800,
+      "exclusiveMinimum": 0,
+      "title": "Review Interval Seconds",
+      "type": "integer"
+    },
+    "review_window_seconds": {
+      "default": 86400,
+      "exclusiveMinimum": 0,
+      "title": "Review Window Seconds",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "policy_version"
+  ],
+  "title": "LabConfig",
+  "type": "object"
+}

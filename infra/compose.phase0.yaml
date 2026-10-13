@@ -1,0 +1,17 @@
+# Test sink only. No ports are published; no production credentials or volumes.
+name: service-desk-phase0
+services:
+  sink:
+    build:
+      context: ..
+      dockerfile: infra/sink.Dockerfile
+    networks: [test_only]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    pids_limit: 64
+    tmpfs: [/tmp]
+networks:
+  test_only:
+    internal: true

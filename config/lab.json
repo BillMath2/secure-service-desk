@@ -1,0 +1,19 @@
+{
+  "policy_version": "policy-v1",
+  "max_tool_calls": 12,
+  "max_model_tokens": 16000,
+  "task_timeout_seconds": 120,
+  "tool_timeout_seconds": 10,
+  "provider_timeout_seconds": 45,
+  "max_retries": 1,
+  "max_tool_bytes": 32768,
+  "max_draft_bytes": 8192,
+  "approval_requests_per_hour": 5,
+  "confirmation_seconds": 600,
+  "approval_seconds": 900,
+  "standard_grant_seconds": 2592000,
+  "privileged_grant_seconds": 28800,
+  "cleanup_seconds": 60,
+  "review_interval_seconds": 604800,
+  "review_window_seconds": 86400
+}

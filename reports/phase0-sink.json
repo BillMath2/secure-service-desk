@@ -1,0 +1,6 @@
+﻿{
+    "internal_network":  true,
+    "no_published_ports":  true,
+    "local_capture":  true,
+    "external_tcp_denied":  true
+}

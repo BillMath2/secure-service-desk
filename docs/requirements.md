@@ -1,0 +1,25 @@
+# Requirement traceability
+
+Every requirement family in the revised project plan has an ID below. Phase 0 tests are executable now; later identifiers are planned acceptance cases and must not be reported as passing. The permission and tool contracts further define individual cases within each family.
+
+| ID | Requirement and source | Test IDs / evidence | Implementation phase |
+|---|---|---|---|
+| R01 | Verified user, client, scopes, issuer/audience/time; no header identity (project 2-3) | `test_context_restrictions`; identity spike's PKCE, subject/client, missing-token, wrong-audience, forged-header checks; future AUTH-01 signature/expiry/rotation, AUTH-02 scope downgrade | 0 spike, 2 full |
+| R02 | Resource ACLs, direct-server enforcement, safe metadata, pre-retrieval filtering (project 2-4) | `test_read_enforces_caller_and_every_recipient`, `test_not_found_and_denied_look_identical`; future READ-01 search/snippets, READ-02 ticket ID guessing, READ-03 direct MCP | 0 adapter, 2 full |
+| R03 | Recipient-aware channels, fresh reply context, cache isolation, safe UI (project 4) | `deny-requester-leak`, `deny-empty-audience`; future OUTPUT-01 cache/memory, OUTPUT-02 remote images, OUTPUT-03 safe citations | 0 adapter, 3 full |
+| R04 | Reviewed registry, tool schemas, no arbitrary execution/URLs, separate credentials (project 3) | `test_contract_rejects_model_supplied_identity`; future MCP-01 schema/description change, MCP-02 unregistered server, MCP-03 token reuse | 2 |
+| R05 | Exact confirmation, human publication, no blanket unlock, rechecks (project 1,4) | `pending-requester-reply` (unsupported); future WRITE-01 altered body/audience/ACL, WRITE-02 replay, WRITE-03 next-action lock | 3 |
+| R06 | Attacker-tagged direct/indirect injection, canaries supplemental (project threats,1,4-5) | Forced `deny-hr-after-injection`, `deny-requester-leak`; future INJECT-01 ticket, INJECT-02 document, INJECT-03 attachment, INJECT-04 tool output/description | 0 forced, 1+ model |
+| R07 | Provenance-first review, resource relationships, distinct approvers, self-grant denial (project 2,6) | Fixture grant paths and conflict principal; future APPROVE-01 self/beneficiary, APPROVE-02 fake CISO, APPROVE-03 two stages, APPROVE-04 workload target | 4 |
+| R08 | Immutable bound approvals, expiry, current policy, atomic single use (project 6) | `pending-standard-grant`, `pending-sensitive-grant` (unsupported); future EXEC-01 changed args, EXEC-02 stale policy/expiry, EXEC-03 concurrency/lost response | 4 |
+| R09 | Time-bound grants, delayed-worker effective expiry, reviews and revocation (project 6) | Future LIFE-01 expiry, LIFE-02 restart, LIFE-03 missed review, LIFE-04 renewal, LIFE-05 worker privilege | 4 |
+| R10 | Audit correlation, redaction, protected collector, durable fail-closed evidence (project 6) | `test_audit_failure_prevents_data_return`, `test_audit_append_only_and_idempotent`, read audit assertions; future AUDIT-01 collector outage/outbox, AUDIT-02 reader/writer isolation | 0 minimal, 4 full |
+| R11 | Tool/token/time/byte/retry/request limits including concurrent use (project 5) | `test_configuration_rejects_inconsistent_limits`, `test_output_limit`, bounded sink; future LIMIT-01 loops, LIMIT-02 parallel reservations, LIMIT-03 token/provider budgets, LIMIT-04 approval spam | 0 contracts, 2-3 enforcement |
+| R12 | Synthetic isolated baseline, no production disable switch (project 5) | Disposable fixture store and test sink probes; future BASELINE-01 egress/host isolation, BASELINE-02 baseline unsafe effects, BASELINE-03 hardened packaging | 1 |
+| R13 | Secrets, filesystem/network boundaries, model as destination (project 3-4) | `.gitignore`, `.dockerignore`, sink isolation probe; future ISOLATE-01 mounts/credentials, ISOLATE-02 provider routing, ISOLATE-03 no secret outputs | 0 foundations, 3 full |
+| R14 | Deterministic reset, source hashes, known synthetic company (milestone 0) | `test_fixture_reset_is_deterministic`, `test_reset_refuses_unrelated_database`, `test_fixture_relations_and_canaries` | 0 |
+| R15 | Actual-effect oracle and distinct result states (project 5) | `test_runner_reports_pass_and_unsupported`, `test_runner_detects_actual_leak`, `test_runner_detects_actual_mutation`, `test_runner_errors_do_not_expose_exception_text` | 0 |
+| R16 | Versioned OWASP mapping, v0 comparison, benign success, false blocks, honest coverage (project 5) | Fixture risk tags; future EVAL-01 denominators/counts, EVAL-02 repetitions, EVAL-03 thresholds | 0 tags, 5 reports |
+| R17 | Reproducible setup, compatibility, architecture, runbook, final demo (deliverables) | Lockfile, ADR, docs, `scripts/check.ps1`; future RELEASE-01 clean checkout, RELEASE-02 recorded demo | 0 foundations, 5 final |
+
+Risk tags use OWASP LLM 2025 and Agentic Applications 2026 as named comparison baselines. Current tags cover only the scenario-specific injection, disclosure, tool misuse, and identity concerns. They are not a complete assessment of either Top 10.
