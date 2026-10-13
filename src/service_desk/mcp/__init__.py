@@ -1,0 +1,1 @@
+"""Authenticated MCP transport foundations."""

@@ -1,6 +1,28 @@
 # Status and compatibility
 
-Phase 1 exit gate met October 12, 2026: three separate unauthenticated MCP services, containment probes in all six attack-network namespaces, three forced unsafe effects, one forced benign success, and four completed local-model trials. The model's three attacks and one benign task all missed their objectives; none is presented as a successful task or security guarantee. See [Phase 1 evidence and reproduction](phase1.md). The combined checker now passes 44 tests. Ollama 0.40.3 and Qwen3-4B-Instruct-2507 Q4_K_M are pinned by image/model hashes; inference used CPU despite requested GPU passthrough. Phase 2 has not started.
+## Current status: Phase 2 exit gate met
+
+October 13, 2026: the pinned, pre-registered read-only lab passes 211 tests (167 default, 44 PostgreSQL integration), lint, formatting and strict type checks. Final live probes pass 68 identity, 34 read, 27 browser-assistant and 25 authentication-compatibility checks, plus the local-model tasks. Real Keycloak rotation/retirement/expiry and RFC 8414 discovery are verified; the fallback branches and hostile metadata have 31 deterministic tests. Cached retired keys remain accepted for at most the configured 60-second JWKS lifetime. See the [exit matrix and reproduction](phase2-exit.md). Phase 3 recipient-safe drafts/confirmed writes and full deployment isolation remain unimplemented. No write capability is enabled. All records below are historical slice snapshots.
+
+Phase 1 exit gate met October 12, 2026: three separate unauthenticated MCP services, containment probes in all six attack-network namespaces, three forced unsafe effects, one forced benign success, and four completed local-model trials. The model's three attacks and one benign task all missed their objectives; none is presented as a successful task or security guarantee. See [Phase 1 evidence and reproduction](phase1.md). The Phase 1 checker passed 44 tests. Ollama 0.40.3 and Qwen3-4B-Instruct-2507 Q4_K_M are pinned by image/model hashes; inference used CPU despite requested GPU passthrough. Phase 2 started October 13, 2026; see the current record below.
+
+## Phase 2 local-model record
+
+October 13, 2026: 179 tests pass with PostgreSQL enabled (136 default, 43 opt-in). The pinned Ollama 0.40.3 / Qwen3-4B-Instruct-2507 Q4_K_M adapter passes 16 live model-deployment checks, and the three frozen authenticated benign/injection cases initially completed with valid citations and no tested unauthorized effects. The hardened adapter uses CPU inference, raw structured turns and an 8,192-token context; these differ from the earlier baseline settings. The observed API digest is the pinned final metadata-layer digest, while the offline gate separately verifies the manifest and all blobs. See [provider details and limits](phase2-model.md) and [trial evidence](../reports/phase2-model/results.json). Real Keycloak rotation and remaining discovery cases are still required. Records below describe earlier slices.
+
+## Phase 2 deterministic-assistant record
+
+October 13, 2026: the full checker passes 146 tests with PostgreSQL enabled (103 default, 43 opt-in). The authenticated browser/API task flow passes 27 live checks against the existing Keycloak 26.7.4, PostgreSQL 18.3 and MCP 2.3.0 stack. A deterministic provider exercises the bounded loop, durable model reservations, source citations and isolated contexts. The [assistant runbook](phase2-assistant.md) and [sanitized evidence](../reports/phase2-assistant/results.json) record reproduction and limits. Real-model integration, real provider key rotation and remaining discovery checks are still required. No write tool is enabled. Earlier records below are historical snapshots.
+
+## Phase 2 authorized-read record
+
+October 13, 2026: 118 tests pass with the disposable PostgreSQL integration enabled (95 default, 23 opt-in). All 34 real Keycloak ? pinned gateway ? TLS MCP ? PostgreSQL read checks pass. PostgreSQL 18.3 enforces shared reservations across service roles; MCP 2.3.0 serves the reviewed read catalog. Evidence and limits are in the [read runbook](phase2-reads.md) and [sanitized report](../reports/phase2-reads/results.json). The bounded model assistant remains unimplemented; no write tool is enabled. Earlier reports remain historical snapshots and their source hashes need not match newer changes.
+
+## Phase 2 identity record
+
+October 13, 2026: the full checker passes 83 tests, including 39 new signature, key rotation, HTTP/MCP boundary, session and exchange tests. Real confidential OIDC login, TLS, delegated tokens for knowledge/tickets/access, scope denials, privileged exchange denials, workload isolation, and protected browser sessions passed against Keycloak 26.7.4 / MCP 2.3.0 / PyJWT 2.15.1 / HTTPX 0.28.1 with protocol 2025-11-25. Sanitized claim shapes and source hashes are in [the live report](../reports/phase2-identity/results.json).
+
+The minimum realm required an explicit subject mapper; the verifier rejected missing `sub` until the configuration was corrected. The tested adapter maps exact signed audience names to pinned resource URLs and rejects scope expansion; it does not establish general OAuth discovery or per-resource user entitlement. The [Phase 2 runbook](phase2.md) records these limits, sessions, commands and remaining work. The Phase 2 read-only assistant exit gate is still open.
 
 ## Phase 0 record
 

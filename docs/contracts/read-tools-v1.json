@@ -1,0 +1,89 @@
+{
+  "version": "read-tools-v1",
+  "knowledge": [
+    {
+      "name": "read_document",
+      "description": "Read a permitted document with a versioned citation.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "document_id": {
+            "pattern": "^[a-z][a-z0-9-]{0,63}$",
+            "title": "Document Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "document_id"
+        ],
+        "title": "ReadDocumentArgs",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "search_documents",
+      "description": "Search permitted documents; return cited plain-text snippets.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "maxLength": 512,
+            "title": "Query",
+            "type": "string"
+          },
+          "limit": {
+            "default": 5,
+            "maximum": 10,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "SearchDocumentsArgs",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ],
+  "tickets": [
+    {
+      "name": "read_ticket",
+      "description": "Read the task ticket and comments permitted for every recipient.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "ticket_id": {
+            "pattern": "^[a-z][a-z0-9-]{0,63}$",
+            "title": "Ticket Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ticket_id"
+        ],
+        "title": "ReadTicketArgs",
+        "type": "object"
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}

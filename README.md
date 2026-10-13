@@ -2,7 +2,7 @@
 
 A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
 
-Phase 0 provides validated fictional fixtures, an instrumented document-read tool, audit collection, actual-effect evaluation, PostgreSQL foundation migrations, and identity compatibility probes. Phase 1 adds a separate contained vulnerable baseline with three MCP services, a local model, and unsafe-effect measurements. The authenticated assistant remains Phase 2 work.
+Phases 0–2 are complete for the pinned synthetic lab. The read-only assistant includes confidential sign-in, protected sessions, verified delegation, shared PostgreSQL limits, pinned tools, ACL-filtered reads and cited answers using either a deterministic provider or the local Qwen model. Real signing-key rotation and the selected MCP/OAuth discovery paths are tested. Phase 3 will add recipient-safe drafting and confirmed writes; no write capability is currently enabled.
 
 ```powershell
 .\scripts\bootstrap.ps1
@@ -16,6 +16,11 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Implementation plan](SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md)
 - [Phase 0 status and compatibility](docs/compatibility.md)
 - [Phase 1 baseline and runbook](docs/phase1.md)
+- [Phase 2 identity foundation](docs/phase2.md)
+- [Phase 2 authorized reads, shared limits and next steps](docs/phase2-reads.md)
+- [Phase 2 authenticated assistant demo and limits](docs/phase2-assistant.md)
+- [Phase 2 local model, containment and initial trials](docs/phase2-model.md)
+- [Phase 2 exit matrix and remaining deployment limits](docs/phase2-exit.md)
 - [Threat model](docs/threat-model.md)
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)

@@ -1,0 +1,5 @@
+# Apply only to a fresh disposable identity project for the administrator-driven probe.
+# The standard app/model/runtime configuration never mounts these credentials.
+services:
+  keycloak:
+    env_file: [../.lab/phase2-rotation/bootstrap.env]

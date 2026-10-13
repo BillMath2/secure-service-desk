@@ -289,6 +289,8 @@ def main() -> None:
                 for row in connection.execute("SELECT version FROM service_desk.schema_version")
             }
         for migration in sorted((ROOT / "migrations").glob("*.sql")):
+            if int(migration.name.split("_", 1)[0]) > 2:
+                continue  # Preserve this historical Phase 0 foundation probe.
             if int(migration.name.split("_", 1)[0]) not in applied:
                 connection.execute(migration.read_text())
         row = connection.execute("SELECT max(version) FROM service_desk.schema_version").fetchone()

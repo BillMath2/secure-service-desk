@@ -1,0 +1,21 @@
+# Disposable trusted read integration database, separate from every earlier project.
+name: service-desk-phase2-reads
+services:
+  postgres:
+    image: postgres:18.3
+    environment:
+      POSTGRES_USER: read_lab_migrator
+      POSTGRES_DB: service_desk_read_lab
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    ports: ["127.0.0.1:15433:5432"]
+    tmpfs: [/var/lib/postgresql]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U read_lab_migrator -d service_desk_read_lab"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    mem_limit: 256m
+secrets:
+  postgres_password:
+    file: ../.lab/phase2-read/postgres-password

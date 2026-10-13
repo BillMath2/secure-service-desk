@@ -1,0 +1,20 @@
+# Trusted identity integration only; not the final hardened deployment or attack network.
+name: service-desk-phase2-identity
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.4
+    command: [start-dev, --import-realm]
+    environment:
+      KC_HOSTNAME: https://127.0.0.1:19443
+      KC_HTTP_ENABLED: "false"
+      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/conf/lab/certificate.pem
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/conf/lab/private.key
+    ports: ["127.0.0.1:19443:8443"]
+    volumes:
+      - ../.lab/phase2/keycloak:/opt/keycloak/data/import:ro
+      - ../.lab/phase2/tls:/opt/keycloak/conf/lab:ro
+    networks: [identity]
+    mem_limit: 1536m
+networks:
+  identity:
+    internal: false

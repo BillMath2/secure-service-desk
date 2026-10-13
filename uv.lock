@@ -667,7 +667,11 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "httpx" },
+    { name = "mcp" },
+    { name = "psycopg", extra = ["binary"] },
     { name = "pydantic" },
+    { name = "pyjwt", extra = ["crypto"] },
     { name = "uvicorn" },
 ]
 
@@ -693,7 +697,11 @@ spike = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115,<1" },
+    { name = "httpx", specifier = ">=0.28,<1" },
+    { name = "mcp", specifier = ">=2.3,<3" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.2,<4" },
     { name = "pydantic", specifier = ">=2.12,<3" },
+    { name = "pyjwt", extras = ["crypto"], specifier = ">=2.15,<3" },
     { name = "uvicorn", specifier = ">=0.34,<1" },
 ]
 

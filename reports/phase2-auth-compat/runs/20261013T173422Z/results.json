@@ -1,0 +1,27 @@
+{
+  "phase": "2-auth-compatibility",
+  "recorded_at": "2026-10-13T17:34:16.483003+00:00",
+  "checks": {
+    "temporary_admin_authenticated": true,
+    "dedicated_realm": true,
+    "tls_resources_started": true,
+    "knowledge_challenge_discovery": true,
+    "knowledge_issuer_fallback": false,
+    "realm_configuration_restored": true
+  },
+  "passed": false,
+  "cache_lifetime_seconds": 60,
+  "registration": "pre-registered confidential clients",
+  "failure_stage": "discovery",
+  "source_sha256": {
+    "src/service_desk/core/auth/__init__.py": "18dacd2de618da23cd907f7437eb832351c47c2ca824112de3af8eb26d2a5a46",
+    "src/service_desk/core/auth/discovery.py": "790c547a3821c4dca6cceb442d68f4cca6d0245eb83ec40f4cf177914ebef7fb",
+    "src/service_desk/core/auth/lab.py": "6d243bdc22ca4ad642abab26d65af584ac184708dcde2637278d05c94c728859",
+    "src/service_desk/core/auth/oidc.py": "2f99314ed1a0859045c8c2a6bdfd32768afacbdfc906564e2a050fe5f394e37c",
+    "src/service_desk/core/auth/tokens.py": "69a7c61f20fc8f04563c5d901c3b60c19e6ada2a0a80933ecfe31a88ee67b6e3",
+    "src/service_desk/core/gateway/dispatch.py": "30b5462bd97c337d4992f52ee78407373a5f8fac65428fd29c0063ecd4fa6c54",
+    "scripts/check_phase2_auth_compat.py": "c127a1b88ede11b30cd30277340b555357e24c28deb6414dada4a87122f57ab6",
+    "infra/compose.phase2-rotation.yaml": "037af7993a7d40883192217307f47dd044b755264b0ce2efae9eae5f4f5376fc",
+    "uv.lock": "23accb8c2e6b90cedb19cbe8c09ab0174979d0733110c40e62d31f703ebc90dc"
+  }
+}

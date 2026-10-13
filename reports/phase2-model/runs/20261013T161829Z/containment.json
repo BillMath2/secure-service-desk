@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "model_running": true,
+    "offline_cache_gate_passed": true,
+    "images_pinned": true,
+    "model_internal_network_only": true,
+    "no_model_host_port": true,
+    "cloud_disabled": true,
+    "model_cache_read_only": true,
+    "restricted_containers": true,
+    "relay_loopback_only": true,
+    "no_live_cache_writer": true,
+    "model_reachable": true,
+    "external_ip_denied": true,
+    "external_name_denied": true,
+    "host_database_denied": true,
+    "host_identity_denied": true,
+    "relay_cannot_download_models": true
+  },
+  "passed": true
+}

@@ -1,8 +1,12 @@
 # Foundation runbook
 
-For the separate contained vulnerable baseline, see the [Phase 1 runbook](phase1.md).
+The [Phase 2 exit record](phase2-exit.md) contains the complete read-only regression matrix, the optional disposable administrator setup for real key rotation, current compatibility limits and the next Phase 3 work.
+
+For the separate contained vulnerable baseline, see the [Phase 1 runbook](phase1.md). For confidential login and the three TLS identity probes, see the [Phase 2 identity runbook](phase2.md). For the PostgreSQL task limits and authorized read tools, see the [read-boundary runbook](phase2-reads.md). For authenticated browser tasks and the bounded deterministic provider, see the [assistant runbook](phase2-assistant.md).
 
 Run commands from the repository root. The default harness uses synthetic fixture identities and opens no network listener. It does not require Docker, a model, or a cloud account.
+
+For the optional pinned local-model provider, offline checksum gate and genuine model trials, see the [Phase 2 model runbook](phase2-model.md). It reuses immutable cached weights and requires no cloud API key.
 
 ## Local setup and checks (Windows PowerShell)
 

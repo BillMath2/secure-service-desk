@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Synthetic service desk security lab and evaluation contracts"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
-dependencies = ["pydantic>=2.12,<3", "fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
+dependencies = ["pydantic>=2.12,<3", "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "httpx>=0.28,<1", "mcp>=2.3,<3", "pyjwt[crypto]>=2.15,<3", "psycopg[binary]>=3.2,<4"]
 
 [dependency-groups]
 dev = ["pytest>=8.3,<10", "httpx>=0.28,<1", "httpx2>=2.13,<3", "ruff>=0.14,<1", "mypy>=1.15,<3"]
@@ -24,6 +24,7 @@ packages = ["src/service_desk"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers"
+markers = ["postgres: opt-in disposable PostgreSQL read-boundary integration"]
 
 [tool.ruff]
 target-version = "py313"

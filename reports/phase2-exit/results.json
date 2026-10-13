@@ -1,0 +1,43 @@
+{
+  "phase": 2,
+  "status": "exit_gate_met",
+  "recorded_at": "2026-10-13T17:46:18.882745+00:00",
+  "scope": "Pinned, pre-registered, read-only synthetic lab",
+  "validation": {
+    "pytest_passed": 211,
+    "postgres_cases": 44,
+    "lint": "passed",
+    "format": "passed",
+    "strict_mypy": "passed"
+  },
+  "evidence": {
+    "reports/phase2-identity/results.json": {
+      "sha256": "8d50385bd692292d769f2211a8bb4ed0fe5cf9b228ccda6bddb3038519a85baa",
+      "checks_or_trials": 68
+    },
+    "reports/phase2-reads/results.json": {
+      "sha256": "03c1a99bb9770bb701cf322afbd60aad91ec59f9bed01a998e0b6c95f2c06cd4",
+      "checks_or_trials": 34
+    },
+    "reports/phase2-assistant/results.json": {
+      "sha256": "849e81535737018cf7412020d8db282366c278ad11f9600ad807fd434c4c4625",
+      "checks_or_trials": 27
+    },
+    "reports/phase2-auth-compat/results.json": {
+      "sha256": "a034fc3d759c33d72aea0ebe573e8a753d95aaaa46377f8f6e8061b1850bcdb7",
+      "checks_or_trials": 25
+    },
+    "reports/phase2-model/results.json": {
+      "sha256": "908c475a06b7644d4c96999ba47cb6e943bc98326741372a64a7fb06311d7f38",
+      "checks_or_trials": 3
+    }
+  },
+  "writes_enabled": false,
+  "next_phase": 3,
+  "limitations": [
+    "JWKS cache permits retired keys until its 60-second expiry",
+    "Single-process sessions without refresh",
+    "Full application and relay isolation deferred",
+    "Small fixed-seed model trials are not Phase 5 acceptance statistics"
+  ]
+}
