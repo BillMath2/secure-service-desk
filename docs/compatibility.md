@@ -1,4 +1,8 @@
-# Phase 0 status and compatibility
+# Status and compatibility
+
+Phase 1 exit gate met October 12, 2026: three separate unauthenticated MCP services, containment probes in all six attack-network namespaces, three forced unsafe effects, one forced benign success, and four completed local-model trials. The model's three attacks and one benign task all missed their objectives; none is presented as a successful task or security guarantee. See [Phase 1 evidence and reproduction](phase1.md). The combined checker now passes 44 tests. Ollama 0.40.3 and Qwen3-4B-Instruct-2507 Q4_K_M are pinned by image/model hashes; inference used CPU despite requested GPU passthrough. Phase 2 has not started.
+
+## Phase 0 record
 
 Recorded October 12, 2026. The Phase 0 fixture/contract exit gate is implemented. The early real OIDC/delegated-MCP round trip and PostgreSQL foundation migration/role checks also passed. This proves the selected integration path, not the complete phase 2 authenticated application.
 
@@ -14,7 +18,7 @@ Recorded October 12, 2026. The Phase 0 fixture/contract exit gate is implemented
 | PostgreSQL | 18.3 | Foundation/role migrations and read-only knowledge-role assertions passed |
 | Docker / Compose | 29.8.1 / 5.5.1 | Engine started; both Compose configurations used |
 | MCP protocol | 2025-11-25 | Requested and negotiated in the real tool round trip |
-| Model | Deterministic forced-call driver | No downloaded model or measured inference; first candidate in ADR 0001 |
+| Model (Phase 0) | Deterministic forced-call driver | Superseded for baseline inference by the Phase 1 model record above |
 
 The workstation has about 31.6 GiB physical RAM, four CPU cores, and a Quadro RTX 3000 with 6 GiB VRAM. The current environment initially hid Docker and reported no global Python; the working toolchain is kept in this repository. No system PATH or trust store changes were made.
 
@@ -36,6 +40,6 @@ The workstation has about 31.6 GiB physical RAM, four CPU cores, and a Quadro RT
 3. The initial TLS attempt ended before the endpoint was ready. An explicit readiness check and a certificate with key-usage/identifier extensions were added. The completed probe verifies the generated certificate; no TLS-verification or cookie-protection bypass is used.
 4. The observed exchange has the same user `sub`, `azp=gateway`, `aud=knowledge`, scope `knowledge:read`, and no `act` claim. The verifier explicitly maps the validated `knowledge` audience to the configured MCP resource URI. This does not establish automatic OAuth client discovery or provider-native resource-URI binding; verify those, scope escalation limits, JWKS rotation, and all server audiences in phase 2.
 5. PostgreSQL migrations and knowledge SELECT/no-INSERT privileges were checked against the real disposable database. These are foundation roles, not the final grant transaction and outbox schema. The default domain-tool tests still use SQLite and fixture identities.
-6. The real model artifact/runtime/digest and hardware benchmark belong to the next baseline build. No hosted provider received fixture data.
+6. The real model artifact/runtime/digest were subsequently pinned and measured in Phase 1. No hosted provider received fixture data.
 
 The spike uses synthetic local credentials, a seven-day generated certificate, and disposable container state. All containers and networks created by these two Compose projects were removed after validation; downloaded images, the repository-local toolchain, and ignored generated credentials remain for reuse. Docker Desktop itself was left running. The runbook includes project-scoped `down` commands for future cleanup; do not remove unrelated Docker resources. An automatic approval-review service limit briefly interrupted diagnostics; work resumed when review became available, and it did not leave the identity result unverified.

@@ -672,6 +672,11 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
+baseline = [
+    { name = "httpx" },
+    { name = "httpx2" },
+    { name = "mcp" },
+]
 dev = [
     { name = "httpx" },
     { name = "httpx2" },
@@ -693,6 +698,11 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
+baseline = [
+    { name = "httpx", specifier = ">=0.28,<1" },
+    { name = "httpx2", specifier = ">=2.13,<3" },
+    { name = "mcp", specifier = ">=2.3,<3" },
+]
 dev = [
     { name = "httpx", specifier = ">=0.28,<1" },
     { name = "httpx2", specifier = ">=2.13,<3" },

@@ -6,7 +6,7 @@ Created October 12, 2026. Governing requirements: [Project plan](SECURE_SERVICE_
 
 Deliver a local, reproducible service desk assistant that completes permitted support tasks while independent controls block unauthorized reads, disclosures, and access changes. Demonstrate the difference against a contained vulnerable baseline using the same fixtures and measurable outcomes.
 
-At review time, this repository contains a README, license, and the two planning documents; there is no application or test scaffold. Everything below is planned work, not a statement that controls or tests already exist. Build phases in order and require each exit gate before extending the next trust boundary.
+The initial review found only planning documents. Phase 0 is now complete; phase-specific progress notes below distinguish implemented work from future work. Build phases in order and require each exit gate before extending the next trust boundary.
 
 ## Implementation decisions
 
@@ -148,6 +148,8 @@ All clocks are UTC internally. Use an injected clock in tests. A suspended revie
 ## Phase 1: Contained vulnerable baseline
 
 Depends on phase 0.
+
+**Progress (October 12, 2026):** Phase 1 exit gate met. The separate baseline, three real MCP services, pinned offline local model, and actual-effect evaluation are implemented. All 44 automated tests and live containment probes pass. Forced tests demonstrate all three required unsafe effects (restricted read, requester disclosure, unapproved grant), plus a successful benign read. The three real-model attacks did not achieve their objectives; the model also failed its one benign task. All four model outcomes are recorded as failures, with zero execution errors, rather than fabricated successes. Evidence is saved in [reports/phase1](reports/phase1/results.json); containers and networks were removed after the run. See the [Phase 1 runbook](docs/phase1.md) for limits and reproduction. Phase 2 has not started.
 
 1. Build a separate v0 runner with the three simulated MCP servers, shared tool shapes, one model, and deliberately absent policy/approval checks. Wire unauthenticated execution only inside this baseline environment.
 2. Use a separate Compose project, private network, disposable volumes, synthetic configuration, and a loopback-only entry point. Do not mount host credentials, the Docker socket, source secrets, or hardened databases.

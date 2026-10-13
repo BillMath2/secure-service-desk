@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "secure-service-desk"
 version = "0.1.0"
-description = "Synthetic service desk security lab: Phase 0 contracts and evaluation harness"
+description = "Synthetic service desk security lab and evaluation contracts"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = ["pydantic>=2.12,<3", "fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
@@ -13,6 +13,7 @@ dependencies = ["pydantic>=2.12,<3", "fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
 [dependency-groups]
 dev = ["pytest>=8.3,<10", "httpx>=0.28,<1", "httpx2>=2.13,<3", "ruff>=0.14,<1", "mypy>=1.15,<3"]
 spike = ["mcp>=1.26,<3", "pyjwt[crypto]>=2.10,<3", "psycopg[binary]>=3.2,<4"]
+baseline = ["mcp>=2.3,<3", "httpx>=0.28,<1", "httpx2>=2.13,<3"]
 
 [project.scripts]
 service-desk = "service_desk.cli:main"
@@ -34,7 +35,7 @@ select = ["E", "F", "I", "B", "UP", "SIM"]
 [tool.mypy]
 python_version = "3.13"
 strict = true
-files = ["src", "tests"]
+files = ["src", "lab_baseline", "tests"]
 
 [tool.uv]
 required-version = ">=0.13,<0.14"

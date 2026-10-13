@@ -1,4 +1,6 @@
-# Phase 0 runbook
+# Foundation runbook
+
+For the separate contained vulnerable baseline, see the [Phase 1 runbook](phase1.md).
 
 Run commands from the repository root. The default harness uses synthetic fixture identities and opens no network listener. It does not require Docker, a model, or a cloud account.
 
@@ -13,7 +15,7 @@ Run commands from the repository root. The default harness uses synthetic fixtur
 
 Bootstrap downloads pinned uv and a Python 3.13.16 runtime under ignored `.tools`, then installs the locked dependencies into `.venv`. It does not edit system PATH or install Python globally. Internet access is needed for initial setup. The checker runs lint, formatting, strict type checks, and pytest. Evaluation output must be a new directory; use a new name for each run. Results include a fixture hash, configuration, outcomes, and safe audit evidence.
 
-On another platform with uv 0.13.x installed, use `uv sync --locked`, `uv run ruff check .`, `uv run ruff format --check .`, `uv run mypy`, and `uv run pytest`. Linux container execution is exercised by the sink build; a complete Linux development checkout is not yet a tested target.
+On another platform with uv 0.13.x installed, use `uv sync --locked --group baseline`, `uv run --group baseline ruff check .`, `uv run --group baseline ruff format --check .`, `uv run --group baseline mypy`, and `uv run --group baseline pytest`. Linux container execution is exercised by the sink and baseline builds; a complete Linux development checkout is not yet a tested target.
 
 Fixture resets occur inside a temporary directory allocated by the harness. They replace only the disposable adapter's known tables and check database ownership. They do not reset PostgreSQL or remove arbitrary directories. Edit `fixtures/company.json` intentionally, validate it, and record the new hash when changing scenarios. Allowed document scenarios pin an expected body hash, so a fixture edit must update that oracle deliberately.
 

@@ -1,0 +1,12 @@
+{
+  "source": "Ollama /api/ps during the Phase 1 evaluation",
+  "model": "qwen3:4b-instruct-2507-q4_K_M",
+  "runtime": "Ollama 0.40.3",
+  "processor": "CPU",
+  "size_bytes": 3184001022,
+  "size_vram_bytes": 0,
+  "context_length": 4096,
+  "cpu_limit": 4,
+  "memory_limit_gib": 8,
+  "note": "GPU passthrough was requested by Compose, but this run used CPU inference."
+}

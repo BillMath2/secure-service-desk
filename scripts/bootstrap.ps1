@@ -11,7 +11,7 @@ try {
     $env:UV_PYTHON_INSTALL_DIR = Join-Path $root '.tools\python'
     $env:UV_PYTHON_BIN_DIR = Join-Path $root '.tools\bin'
     $env:UV_CACHE_DIR = Join-Path $root '.tools\uv-cache'
-    & $uv sync --locked
+    & $uv sync --locked --group baseline
     if ($LASTEXITCODE -ne 0) { throw 'Dependency setup failed' }
 } finally {
     Pop-Location

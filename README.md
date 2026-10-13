@@ -2,7 +2,7 @@
 
 A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
 
-Phase 0 provides a Python scaffold, validated fictional company fixtures, an instrumented document-read tool, a durable minimal audit collector, actual-effect scenario evaluation, PostgreSQL foundation migrations, and isolated compatibility probes. The full assistant and vulnerable baseline are later phases.
+Phase 0 provides validated fictional fixtures, an instrumented document-read tool, audit collection, actual-effect evaluation, PostgreSQL foundation migrations, and identity compatibility probes. Phase 1 adds a separate contained vulnerable baseline with three MCP services, a local model, and unsafe-effect measurements. The authenticated assistant remains Phase 2 work.
 
 ```powershell
 .\scripts\bootstrap.ps1
@@ -15,6 +15,7 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Project plan](SECURE_SERVICE_DESK_AGENT_PROJECT.md)
 - [Implementation plan](SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md)
 - [Phase 0 status and compatibility](docs/compatibility.md)
+- [Phase 1 baseline and runbook](docs/phase1.md)
 - [Threat model](docs/threat-model.md)
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)
