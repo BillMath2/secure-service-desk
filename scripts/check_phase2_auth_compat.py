@@ -12,9 +12,8 @@ from uuid import uuid4
 
 import httpx
 import jwt
-import uvicorn
 from check_phase2_identity import LoginForm
-from phase2_runtime import LOCAL, ROOT, load_client, load_validator, server_config
+from phase2_runtime import LOCAL, ROOT, create_server, load_client, load_validator
 
 from service_desk.core.auth.discovery import Discovery, issuer_locations
 from service_desk.core.auth.lab import ISSUER, RESOURCES
@@ -109,7 +108,7 @@ def main() -> None:
                         ReadService(binding.audience, TaskStore(connections[binding.audience])),
                     )
                 )
-                server = uvicorn.Server(server_config(app, urlsplit(binding.url).port))
+                server = create_server(app, urlsplit(binding.url).port)
                 thread = threading.Thread(target=server.run, daemon=True)
                 servers.append((server, thread))
                 thread.start()

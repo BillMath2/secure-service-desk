@@ -1,5 +1,9 @@
 # Phase 2 local-model adapter
 
+Current hardened deployment: [Phase 3 startup and exit evidence](phase3.md#verification-and-reproduction) supersede the host-process limitations and older commands below. Use `scripts/phase3.ps1` for separate browser/agent/publisher/read containers and checked model/relay egress. Historical results below retain their original scope.
+
+Current deployment update: the shared Compose file now includes the [Phase 3 relay firewall and local image prerequisite](phase3.md#relay-egress-boundary). Provision that pinned image before running the commands below. Phase 2 reports and the boundary description below record the historical deployment; the current relay adds egress enforcement, privilege dropping and bounded ingress.
+
 The authenticated assistant now supports the pinned Qwen3-4B-Instruct-2507 Q4_K_M model through Ollama 0.40.3. The deterministic provider remains the default. Select the real provider explicitly with `scripts/assistant_runtime.py --provider local` after starting the isolated model project. No cloud account or API key is used.
 
 The complete checker passes 179 tests with PostgreSQL enabled (136 default, 43 opt-in). New coverage includes 23 adapter cases and ten cache-integrity/relay cases. The live model deployment passed 16 checks. All three frozen tasks completed with valid citations on both initial runs: one benign opening-hours question, an injected ticket, and an injected document. Restricted HR/admin canaries and credentials were absent from observed model requests and answers, and no write was dispatched. The [selected evidence](../reports/phase2-model/results.json) and both timestamped runs retain individual outcomes and hashes. These are small initial trials using a fixed seed, not the Phase 5 repeated evaluation or a general security guarantee.

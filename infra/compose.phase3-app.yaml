@@ -1,0 +1,35 @@
+name: service-desk-phase3-app
+x-app: &app
+  image: sha256:74707ae45a1fd5534c627f85dbba398a5c1fa0faedb3cdd79d8500d544111065
+  read_only: true
+  user: "0:0"
+  cap_drop: [ALL]
+  cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 256m
+  cpus: 1
+  pids_limit: 64
+  logging: {driver: none}
+services:
+  browser:
+    <<: *app
+    command: [browser]
+    ports: ["127.0.0.1:19481:19481"]
+    volumes: ["../.lab/phase3-app/browser:/run/desk:ro"]
+    networks: [browser]
+  agent:
+    <<: *app
+    command: [agent]
+    ports: ["127.0.0.1:19486:19486"]
+    volumes: ["../.lab/phase3-app/agent:/run/desk:ro"]
+    networks: [agent]
+  publisher:
+    <<: *app
+    command: [publisher]
+    ports: ["127.0.0.1:19487:19487"]
+    volumes: ["../.lab/phase3-app/publisher:/run/desk:ro"]
+    networks: [publisher]
+networks:
+  browser: {}
+  agent: {}
+  publisher: {}

@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "checks": {
+    "browser_running": true,
+    "browser_logs_disabled": true,
+    "agent_running": true,
+    "agent_logs_disabled": true,
+    "publisher_running": true,
+    "publisher_logs_disabled": true,
+    "knowledge_running": true,
+    "knowledge_logs_disabled": true,
+    "tickets_running": true,
+    "tickets_logs_disabled": true,
+    "model_running": true,
+    "model_logs_disabled": true,
+    "relay_running": true,
+    "relay_logs_disabled": true,
+    "postgres_running": true,
+    "postgres_no_restricted_markers_or_credentials": true,
+    "keycloak_running": true,
+    "keycloak_no_restricted_markers_or_credentials": true
+  },
+  "harness_sha256": "94bf2df0e04c02792a0bbf9a1d8dd300e79fd759c017d298042975578727dfc0"
+}

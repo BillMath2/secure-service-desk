@@ -16,13 +16,14 @@ services:
       - ../config/local-model.lock.json:/model.lock.json:ro
     logging: {driver: none}
   model:
-    image: ollama/ollama:0.40.3@sha256:adca95a12c2b386a8f9a995e7fa0600e187e3323b5e5522f5a6c3b1ec73eff99
+    image: sha256:1fd54fb0c2eb0ce358ad8736096fc1c53657e74fc40d0fbbbadf324ba0f348bb
     depends_on:
       verify: {condition: service_completed_successfully}
     networks: [model]
     read_only: true
-    user: "65532:65532"
+    user: "0:0"
     cap_drop: [ALL]
+    cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
     security_opt: [no-new-privileges:true]
     environment:
       HOME: /tmp
@@ -40,17 +41,21 @@ services:
     pids_limit: 256
     logging: {driver: none}
   relay:
-    image: python:3.13.16-slim@sha256:70729b46c69b4f1e97c4822c1af3df53a1476cf5ddc6c087c0c10bc3a5678c2f
+    # Local image built with infra/relay.Dockerfile; immutable ID checked by startup gate.
+    image: sha256:69f0328dc75aad42c44b9894961d84d6f700ad359ebdc36a0132c5ecdfe22472
     depends_on: [model]
     networks: [model, ingress]
     ports: ["127.0.0.1:19485:8080"]
     read_only: true
-    user: "65532:65532"
+    # Only the trusted bootstrap runs as root; it drops all capabilities and IDs
+    # before execing the listener. The startup gate checks the live process too.
+    user: "0:0"
     cap_drop: [ALL]
+    cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
     security_opt: [no-new-privileges:true]
     mem_limit: 128m
     pids_limit: 32
-    command: [python, -B, /relay.py]
+    command: [python, -I, -B, /bootstrap.py]
     volumes: ["../scripts/model_relay.py:/relay.py:ro"]
     logging: {driver: none}
 networks:

@@ -12,7 +12,7 @@ from urllib.parse import parse_qs, urlencode, urlsplit
 
 import httpx
 import uvicorn
-from phase2_runtime import LOCAL, ROOT, load_client, server_config
+from phase2_runtime import LOCAL, ROOT, create_server, load_client
 
 from service_desk.app.identity import create_identity_app
 from service_desk.core.auth.lab import ISSUER, REDIRECT, RESOURCES, subject_for
@@ -117,7 +117,7 @@ def main() -> None:
                 for r in RESOURCES
             ]
             for app, port in applications:
-                runner = uvicorn.Server(server_config(app, port))
+                runner = create_server(app, port)
                 thread = threading.Thread(target=runner.run, daemon=True)
                 servers.append((runner, thread))
                 thread.start()

@@ -12,10 +12,9 @@ from urllib.parse import parse_qs, urlsplit
 
 import httpx
 import psycopg
-import uvicorn
 from check_model_boundary import check_boundary
 from check_phase2_identity import LoginForm
-from phase2_runtime import LOCAL, ROOT, load_client, server_config
+from phase2_runtime import LOCAL, ROOT, create_server, load_client
 
 from service_desk.agent.local_model import CONTEXT, MODEL, LocalModelProvider
 from service_desk.agent.loop import Assistant
@@ -78,7 +77,7 @@ def main() -> None:
                     binding,
                     ReadService(binding.audience, TaskStore(connections[binding.audience])),
                 )
-                runner = uvicorn.Server(server_config(app, urlsplit(binding.url).port))
+                runner = create_server(app, urlsplit(binding.url).port)
                 thread = threading.Thread(target=runner.run, daemon=True)
                 servers.append((runner, thread))
                 thread.start()

@@ -1,0 +1,29 @@
+name: service-desk-phase3-reads
+x-read: &read
+  image: sha256:e057ab719fdc6978b227affcd46404483de308eef68b0713ca53b921a4bcd34b
+  read_only: true
+  # Bootstrap installs the policy, then drops all capabilities and user/group IDs.
+  user: "0:0"
+  cap_drop: [ALL]
+  cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 256m
+  cpus: 1
+  pids_limit: 64
+  logging: {driver: none}
+services:
+  knowledge:
+    <<: *read
+    command: [knowledge]
+    ports: ["127.0.0.1:19482:19482"]
+    volumes: ["../.lab/phase3-reads/knowledge:/run/desk:ro"]
+    networks: [knowledge]
+  tickets:
+    <<: *read
+    command: [tickets]
+    ports: ["127.0.0.1:19483:19483"]
+    volumes: ["../.lab/phase3-reads/tickets:/run/desk:ro"]
+    networks: [tickets]
+networks:
+  knowledge: {}
+  tickets: {}

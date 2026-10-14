@@ -11,6 +11,22 @@ from service_desk.core.gateway.store import TaskContext, TaskStore
 
 
 class AgentStore(TaskStore):
+    def finish_answer(
+        self,
+        identity: VerifiedIdentity,
+        task_id: UUID,
+        body: str,
+        sources: list[dict[str, Any]],
+    ) -> None:
+        self.check_identity(identity, login=True)
+        with self.connect() as db:
+            row = db.execute(
+                "SELECT service_desk.finish_chat_answer(%s,%s,%s,%s,%s)",
+                (task_id, identity.issuer, identity.subject, body, Jsonb(sources)),
+            ).fetchone()
+        if not row or row[0]["reason"] != "ALLOW":
+            raise BoundaryDenied(row[0]["reason"] if row else "TASK_DENIED")
+
     def action(
         self,
         identity: VerifiedIdentity,

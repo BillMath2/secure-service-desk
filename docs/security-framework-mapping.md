@@ -2,6 +2,8 @@
 
 Reviewed October 13, 2026. Scope: the pinned, synthetic, read-only Phase 2 lab. These are project mappings, not claims of comprehensive framework coverage. See the [exit record](phase2-exit.md) for implementation status and recorded results.
 
+The subsequent [Phase 3 drafting and publication slices](phase3.md) record F4 source-to-audience tests and F5 confirmed requester/internal publication separately; F10 now includes relay egress policy and reachable neutral controls, while host isolation and the full containment matrix remain open. The Phase 2 mappings and historical model evidence below retain their original scope.
+
 ## Versioned references
 
 - [OWASP LLM Top 10, 2025](https://genai.owasp.org/llm-top-10/): preserve the existing `LLMxx:2025` comparison baseline.

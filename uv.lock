@@ -667,6 +667,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
+    { name = "h11" },
     { name = "httpx" },
     { name = "mcp" },
     { name = "psycopg", extra = ["binary"] },
@@ -697,6 +698,7 @@ spike = [
 [package.metadata]
 requires-dist = [
     { name = "fastapi", specifier = ">=0.115,<1" },
+    { name = "h11", specifier = ">=0.16,<1" },
     { name = "httpx", specifier = ">=0.28,<1" },
     { name = "mcp", specifier = ">=2.3,<3" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2,<4" },

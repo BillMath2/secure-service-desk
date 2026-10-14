@@ -7,9 +7,11 @@ from pathlib import Path
 
 import psycopg
 from psycopg import sql
-from psycopg.conninfo import make_conninfo
+from psycopg.conninfo import conninfo_to_dict, make_conninfo
 
+from service_desk.contracts import FixtureSet
 from service_desk.core.auth.lab import ISSUER, subject_for
+from service_desk.core.database import configure_login
 from service_desk.fixtures import fingerprint, load_fixtures
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,7 +21,26 @@ ROLES = {
     "gateway": ("read_gateway", "desk_gateway"),
     "knowledge": ("read_knowledge", "desk_knowledge"),
     "tickets": ("read_tickets", "desk_tickets"),
+    "publisher": ("read_publisher", "desk_ticket_publisher"),
 }
+
+
+def seed_internal_members(db: psycopg.Connection, fixtures: FixtureSet) -> None:
+    """Trusted fixture staff membership, initialized once without restoring revoked grants."""
+    if db.execute("SELECT 1 FROM service_desk.internal_fixture_state").fetchone():
+        return
+    staff = {
+        p.id
+        for p in fixtures.principals
+        if p.kind == "human" and set(p.roles) & {"analyst", "manager", "resource-owner"}
+    }
+    for ticket in fixtures.tickets:
+        for reader in sorted(staff.intersection(ticket.readers) - {ticket.requester}):
+            db.execute(
+                "INSERT INTO service_desk.ticket_internal_member VALUES(%s,%s)",
+                (ticket.id, reader),
+            )
+    db.execute("INSERT INTO service_desk.internal_fixture_state VALUES(true)")
 
 
 def main() -> None:
@@ -34,7 +55,7 @@ def main() -> None:
     if not password_file.exists():
         password = secrets.token_urlsafe(32)
         password_file.write_text(password, encoding="utf-8")
-        options = {"host": "127.0.0.1", "port": 15433, "dbname": "service_desk_read_lab"}
+        options = {"host": "127.0.0.1", "port": "15433", "dbname": "service_desk_read_lab"}
         connections = {
             "admin": make_conninfo(**options, user="read_lab_migrator", password=password)
         }
@@ -46,6 +67,17 @@ def main() -> None:
         )
         connection_file.write_text(json.dumps(connections), encoding="utf-8")
     connections = json.loads(connection_file.read_text())
+    # Add a new service credential without rotating existing running-service credentials.
+    if "publisher" not in connections:
+        existing = conninfo_to_dict(connections["admin"])
+        connections["publisher"] = make_conninfo(
+            host=existing["host"],
+            port=existing["port"],
+            dbname=existing["dbname"],
+            user="read_publisher",
+            password=secrets.token_urlsafe(32),
+        )
+        connection_file.write_text(json.dumps(connections), encoding="utf-8")
     for name in ROLES:
         (LOCAL / (name + ".dsn")).write_text(connections[name], encoding="utf-8")
     if not args.apply:
@@ -65,14 +97,12 @@ def main() -> None:
             if int(migration.name.split("_")[0]) not in applied:
                 db.execute(migration.read_text())
         with db.transaction():
-            from psycopg.conninfo import conninfo_to_dict
-
             for name, (login, role) in ROLES.items():
                 if not db.execute("SELECT 1 FROM pg_roles WHERE rolname=%s", (login,)).fetchone():
-                    password = conninfo_to_dict(connections[name])["password"]
+                    role_password = conninfo_to_dict(connections[name])["password"]
                     db.execute(
                         sql.SQL("CREATE ROLE {} LOGIN PASSWORD {}").format(
-                            sql.Identifier(login), sql.Literal(password)
+                            sql.Identifier(login), sql.Literal(role_password)
                         )
                     )
                     db.execute(
@@ -80,6 +110,7 @@ def main() -> None:
                             sql.Identifier(role), sql.Identifier(login)
                         )
                     )
+                configure_login(db, login)
             seeded = db.execute("SELECT count(*) FROM service_desk.principal").fetchone()
             if seeded and seeded[0]:
                 recorded = db.execute(
@@ -89,6 +120,7 @@ def main() -> None:
                     raise SystemExit(
                         "Existing fixture hash differs; recreate only the disposable read project."
                     )
+                seed_internal_members(db, fixtures)
                 print("Existing read-lab fixtures preserved.")
                 return
             db.execute(
@@ -134,6 +166,7 @@ def main() -> None:
                         db.execute(
                             "INSERT INTO service_desk.comment_reader VALUES(%s,%s)", (c.id, reader)
                         )
+            seed_internal_members(db, fixtures)
     print("Applied migrations and synthetic fixtures. SHA256: " + fingerprint(fixtures))
 
 

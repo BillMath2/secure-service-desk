@@ -1,0 +1,70 @@
+{
+  "phase": 3,
+  "passed": true,
+  "recorded_at": "2026-10-14T10:59:15.625399+00:00",
+  "scope": "Pinned synthetic IPv4 lab; fixed ticket/public-guide drafts and local Qwen model",
+  "tests": 649,
+  "postgres_tests": 173,
+  "network_checks": 213,
+  "workflow_checks": 65,
+  "confirmed_publications": 4,
+  "model_channel_trials": 4,
+  "log_checks": 18,
+  "records": {
+    "regression": {
+      "path": "runs/20261014T105228Z/regression.json",
+      "sha256": "1ec1f8e7c19c86b20982235ef08e840bcb39a5a4cef5c854befdaf3fcd31909e",
+      "passed": true
+    },
+    "application": {
+      "path": "runs/20261014T104902Z/application.json",
+      "sha256": "360be360af248b6cbe304e423c96060b0df8058686ae0a285b83fdf8cea5f779",
+      "passed": true
+    },
+    "reads": {
+      "path": "runs/20261014T105212Z/isolated-reads.json",
+      "sha256": "0e2422b4c4b6e94d7ae5ca7a95f0b31316c5a3123c14050738687cb3f21e58ca",
+      "passed": true
+    },
+    "model": {
+      "path": "runs/20261014T104832Z/containment.json",
+      "sha256": "4d32db4e19217532856ffb309b72fdaa457caa126a0948c61c8927b12c0703b4",
+      "passed": true
+    },
+    "network": {
+      "path": "runs/20261014T105350Z/network-matrix.json",
+      "sha256": "8dbe28c762f73cce686ec74f21071f22797dbdc00f68bd37a5eab550b55e549b",
+      "passed": true
+    },
+    "channels": {
+      "path": "runs/20261014T105509Z/channels.json",
+      "sha256": "791b9f8aafd3d450aa12fec3f50436b55433d349e4e93531661d0597bb0ff1a5",
+      "passed": true
+    },
+    "workflows": {
+      "path": "runs/20261014T105725Z/workflows.json",
+      "sha256": "aa50e4adbcb403b6ee8c6907ac9bc75893aa1145e5b175e6aa0c717d8bc61401",
+      "passed": true
+    },
+    "logs": {
+      "path": "runs/20261014T105746Z/logs.json",
+      "sha256": "0b3f23d8acf2f994ea7e90b2d2919c7c983866b5f580a0692b70c1a0a7c4197b",
+      "passed": true
+    }
+  },
+  "teardown_verified": true,
+  "teardown_scope": "Five service-desk Compose projects and neutral probe containers removed; unrelated projects unchanged; model cache and ignored credentials preserved",
+  "quality_checks": {
+    "lint": true,
+    "format": true,
+    "types": true,
+    "diff_whitespace": true
+  },
+  "limitations": [
+    "IPv6 denial policy-inspected, without live positive controls",
+    "Canary/fingerprint screening does not detect every paraphrase or encoding",
+    "Small functional/adversarial model sample, not a statistical resistance claim",
+    "Trusted operator, Docker daemon and identity/database administration excluded from runtime model boundary",
+    "Phase 4 approvals/grants/durable audit and Phase 5 comparative/release evaluation remain"
+  ]
+}

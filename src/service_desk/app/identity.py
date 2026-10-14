@@ -13,6 +13,8 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import Response
 
 from service_desk.agent.loop import Assistant
+from service_desk.app.backend import LocalTaskBackend, TaskBackend
+from service_desk.app.publication import PublicationStore
 from service_desk.app.tasks import install_task_routes
 from service_desk.core.auth.oidc import LoginAttempt, LoginResult, OIDCClient
 from service_desk.core.auth.tokens import AuthenticationDenied
@@ -62,8 +64,14 @@ def create_identity_app(
     clock: Callable[[], float] = time.time,
     *,
     assistant: Assistant | None = None,
+    publisher: PublicationStore | None = None,
+    backend: TaskBackend | None = None,
 ) -> FastAPI:
     """Install protected login/session routes and optional authenticated task routes."""
+    if backend is not None and (assistant is not None or publisher is not None):
+        raise ValueError("Choose one task backend")
+    if assistant is not None:
+        backend = LocalTaskBackend(assistant, publisher)
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     parsed = urlsplit(oidc.redirect_uri)
     origin = f"{parsed.scheme}://{parsed.netloc}"
@@ -121,7 +129,7 @@ def create_identity_app(
             )
             response: Response = (
                 RedirectResponse("/", status_code=303)
-                if assistant is not None
+                if backend is not None
                 else JSONResponse({"authenticated": True})
             )
             response.set_cookie(
@@ -144,8 +152,8 @@ def create_identity_app(
             raise HTTPException(401, "Sign-in required")
         return session
 
-    if assistant is not None:
-        install_task_routes(app, assistant, current, origin)
+    if backend is not None:
+        install_task_routes(app, backend, current, origin)
 
     @app.get("/session")
     def session_info(request: Request) -> dict[str, str]:

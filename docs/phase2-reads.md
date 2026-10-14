@@ -1,5 +1,11 @@
 # Phase 2: shared limits and authorized reads
 
+Current hardened deployment: [Phase 3 startup and exit evidence](phase3.md#verification-and-reproduction) supersede the host-process limitations and older commands below. Use `scripts/phase3.ps1` for separate browser/agent/publisher/read containers and checked model/relay egress. Historical results below retain their original scope.
+
+Current isolation option: the [Phase 3 read deployment](phase3.md#read-service-process-and-credential-separation) runs knowledge and tickets in separate credential-scoped containers with its own live probe. Use that path for filesystem/process isolation; the older host runtime commands below remain compatibility helpers. Rerun `prepare_phase2.py` to create the web/gateway credential export required by the shared client loader.
+
+Current deployment update: [Phase 3 database capacity controls](phase3.md#database-connection-capacity) now apply to the shared read database and runtime entry points. Start the current Compose project and rerun `scripts/prepare_read_store.py --apply` before launching services; the gate rejects older server settings. Historical Phase 2 reports below retain their original scope.
+
 Implemented October 13, 2026 after the [identity foundation](phase2.md). The full checker passes **118 tests** with PostgreSQL enabled: 95 default tests and 23 database integration cases. The separate live Keycloak → gateway → TLS MCP → PostgreSQL probe passes **34 checks**. Its [sanitized report](../reports/phase2-reads/results.json) records source hashes and runtime versions. The model was not invoked. Phase 2's assistant exit gate remains open.
 
 ## What is implemented

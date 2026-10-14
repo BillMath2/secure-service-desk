@@ -1,6 +1,8 @@
 """PostgreSQL task reservations; no model or MCP identity header can create a task."""
 
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
@@ -26,6 +28,7 @@ class TaskContext:
     policy_version: str
     deadline: datetime
     max_bytes: int
+    draft_audience: str | None = None
 
     @classmethod
     def from_record(cls, data: dict[str, Any]) -> "TaskContext":
@@ -42,6 +45,7 @@ class TaskContext:
             data["policy_version"],
             datetime.fromisoformat(data["deadline"]),
             data["max_bytes"],
+            data.get("draft_audience"),
         )
 
 
@@ -54,6 +58,17 @@ class TaskStore:
             self.dsn, connect_timeout=3, options="-c statement_timeout=10000 -c lock_timeout=3000"
         )
 
+    @contextmanager
+    def admission(self) -> Iterator[psycopg.Connection[tuple[Any, ...]]]:
+        """Translate only the database's named admission denial; rollback before release."""
+        try:
+            with self.connect() as db:
+                yield db
+        except psycopg.errors.RaiseException as error:
+            if error.diag.constraint_name == "task_admission_limit":
+                raise BoundaryDenied("BUDGET_EXHAUSTED") from None
+            raise
+
     @staticmethod
     def check_identity(identity: VerifiedIdentity, *, login: bool = False) -> None:
         if (
@@ -65,7 +80,7 @@ class TaskStore:
     def create(self, identity: VerifiedIdentity, ticket_id: str, audience: str = "self") -> UUID:
         self.check_identity(identity, login=True)
         task_id = uuid4()
-        with self.connect() as db:
+        with self.admission() as db:
             row = db.execute(
                 "SELECT service_desk.create_read_task(%s,%s,%s,%s,%s,%s)",
                 (task_id, uuid4(), identity.issuer, identity.subject, ticket_id, audience),

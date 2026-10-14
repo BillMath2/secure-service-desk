@@ -3,6 +3,16 @@ name: service-desk-phase2-reads
 services:
   postgres:
     image: postgres:18.3
+    command:
+      - postgres
+      - -c
+      - max_connections=40
+      - -c
+      - superuser_reserved_connections=4
+      - -c
+      - reserved_connections=0
+      - -c
+      - authentication_timeout=5s
     environment:
       POSTGRES_USER: read_lab_migrator
       POSTGRES_DB: service_desk_read_lab

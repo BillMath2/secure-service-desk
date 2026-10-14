@@ -8,7 +8,8 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Format check failed' }
     & .\.venv\Scripts\mypy.exe
     if ($LASTEXITCODE -ne 0) { throw 'Type check failed' }
-    & .\.venv\Scripts\python.exe -m pytest
+    $testDirectory = Join-Path $root ('.lab/pytest-' + [guid]::NewGuid().ToString('N'))
+    & .\.venv\Scripts\python.exe -m pytest --tb=short -p no:cacheprovider --basetemp $testDirectory
     if ($LASTEXITCODE -ne 0) { throw 'Tests failed' }
 } finally {
     Pop-Location

@@ -2,7 +2,7 @@
 
 A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
 
-Phases 0–2 are complete for the pinned synthetic lab. The read-only assistant includes confidential sign-in, protected sessions, verified delegation, shared PostgreSQL limits, pinned tools, ACL-filtered reads and cited answers using either a deterministic provider or the local Qwen model. Real signing-key rotation and the selected MCP/OAuth discovery paths are tested. Phase 3 will add recipient-safe drafting and confirmed writes; no write capability is currently enabled.
+Phases 0?3 are complete for the pinned synthetic lab. The assistant has signed-user authentication, independently authorized read tools, bounded tasks, fresh recipient-safe contexts, screened chat/draft output, immutable reviews and exact human-confirmed requester replies/internal comments. Browser, agent, publisher and read services now have separate credentials and containers; all seven application/model runtime namespaces have checked outbound policies. The [Phase 3 exit matrix](docs/phase3-exit.md) records deterministic tests, real-model/browser workflows and direct containment evidence. Phase 4 access approvals, grants, lifecycle and durable audit delivery are next.
 
 ```powershell
 .\scripts\bootstrap.ps1
@@ -21,6 +21,7 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Phase 2 authenticated assistant demo and limits](docs/phase2-assistant.md)
 - [Phase 2 local model, containment and initial trials](docs/phase2-model.md)
 - [Phase 2 exit matrix and remaining deployment limits](docs/phase2-exit.md)
+- [Phase 3 implementation and hardened startup/check/stop commands](docs/phase3.md)
 - [Threat model](docs/threat-model.md)
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)

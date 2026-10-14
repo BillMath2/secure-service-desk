@@ -38,6 +38,16 @@ def connections() -> dict[str, str]:
     values: dict[str, str] = json.loads((ROOT / ".lab/phase2-read/connections.json").read_text())
     with psycopg.connect(values["admin"]) as db:
         assert db.execute("SELECT current_database()").fetchone() == ("service_desk_read_lab",)
+        # Each integration case gets a fresh admission window. Keep production defaults
+        # enabled, and preserve historical tasks/drafts needed by their immutable FKs.
+        db.execute(
+            "UPDATE service_desk.read_task SET active=false, "
+            "created_at=clock_timestamp()-interval '2 minutes'"
+        )
+        db.execute(
+            "UPDATE service_desk.task_admission_policy SET "
+            "user_active=4,global_active=32,user_minute=20,global_minute=100"
+        )
     return values
 
 
@@ -133,8 +143,11 @@ def test_recipient_intersection_and_comment_visibility(connections: dict[str, st
     assert not result["allowed"] and "LAB-CANARY" not in json.dumps(result)
     private = tickets.invoke(identity(), mine, "read_ticket", {"ticket_id": "ticket-alice"})
     public = tickets.invoke(identity(), requester, "read_ticket", {"ticket_id": "ticket-alice"})
-    assert len(private["ticket"]["comments"]) == 1
-    assert public["ticket"]["comments"] == []
+    # Live publication checks intentionally leave legitimate comments in the lab.
+    # Verify the seeded private row and every returned visibility, not an empty history.
+    assert "comment-private" in {c["id"] for c in private["ticket"]["comments"]}
+    assert "comment-private" not in {c["id"] for c in public["ticket"]["comments"]}
+    assert all(c["visibility"] == "requester" for c in public["ticket"]["comments"])
     assert "Internal support note" not in json.dumps(public)
     assert not tickets.invoke(identity(), mine, "read_ticket", {"ticket_id": "ticket-bob"})[
         "allowed"

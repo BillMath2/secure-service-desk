@@ -128,7 +128,7 @@ class Assistant:
                             raise BoundaryDenied("RESOURCE_DENIED")
                         # Recheck every source seen by the model, not only what it chooses to cite.
                         await asyncio.to_thread(
-                            self.store.action, verified, task_id, "finish", 0, sources
+                            self.store.finish_answer, verified, task_id, reply.turn.text, sources
                         )
                         completed = True
                         if verified.expires_at <= time.time():

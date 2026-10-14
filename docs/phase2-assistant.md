@@ -1,5 +1,11 @@
 # Phase 2 deterministic read-only assistant
 
+Current hardened deployment: [Phase 3 startup and exit evidence](phase3.md#verification-and-reproduction) supersede the host-process limitations and older commands below. Use `scripts/phase3.ps1` for separate browser/agent/publisher/read containers and checked model/relay egress. Historical results below retain their original scope.
+
+Current isolation option: use the [Phase 3 read containers](phase3.md#read-service-process-and-credential-separation) in place of the two host `read_runtime.py` processes. Rerun `prepare_phase2.py` before browser startup to create the scoped web/gateway client file. The browser/agent/publisher still share a host process; the older interactive instructions below do not establish read-service filesystem isolation.
+
+Current deployment update: [Phase 3 database capacity controls](phase3.md#database-connection-capacity) now apply to the shared read database and runtime entry points. Start the current Compose project and rerun `scripts/prepare_read_store.py --apply` before launching services; the gate rejects older server settings. Historical Phase 2 reports below retain their original scope.
+
 October 13, 2026: authenticated task submission, a browser form, a bounded provider loop and cited answers are implemented. This slice uses an explicitly labelled deterministic provider that reads the task ticket and public support guide. The subsequent [local-model slice](phase2-model.md) adds the pinned Qwen adapter; the stub remains the default. Phase 2 remains open.
 
 The complete checker passes 146 tests with PostgreSQL enabled: 103 default tests and 43 opt-in database cases. The new coverage includes 20 assistant/database cases and eight browser cases. The real browser-login → task → gateway → TLS MCP → PostgreSQL flow passes 27 checks for Erin and Alice. See [selected live evidence](../reports/phase2-assistant/results.json). No token, prompt, source body, password or answer is saved in that report. The first live attempt encountered startup before Keycloak was ready; the probe now waits up to 45 seconds for discovery. Failed and successful run records are retained.

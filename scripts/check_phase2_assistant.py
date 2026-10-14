@@ -12,7 +12,7 @@ import httpx
 import psycopg
 import uvicorn
 from check_phase2_identity import LoginForm
-from phase2_runtime import LOCAL, ROOT, load_client, server_config
+from phase2_runtime import LOCAL, ROOT, create_server, load_client
 
 from service_desk.agent.loop import Assistant
 from service_desk.agent.provider import DeterministicProvider, ProviderReply
@@ -54,7 +54,7 @@ def main() -> None:
             raise AssertionError(name)
 
     def start(app: object, port: int) -> None:
-        server = uvicorn.Server(server_config(app, port))
+        server = create_server(app, port)
         thread = threading.Thread(target=server.run, daemon=True)
         servers.append((server, thread))
         thread.start()

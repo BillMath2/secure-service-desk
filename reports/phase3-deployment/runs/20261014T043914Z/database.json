@@ -1,0 +1,67 @@
+{
+  "phase": "3-database-capacity",
+  "recorded_at": "2026-10-14T04:39:14.607457+00:00",
+  "checks": {
+    "creator_server_connection_policy": true,
+    "creator_session_timeout_defaults": true,
+    "creator_service_login_bound": true,
+    "creator_service_login_unprivileged": true,
+    "gateway_server_connection_policy": true,
+    "gateway_session_timeout_defaults": true,
+    "gateway_service_login_bound": true,
+    "gateway_service_login_unprivileged": true,
+    "knowledge_server_connection_policy": true,
+    "knowledge_session_timeout_defaults": true,
+    "knowledge_service_login_bound": true,
+    "knowledge_service_login_unprivileged": true,
+    "tickets_server_connection_policy": true,
+    "tickets_session_timeout_defaults": true,
+    "tickets_service_login_bound": true,
+    "tickets_service_login_unprivileged": true,
+    "publisher_server_connection_policy": true,
+    "publisher_session_timeout_defaults": true,
+    "publisher_service_login_bound": true,
+    "publisher_service_login_unprivileged": true,
+    "shared_normal_capacity_filled": true,
+    "unused_role_denied_at_shared_ceiling": true,
+    "admitted_connection_still_usable": true,
+    "administrator_reserve_available": true,
+    "service_recovers_after_release": true,
+    "idle_session_closed": true,
+    "idle_transaction_closed": true,
+    "incomplete_startup_closed": true,
+    "service_recovers_after_timeouts": true
+  },
+  "passed": true,
+  "limits": {
+    "server": {
+      "max_connections": "40",
+      "superuser_reserved_connections": "4",
+      "reserved_connections": "0",
+      "authentication_timeout": "5s"
+    },
+    "login_connections": {
+      "read_app": 12,
+      "read_gateway": 12,
+      "read_knowledge": 12,
+      "read_tickets": 12,
+      "read_publisher": 6
+    },
+    "session_defaults": {
+      "statement_timeout": "10s",
+      "lock_timeout": "3s",
+      "transaction_timeout": "15s",
+      "idle_in_transaction_session_timeout": "5s",
+      "idle_session_timeout": "30s"
+    }
+  },
+  "source_sha256": {
+    "infra/compose.phase2-reads.yaml": "4a0734a71a389456519309394674953cc7d6e80c25e47a87ba0de0a87e50a050",
+    "scripts/prepare_read_store.py": "f07c48f048552590dbc7175f924cfd3bd295ce6a438e976538666c8f2225f328",
+    "scripts/read_runtime.py": "e7dd3e48b00c0853af33906ce05c601e81a23361c5e1f03c7a6585d7daa75ffe",
+    "scripts/assistant_runtime.py": "eacd6003a76f87257ff15ba37acc439f4f367ba65c0682f204a6314171ea8d13",
+    "src/service_desk/core/database.py": "131d8b87e6e2e6c1de2e7bda3307337a19712b1adc52bf0668f4a2e1a541c5b3",
+    "scripts/check_phase3_database.py": "5d4b77c50267bd25f95bf0d67f0ee63853a54dcf59afdbbd4fe0680c5f4725c7"
+  },
+  "scope": "Dedicated disposable PostgreSQL only; no model calls or OIDC/MCP trial. Shared slot exhaustion, administrator reserve, raw incomplete startup, actual default idle timeouts and recovery. Session timeout defaults are client-changeable; no claim of query fairness or complete denial-of-service prevention. Host credential separation and browser/MCP connection bounds remain open."
+}

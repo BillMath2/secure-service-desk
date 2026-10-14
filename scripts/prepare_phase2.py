@@ -18,6 +18,14 @@ from service_desk.fixtures import load_fixtures
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def write_web_credentials(root: Path) -> None:
+    credentials = json.loads((root / "credentials.json").read_text())
+    (root / "web-client.json").write_text(
+        json.dumps({"clients": {k: credentials["clients"][k] for k in ("web", "gateway")}}),
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -57,7 +65,8 @@ def main() -> None:
                 + "\n",
                 encoding="utf-8",
             )
-        print("Existing Phase 2 configuration preserved.")
+        write_web_credentials(root)
+        print("Existing Phase 2 configuration preserved; scoped browser credentials refreshed.")
         return
     (root / "tls").mkdir(exist_ok=True)
     (root / "keycloak").mkdir(exist_ok=True)
@@ -66,6 +75,7 @@ def main() -> None:
     passwords = {p.id: secrets.token_urlsafe(24) for p in fixtures.principals if p.kind == "human"}
     credentials = {"clients": clients, "users": passwords}
     (root / "credentials.json").write_text(json.dumps(credentials), encoding="utf-8")
+    write_web_credentials(root)
     (root / "identities.json").write_text(
         json.dumps(
             [{"issuer": ISSUER, "subject": subject_for(p), "principal_id": p} for p in passwords],
