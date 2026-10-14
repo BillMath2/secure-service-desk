@@ -59,6 +59,7 @@ def install_task_routes(
         return HTMLResponse(
             page(
                 "<p>Read-only assistant. Answers are visible only to you.</p>"
+                '<p><a href="/access">Access requests and approvals</a></p>'
                 f"<p>{escape(backend.provider_label)}</p>"
                 '<form method="post" action="/tasks">'
                 f'<input type="hidden" name="csrf" value="{escape(session.csrf, quote=True)}">'

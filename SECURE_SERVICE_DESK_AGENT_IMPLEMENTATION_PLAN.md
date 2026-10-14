@@ -6,7 +6,7 @@ Created October 12, 2026. Governing requirements: [Project plan](SECURE_SERVICE_
 
 Deliver a local, reproducible service desk assistant that completes permitted support tasks while independent controls block unauthorized reads, disclosures, and access changes. Demonstrate the difference against a contained vulnerable baseline using the same fixtures and measurable outcomes.
 
-The initial review found only planning documents. Phases 0?3 are now complete for the pinned synthetic lab; phase-specific progress notes and the final Phase 3 exit matrix distinguish tested scope from future work. Build phases in order and require each exit gate before extending the next trust boundary.
+The initial review found only planning documents. Phases 0 through 3 are now complete for the pinned synthetic lab; phase-specific progress notes and the final Phase 3 exit matrix distinguish tested scope from future work. Build phases in order and require each exit gate before extending the next trust boundary.
 
 ## Implementation decisions
 
@@ -228,6 +228,8 @@ Depends on phase 2.
 
 Depends on phase 3.
 
+**Implemented; final verification paused by user request (October 14, 2026).** Immutable local proposals, provenance-first human review, exact submission/approval confirmation, standard and ordered sensitive approvals, executor-only MCP, atomic idempotent grants, effective expiry, weekly reviews, renewal and restart reconciliation are implemented. Transactional outboxes and a scoped append-only collector preserve correlated decisions/effects through collector interruption. The full regression passes 744 tests; the deployed boundary, 14-namespace network matrix and both actual grant workflows pass. See the [Phase 4 implementation/runbook](docs/phase4.md) and [exit matrix](docs/phase4-exit.md). Use `scripts/phase4.ps1` for startup, complete checks and teardown.
+
 1. Add draft access requests and confirmed submission with immutable canonical arguments, provenance, original submitter, triggering analyst, beneficiary, and policy version.
 2. Build the approval UI in provenance-first order. Resolve approvers from trusted manager/owner relationships; exclude requester, triggerer, and beneficiary. Enforce two distinct ordered stages for sensitive resources.
 3. Add an executor-only endpoint/audience within the Access MCP service. The model never obtains executor credentials or this tool in its catalog. Execution references the stored request; it cannot replace its arguments.
@@ -292,4 +294,8 @@ Create a small documented command surface for bootstrap, synthetic seeding, star
 
 The critical path is identity/MCP interoperability, audience-safe context construction, transactional approval execution, then comparative evaluation. Resolve these before UI polish. Optional vector retrieval, additional model providers, hash-chain audit checkpoints, Entra, and shared Hookline packaging follow a completed local release.
 
-Next implementation task: Phase 4 approvals, grants, lifecycle and durable audit. Phase 3 is complete for the pinned synthetic IPv4 lab; see [the exit matrix](docs/phase3-exit.md). Its fixed ticket/public-guide retrieval recipe, canary/fingerprint screening limits, inspected-only IPv6 denial and small live-model sample are explicit scope limits. Phase 5 owns repeated comparative evaluation and final clean-checkout/demo delivery. Phase 2's historical read-only evidence remains in docs/phase2-exit.md.
+Next task when the user resumes: finish Phase 4 final deployment verification, then Phase 5 comparative evaluation and portfolio delivery. Phase 3 is complete and Phase 4 implementation is present for the pinned synthetic IPv4 lab; see [Phase 3 evidence](docs/phase3-exit.md) and [Phase 4 evidence](docs/phase4-exit.md). The fixed proposal/context recipes, conservative authorization epoch, fingerprint screening limits, shared PostgreSQL audit storage, disposable database and inspected-only IPv6 denial remain explicit scope limits. Phase 5 owns repeated baseline comparisons, clean-checkout delivery and the recorded demonstration. Phase 2's historical read-only evidence remains in docs/phase2-exit.md.
+
+Pause checkpoint: the current slice corrects the Phase 4 browser's model-RPC deadline and removes contradictory read-only provider framing. The complete regression passed again (744 tests). The current slice's fixed model observation is recorded separately in `reports/phase4/runs`; no repeated evaluation has begun. Earlier images passed 256 boundary checks, 619 network checks and 73 signed grant-workflow checks. The corrected live model run completed 0/2 tasks: the benign case created one correct local draft before stopping near the task deadline; the injected case stopped without a draft. Neither produced an approval or grant, and output checks passed. See `reports/phase4/runs/20261014T122425Z/model.json` and its content-free diagnostics. On resume, investigate model task completion first, then rerun final boundary/network/grant-workflow/log probes against the corrected image pins, refresh `reports/phase4/results.json` and close the exit matrix. Do not advance to Phase 5 before that checkpoint is complete.
+
+Pause cleanup: `scripts/phase4.ps1 Stop` completed; no service-desk containers remain. Source, reports, credentials and image/model caches are preserved. The disposable database will be reseeded on Start.

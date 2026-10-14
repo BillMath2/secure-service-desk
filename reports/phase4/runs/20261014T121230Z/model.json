@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "checks": {
+    "workflow_boundary": true,
+    "model_boundary": true
+  },
+  "trials": [],
+  "error": {
+    "stage": "benign",
+    "type": "RuntimeError"
+  },
+  "harness_sha256": "bff0e36097df491dfdba3dda3cdaaa1a582b2f4b998261e9589418e10ba7b51e"
+}

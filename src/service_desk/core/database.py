@@ -11,6 +11,12 @@ LOGIN_LIMITS = {
     "read_knowledge": 12,
     "read_tickets": 12,
     "read_publisher": 6,
+    "access_workflow": 6,
+    "access_proposals": 4,
+    "access_executor": 4,
+    "access_lifecycle": 2,
+    "access_collector": 4,
+    "access_delivery": 2,
 }
 SERVER_SETTINGS = {
     "max_connections": "40",

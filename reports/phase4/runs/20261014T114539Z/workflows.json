@@ -1,0 +1,53 @@
+{
+  "phase": 4,
+  "passed": false,
+  "checks": {
+    "deployed_boundary": true,
+    "web_token_cannot_execute": true,
+    "proposal_token_cannot_execute": true,
+    "standard_signed_source_read": true,
+    "standard_signed_mcp_draft": true,
+    "standard_no_automatic_request": true,
+    "standard_provenance_first": true,
+    "standard_safe_preview": true,
+    "standard_csrf": true,
+    "erin_submit_d37a0408": true,
+    "erin_submit_exact_hash_d37a0408": true,
+    "erin_submit_confirmed_d37a0408": true,
+    "erin_submit_replay_d37a0408": true,
+    "standard_erin_self_approval_denied": true,
+    "standard_alice_self_approval_denied": true,
+    "morgan_approve_d37a0408": true,
+    "morgan_approve_exact_hash_d37a0408": true,
+    "morgan_approve_confirmed_d37a0408": true,
+    "morgan_approve_replay_d37a0408": true,
+    "standard_executor_applied": true,
+    "standard_actual_directory_effect": true,
+    "standard_bounded_expiry": true,
+    "standard_idempotent_effect": true,
+    "collector_outage_retains_durable_events": true,
+    "morgan_review_d37a0408": true,
+    "morgan_review_exact_hash_d37a0408": true,
+    "morgan_review_confirmed_d37a0408": true,
+    "morgan_review_replay_d37a0408": true,
+    "review_does_not_extend_expiry": true,
+    "standard_collector_recovered": true,
+    "standard_restricted_auditor_query": true,
+    "standard_content_free_audit": true,
+    "standard_analyst_cannot_read_audit": true,
+    "standard_effective_denial_without_worker": false
+  },
+  "trials": [
+    {
+      "case": "standard",
+      "request_id": "d37a0408-7188-4d8f-975d-1b12b82d61f8",
+      "correlation_id": "15977550-f9c6-4f80-adf9-8442358abab5",
+      "passed": false
+    }
+  ],
+  "model_invoked": false,
+  "error": {
+    "stage": "standard",
+    "type": "RuntimeError"
+  }
+}

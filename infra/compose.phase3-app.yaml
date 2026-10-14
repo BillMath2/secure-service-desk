@@ -1,6 +1,6 @@
 name: service-desk-phase3-app
 x-app: &app
-  image: sha256:74707ae45a1fd5534c627f85dbba398a5c1fa0faedb3cdd79d8500d544111065
+  image: sha256:31aa2bd6e7849f6adadeeaa60ffd687fb19252618d35dc84d27d4453a1d68ffc
   read_only: true
   user: "0:0"
   cap_drop: [ALL]

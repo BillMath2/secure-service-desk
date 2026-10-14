@@ -22,7 +22,33 @@ ROLES = {
     "knowledge": ("read_knowledge", "desk_knowledge"),
     "tickets": ("read_tickets", "desk_tickets"),
     "publisher": ("read_publisher", "desk_ticket_publisher"),
+    "workflow": ("access_workflow", "desk_workflow"),
+    "proposals": ("access_proposals", "desk_access"),
+    "execution": ("access_executor", "desk_executor"),
+    "lifecycle": ("access_lifecycle", "desk_lifecycle"),
+    "collector": ("access_collector", "desk_collector"),
+    "delivery": ("access_delivery", "desk_audit_delivery"),
 }
+
+
+def seed_access(db: psycopg.Connection, fixtures: FixtureSet) -> None:
+    if db.execute("SELECT 1 FROM service_desk.access_fixture_state").fetchone():
+        return
+    for group in fixtures.groups:
+        db.execute(
+            "INSERT INTO service_desk.resource_group VALUES(%s,%s,%s)",
+            (group.id, group.risk, group.owner),
+        )
+        for department in group.eligible_departments:
+            db.execute(
+                "INSERT INTO service_desk.resource_department VALUES(%s,%s)", (group.id, department)
+            )
+    for principal in fixtures.principals:
+        if principal.kind == "human" and "analyst" in principal.roles:
+            db.execute("INSERT INTO service_desk.access_analyst VALUES(%s)", (principal.id,))
+    # Explicit lab auditor; ordinary analysts and resource owners are not audit readers.
+    db.execute("INSERT INTO service_desk.audit_reader VALUES('harper')")
+    db.execute("INSERT INTO service_desk.access_fixture_state VALUES(true)")
 
 
 def seed_internal_members(db: psycopg.Connection, fixtures: FixtureSet) -> None:
@@ -68,16 +94,17 @@ def main() -> None:
         connection_file.write_text(json.dumps(connections), encoding="utf-8")
     connections = json.loads(connection_file.read_text())
     # Add a new service credential without rotating existing running-service credentials.
-    if "publisher" not in connections:
-        existing = conninfo_to_dict(connections["admin"])
-        connections["publisher"] = make_conninfo(
-            host=existing["host"],
-            port=existing["port"],
-            dbname=existing["dbname"],
-            user="read_publisher",
-            password=secrets.token_urlsafe(32),
-        )
-        connection_file.write_text(json.dumps(connections), encoding="utf-8")
+    existing = conninfo_to_dict(connections["admin"])
+    for name, (login, _) in ROLES.items():
+        if name not in connections:
+            connections[name] = make_conninfo(
+                host=existing["host"],
+                port=existing["port"],
+                dbname=existing["dbname"],
+                user=login,
+                password=secrets.token_urlsafe(32),
+            )
+    connection_file.write_text(json.dumps(connections), encoding="utf-8")
     for name in ROLES:
         (LOCAL / (name + ".dsn")).write_text(connections[name], encoding="utf-8")
     if not args.apply:
@@ -121,6 +148,7 @@ def main() -> None:
                         "Existing fixture hash differs; recreate only the disposable read project."
                     )
                 seed_internal_members(db, fixtures)
+                seed_access(db, fixtures)
                 print("Existing read-lab fixtures preserved.")
                 return
             db.execute(
@@ -167,6 +195,7 @@ def main() -> None:
                             "INSERT INTO service_desk.comment_reader VALUES(%s,%s)", (c.id, reader)
                         )
             seed_internal_members(db, fixtures)
+            seed_access(db, fixtures)
     print("Applied migrations and synthetic fixtures. SHA256: " + fingerprint(fixtures))
 
 

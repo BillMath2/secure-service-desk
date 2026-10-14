@@ -13,7 +13,7 @@ from service_desk.agent.provider import MAX_OUTPUT, AnswerTurn, Provider, input_
 from service_desk.agent.store import AgentStore
 from service_desk.core.auth.oidc import LoginResult
 from service_desk.core.auth.tokens import AuthenticationDenied, TokenValidator
-from service_desk.core.gateway.registry import TOOLS, BoundaryDenied, canonical
+from service_desk.core.gateway.registry import ACCESS_TOOLS, TOOLS, BoundaryDenied, canonical
 from service_desk.reads import denied
 
 SYSTEM = (
@@ -72,6 +72,7 @@ class Assistant:
         provider: Provider,
         *,
         provider_label: str = "Deterministic demo: reads your ticket and the public support guide.",
+        proposal_tools: bool = False,
     ) -> None:
         self.validator, self.store, self.gateway, self.provider = (
             validator,
@@ -80,6 +81,7 @@ class Assistant:
             provider,
         )
         self.provider_label = provider_label
+        self.proposal_tools = proposal_tools
 
     async def run(self, login: LoginResult, task_id: UUID, question: str) -> dict[str, Any]:
         claimed = False
@@ -101,10 +103,24 @@ class Assistant:
                 for _ in range(8):
                     request = canonical(
                         {
-                            "system": SYSTEM,
+                            "system": SYSTEM
+                            if not self.proposal_tools
+                            else SYSTEM.replace(
+                                "Use only the supplied read tools.",
+                                "Use supplied tools to read or prepare local access drafts. "
+                                "Drafts are not submitted requests or approvals. Human "
+                                "confirmation and independent approval are required.",
+                            ).replace(
+                                "No writes, links, or requester drafts.",
+                                "Only local access drafts may be created. No ticket writes, "
+                                "links, requester drafts, submissions, approvals or grants.",
+                            ),
                             "ticket_id": context.ticket_id,
                             "question": question,
-                            "tools": [t.wire() for t in TOOLS],
+                            "tools": [
+                                t.wire()
+                                for t in (*TOOLS, *(ACCESS_TOOLS if self.proposal_tools else ()))
+                            ],
                             "history": history,
                         }
                     )

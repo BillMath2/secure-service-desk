@@ -9,13 +9,21 @@ from service_desk.read_bootstrap import PORTS, destination
 
 
 def firewall_matches(
-    policy: dict[str, Any], service: str, host_ip: str, *, application: bool = False
+    policy: dict[str, Any],
+    service: str,
+    host_ip: str,
+    *,
+    application: bool = False,
+    profile: tuple[str, int, tuple[int, ...]] | None = None,
 ) -> bool:
     """Compare the entire dedicated table, ignoring only volatile kernel handles."""
     address = destination(host_ip)
-    table = "service_desk_app" if application else "service_desk_read"
-    listener = APP_PORTS[service] if application else PORTS[service]
-    destinations = OUTBOUND[service] if application else (15433, 19443)
+    if profile is not None:
+        table, listener, destinations = profile
+    else:
+        table = "service_desk_app" if application else "service_desk_read"
+        listener = APP_PORTS[service] if application else PORTS[service]
+        destinations = OUTBOUND[service] if application else (15433, 19443)
 
     def match(left: dict[str, Any], right: Any, op: str = "==") -> dict[str, Any]:
         return {"match": {"op": op, "left": left, "right": right}}

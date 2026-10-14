@@ -2,7 +2,7 @@
 
 A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
 
-Phases 0?3 are complete for the pinned synthetic lab. The assistant has signed-user authentication, independently authorized read tools, bounded tasks, fresh recipient-safe contexts, screened chat/draft output, immutable reviews and exact human-confirmed requester replies/internal comments. Browser, agent, publisher and read services now have separate credentials and containers; all seven application/model runtime namespaces have checked outbound policies. The [Phase 3 exit matrix](docs/phase3-exit.md) records deterministic tests, real-model/browser workflows and direct containment evidence. Phase 4 access approvals, grants, lifecycle and durable audit delivery are next.
+Phases 0 through 3 are complete for the pinned synthetic lab. Phase 4 implementation is present; model task completion and final deployment verification remain open, paused at the user's request. The authenticated assistant supports authorized reads, fresh recipient-safe drafts and exact human-confirmed ticket writes. Access proposals now require independent human approval; a separate executor creates temporary grants, and expiry/review checks deny access independently of cleanup. Service-scoped outboxes deliver correlated events to a protected audit collector. The [Phase 4 exit matrix](docs/phase4-exit.md) records the tests, deployed grant workflows, containment evidence and scope limits. Phase 5 covers repeated comparative evaluation and final delivery.
 
 ```powershell
 .\scripts\bootstrap.ps1
@@ -21,7 +21,8 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Phase 2 authenticated assistant demo and limits](docs/phase2-assistant.md)
 - [Phase 2 local model, containment and initial trials](docs/phase2-model.md)
 - [Phase 2 exit matrix and remaining deployment limits](docs/phase2-exit.md)
-- [Phase 3 implementation and hardened startup/check/stop commands](docs/phase3.md)
+- [Phase 3 implementation and historical exit evidence](docs/phase3.md)
+- [Phase 4 approvals, lifecycle, audit and startup/check/stop commands](docs/phase4.md)
 - [Threat model](docs/threat-model.md)
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)

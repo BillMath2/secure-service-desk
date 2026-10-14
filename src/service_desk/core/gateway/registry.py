@@ -5,9 +5,9 @@ import json
 from dataclasses import dataclass
 from typing import Any
 
-from pydantic import ValidationError
+from pydantic import Field, ValidationError
 
-from service_desk.contracts import Contract, ReadDocumentArgs
+from service_desk.contracts import Contract, Identifier, ReadDocumentArgs
 from service_desk.tool_args import ReadTicketArgs, SearchDocumentsArgs
 
 
@@ -41,9 +41,9 @@ class ToolDefinition:
             "description": self.description,
             "inputSchema": self.arguments.model_json_schema(),
             "annotations": {
-                "readOnlyHint": True,
+                "readOnlyHint": self.name != "propose_access_change",
                 "destructiveHint": False,
-                "idempotentHint": True,
+                "idempotentHint": self.name != "propose_access_change",
                 "openWorldHint": False,
             },
         }
@@ -72,11 +72,38 @@ TOOLS = (
         ReadTicketArgs,
     ),
 )
+
+
+class CheckAccessArgs(Contract):
+    resource_id: Identifier
+
+
+class ProposeAccessArgs(CheckAccessArgs):
+    duration_seconds: int | None = Field(default=None, ge=1, le=2592000)
+
+
+ACCESS_TOOLS = (
+    ToolDefinition(
+        "check_access",
+        "access",
+        "access:read",
+        "Check effective group access for this task's ticket requester.",
+        CheckAccessArgs,
+    ),
+    ToolDefinition(
+        "propose_access_change",
+        "access",
+        "access:read",
+        "Prepare a local access draft for the ticket requester; no request is submitted "
+        "and no grant or approval is created. Human exact-action confirmation is required.",
+        ProposeAccessArgs,
+    ),
+)
 REGISTRY_VERSION = "read-tools-v1"
 
 
 def catalog(service: str) -> list[dict[str, Any]]:
-    return [t.wire() for t in TOOLS if t.service == service]
+    return [t.wire() for t in (*TOOLS, *ACCESS_TOOLS) if t.service == service]
 
 
 def validate_catalog(service: str, remote: list[dict[str, Any]]) -> None:
@@ -89,7 +116,7 @@ def validate_catalog(service: str, remote: list[dict[str, Any]]) -> None:
 
 
 def definition(name: str) -> ToolDefinition:
-    for tool in TOOLS:
+    for tool in (*TOOLS, *ACCESS_TOOLS):
         if tool.name == name:
             return tool
     raise BoundaryDenied("TOOL_DENIED")
@@ -103,4 +130,4 @@ def validate_arguments(name: str, arguments: dict[str, Any]) -> Contract:
 
 
 def safe_operation(name: str) -> str:
-    return name if any(t.name == name for t in TOOLS) else "unregistered"
+    return name if any(t.name == name for t in (*TOOLS, *ACCESS_TOOLS)) else "unregistered"

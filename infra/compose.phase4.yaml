@@ -1,0 +1,78 @@
+name: service-desk-phase4
+x-runtime: &runtime
+  image: sha256:31aa2bd6e7849f6adadeeaa60ffd687fb19252618d35dc84d27d4453a1d68ffc
+  entrypoint: [python, -I, -B, -m, service_desk.phase4_bootstrap]
+  read_only: true
+  user: "0:0"
+  cap_drop: [ALL]
+  cap_add: [NET_ADMIN, SETUID, SETGID, SETPCAP]
+  security_opt: [no-new-privileges:true]
+  mem_limit: 256m
+  cpus: 1
+  pids_limit: 64
+  logging: {driver: none}
+services:
+  browser:
+    <<: *runtime
+    command: [browser]
+    ports: ["127.0.0.1:19481:19481"]
+    volumes: ["../.lab/phase4/browser:/run/desk:ro"]
+    networks: [browser]
+  agent:
+    <<: *runtime
+    command: [agent]
+    ports: ["127.0.0.1:19486:19486"]
+    volumes: ["../.lab/phase4/agent:/run/desk:ro"]
+    networks: [agent]
+  workflow:
+    <<: *runtime
+    command: [workflow]
+    ports: ["127.0.0.1:19488:19488"]
+    volumes: ["../.lab/phase4/workflow:/run/desk:ro"]
+    networks: [workflow]
+  proposals:
+    <<: *runtime
+    command: [proposals]
+    ports: ["127.0.0.1:19484:19484"]
+    volumes: ["../.lab/phase4/proposals:/run/desk:ro"]
+    networks: [proposals]
+  execution:
+    <<: *runtime
+    command: [execution]
+    ports: ["127.0.0.1:19489:19489"]
+    volumes: ["../.lab/phase4/execution:/run/desk:ro"]
+    networks: [execution]
+  collector:
+    <<: *runtime
+    command: [collector]
+    ports: ["127.0.0.1:19490:19490"]
+    volumes: ["../.lab/phase4/collector:/run/desk:ro"]
+    networks: [collector]
+  worker:
+    <<: *runtime
+    command: [worker]
+    ports: ["127.0.0.1:19491:19491"]
+    volumes: ["../.lab/phase4/worker:/run/desk:ro"]
+    networks: [worker]
+  executor:
+    <<: *runtime
+    command: [executor]
+    ports: ["127.0.0.1:19492:19492"]
+    volumes: ["../.lab/phase4/executor:/run/desk:ro"]
+    networks: [executor]
+  delivery:
+    <<: *runtime
+    command: [delivery]
+    ports: ["127.0.0.1:19493:19493"]
+    volumes: ["../.lab/phase4/delivery:/run/desk:ro"]
+    networks: [delivery]
+networks:
+  browser: {}
+  agent: {}
+  workflow: {}
+  proposals: {}
+  execution: {}
+  collector: {}
+  worker: {}
+  executor: {}
+  delivery: {}
