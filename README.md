@@ -14,44 +14,7 @@ The video walks through saved evidence of an allowed cited answer, injection and
 
 The model proposes actions; trusted application code decides whether those actions are allowed. Human approval and grant execution use separate identities, services, and credentials.
 
-```text
-                     LOCAL WORKSTATION / DOCKER DESKTOP (LINUX)
-
- [Requester / Analyst / Approver]                 [Keycloak]
-                 |                                  ^
-                 | HTTPS                            | OIDC / OAuth 2.0
-                 v                                  v
-          [Browser application] <-------------------+
-                 |
-                 +-- assistant tasks --> [Agent + policy gateway]
-                 |                              |            |
-                 |                    scoped MCP calls       +--> [Model relay]
-                 |                              |                        |
-                 |                              v                        v
-                 |                  [Knowledge / Tickets /       [Ollama + Qwen3]
-                 |                   Access proposals]            local inference
-                 |                              |
-                 |                              v
-                 |                             [DB]
-                 |
-                 +-- confirm exact reply --> [Publisher] ------------> [DB]
-                 |
-                 +-- submit / approve ------> [Workflow service] ----> [DB]
-
- [Executor runner] -- workload identity --> [Execution MCP] <---------> [DB]
-                                            rechecks approval;
-                                            creates one grant
-
- [Lifecycle worker] -- expiry / review / reconciliation -------------> [DB]
-
- [Read, workflow, execution and lifecycle outboxes]
-                 |
-                 +-- authenticated delivery --> [Audit collector] ---> [DB]
-
- [DB] = Shared PostgreSQL instance with separate service roles:
-        fixtures, tasks, immutable requests, approvals, synthetic grants,
-        lifecycle state, transactional outboxes and protected audit tables
-```
+![Architecture](media/architecture.png)
 
 This is a logical architecture, not a network allow-list. Keycloak also supplies scoped service identities. Runtime processes have separate containers, restricted mounts and credentials, bounded listeners, and default-deny outbound rules. Published service ports bind to loopback. The model has no approval or grant-execution authority.
 
