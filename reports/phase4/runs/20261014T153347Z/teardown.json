@@ -1,0 +1,13 @@
+{
+  "record_type": "observed terminal teardown summary",
+  "command": "scripts/phase4.ps1 Stop",
+  "exit_code": 0,
+  "verification": "docker ps -a --filter name=service-desk- --format {{.Names}} returned no names",
+  "verified_no_service_desk_containers": true,
+  "preserved": [
+    "Source and reports",
+    "Ignored credentials",
+    "Pinned images and model cache"
+  ],
+  "database_state": "Disposable tmpfs database removed"
+}

@@ -60,6 +60,28 @@ The publisher, knowledge, tickets, model relay and model containers retain their
 
 ## Scope and operational limits
 
+### Model task completion
+
+The local adapter uses a final-answer-only response schema after a successful `propose_access_change` result. It rejects a further tool turn even if the provider violates that schema. The transition depends on structured, successful tool history, never on a ticket claiming that a proposal succeeded. A new task starts with fresh history. Preparing another proposal requires another task; human submission, approval and execution remain separate actions.
+
+The proposal catalog tells the model to omit an unspecified duration so the database selects the resource-specific default. Explicit durations still pass the same independent policy checks. MCP denials stop the task with an allowlisted control code; arbitrary error text is never returned. Stable policy and tool definitions precede growing history in each complete model request, reducing repeated prefix processing without increasing the 45-second provider timeout, 120-second task deadline or 16,000-unit reservation budget.
+
+The model probe records content-free failure codes, task/audit timing and image pins. It requires exactly one correctly bound local draft, its actual request ID in the answer, a human review/confirmation explanation, and no approval or grant. These are functional observations; repeated comparative evaluation remains Phase 5.
+
+### Local image updates
+
+When runtime source changes, rebuild both scoped images, inspect their immutable IDs, and update the matching Compose files and `config/phase4.lock.json`, `config/isolated-app.lock.json` and `config/isolated-reads.lock.json` before running the gates:
+
+```powershell
+docker build --pull=false -f infra/app.Dockerfile -t service-desk-app:phase4 .
+docker build --pull=false -f infra/reads.Dockerfile -t service-desk-read:phase4 .
+docker image inspect service-desk-app:phase4 service-desk-read:phase4 --format '{{.Id}}'
+```
+
+The deployment gates compare the entire installed Python source inventory with the working tree. Both images therefore need refreshing even if a changed module is unused by a particular service. Dependency versions remain locked; local build IDs may differ with build metadata. Startup uses the reviewed immutable pins, not the mutable build tags.
+
+### Trust and storage limits
+
 The directory is a synthetic PostgreSQL adapter. Grant creation and its audit outbox share a transaction; integrating a real external directory would require an additional idempotent effect/reconciliation protocol. The collector is independently authenticated and credential-scoped but uses a separate protected table in the **same PostgreSQL instance**. This is not protection against the trusted database administrator, host administrator or storage loss. The outbox survives collector, executor and application-container restarts. The database itself uses tmpfs: stopping/recreating the database container or tearing down the lab discards its records. Production backup, replication, retention and physical audit-store separation are outside this lab.
 
 A global source/authorization epoch conservatively invalidates proposals when any protected fixture source, ACL, relationship or access policy changes, even an unrelated one. Recreate and reapprove a proposal after such a change. This also prevents a stale preview from displaying newly restricted material. Screening remains the documented canary/fingerprint boundary, not a general semantic proof. The fixed model proposal explanation avoids introducing privileged generated prose into approval review. Repeated attack/benign comparisons and final clean-checkout delivery belong to Phase 5.

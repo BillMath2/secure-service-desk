@@ -1,6 +1,6 @@
 name: service-desk-phase4
 x-runtime: &runtime
-  image: sha256:31aa2bd6e7849f6adadeeaa60ffd687fb19252618d35dc84d27d4453a1d68ffc
+  image: sha256:6ccf73d62e4fa5221b9754a6e161f3abee05e593d31160794ce1dec09fce444d
   entrypoint: [python, -I, -B, -m, service_desk.phase4_bootstrap]
   read_only: true
   user: "0:0"

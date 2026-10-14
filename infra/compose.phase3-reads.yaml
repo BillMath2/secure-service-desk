@@ -1,6 +1,6 @@
 name: service-desk-phase3-reads
 x-read: &read
-  image: sha256:698e8cca555fd04219f5dbe7bb3c9f05f93f8e4fa556382a6bc3f41e28f7d30e
+  image: sha256:4c963fbf42898dfb528c6db3889845010e6a038ceecf730509d16455d5173e93
   read_only: true
   # Bootstrap installs the policy, then drops all capabilities and user/group IDs.
   user: "0:0"

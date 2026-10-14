@@ -2,7 +2,7 @@
 
 A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
 
-Phases 0 through 3 are complete for the pinned synthetic lab. Phase 4 implementation is present; model task completion and final deployment verification remain open, paused at the user's request. The authenticated assistant supports authorized reads, fresh recipient-safe drafts and exact human-confirmed ticket writes. Access proposals now require independent human approval; a separate executor creates temporary grants, and expiry/review checks deny access independently of cleanup. Service-scoped outboxes deliver correlated events to a protected audit collector. The [Phase 4 exit matrix](docs/phase4-exit.md) records the tests, deployed grant workflows, containment evidence and scope limits. Phase 5 covers repeated comparative evaluation and final delivery.
+Phases 0 through 4 are complete for the pinned synthetic lab. Phase 4 passes 759 tests and the final deployed containment, grant-workflow, model-completion and log checks. The authenticated assistant supports authorized reads, fresh recipient-safe drafts and exact human-confirmed ticket writes. Access proposals now require independent human approval; a separate executor creates temporary grants, and expiry/review checks deny access independently of cleanup. Service-scoped outboxes deliver correlated events to a protected audit collector. The [Phase 4 exit matrix](docs/phase4-exit.md) records the tests, deployed grant workflows, containment evidence and scope limits. Phase 5 covers repeated comparative evaluation and final delivery.
 
 ```powershell
 .\scripts\bootstrap.ps1

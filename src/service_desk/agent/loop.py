@@ -23,6 +23,24 @@ SYSTEM = (
     "Return plain text and a separate citations list. No writes, links, or requester drafts."
 )
 PROVIDER_TIMEOUT = 45
+TOOL_DENIAL_REASONS = frozenset(
+    {
+        "TOOL_DENIED",
+        "SCHEMA_DENIED",
+        "CATALOG_DENIED",
+        "SCOPE_DENIED",
+        "RESOURCE_DENIED",
+        "TASK_DENIED",
+        "TASK_EXPIRED",
+        "POLICY_STALE",
+        "OUTPUT_LIMIT",
+        "SERVICE_ERROR",
+        "TIMEOUT",
+        "POLICY_DENIED",
+        "OUTPUT_DENIED",
+        "BUDGET_EXHAUSTED",
+    }
+)
 
 
 class Gateway(Protocol):
@@ -34,12 +52,25 @@ class Gateway(Protocol):
 def unpack(result: dict[str, Any]) -> dict[str, Any]:
     if "allowed" in result:
         return result
-    if result.get("isError") or len(result.get("content", [])) != 1:
+    if len(result.get("content", [])) != 1:
         raise BoundaryDenied("SERVICE_ERROR")
     content = result["content"][0]
     if content.get("type") != "text":
         raise BoundaryDenied("SERVICE_ERROR")
     value: dict[str, Any] = json.loads(content["text"])
+    if not isinstance(value, dict):
+        raise BoundaryDenied("SERVICE_ERROR")
+    if result.get("isError"):
+        # Preserve only the authenticated service's known control code. Stop the
+        # task without retrying a denial or exposing arbitrary MCP error text.
+        reason = value.get("reason")
+        if (
+            value.get("allowed") is False
+            and isinstance(reason, str)
+            and reason in TOOL_DENIAL_REASONS
+        ):
+            raise BoundaryDenied(reason)
+        raise BoundaryDenied("SERVICE_ERROR")
     return value
 
 
@@ -101,7 +132,9 @@ class Assistant:
             sources: list[dict[str, Any]] = []
             async with asyncio.timeout(remaining):
                 for _ in range(8):
-                    request = canonical(
+                    # Stable policy/catalog precede growing history. Each request
+                    # still contains the complete, fresh task-local context.
+                    request = json.dumps(
                         {
                             "system": SYSTEM
                             if not self.proposal_tools
@@ -115,14 +148,17 @@ class Assistant:
                                 "Only local access drafts may be created. No ticket writes, "
                                 "links, requester drafts, submissions, approvals or grants.",
                             ),
-                            "ticket_id": context.ticket_id,
-                            "question": question,
                             "tools": [
                                 t.wire()
                                 for t in (*TOOLS, *(ACCESS_TOOLS if self.proposal_tools else ()))
                             ],
+                            "ticket_id": context.ticket_id,
+                            "question": question,
                             "history": history,
-                        }
+                        },
+                        separators=(",", ":"),
+                        ensure_ascii=True,
+                        allow_nan=False,
                     )
                     estimate = input_reservation(request)
                     await asyncio.to_thread(

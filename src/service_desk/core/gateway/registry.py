@@ -95,7 +95,9 @@ ACCESS_TOOLS = (
         "access",
         "access:read",
         "Prepare a local access draft for the ticket requester; no request is submitted "
-        "and no grant or approval is created. Human exact-action confirmation is required.",
+        "and no grant or approval is created. Human exact-action confirmation is required. "
+        "Omit duration_seconds unless the user requested a duration; omission uses the "
+        "resource-specific policy default. Explicit durations remain subject to policy.",
         ProposeAccessArgs,
     ),
 )

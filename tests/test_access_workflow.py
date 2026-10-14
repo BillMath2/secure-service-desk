@@ -396,6 +396,46 @@ def test_model_can_only_prepare_local_draft_with_shared_task_budget(
     )
 
 
+@pytest.mark.parametrize(
+    "resource,duration,expected",
+    [
+        ("engineering-workspace", None, 2592000),
+        ("engineering-admin", None, 28800),
+        ("engineering-admin", 86400, None),
+    ],
+)
+def test_model_proposal_duration_uses_resource_policy(
+    access: dict[str, AccessStore],
+    connections: dict[str, str],
+    resource: str,
+    duration: int | None,
+    expected: int | None,
+) -> None:
+    from dataclasses import replace
+
+    task = TaskStore(connections["creator"]).create(human(), "ticket-alice")
+    actor = identity("erin", "gateway")
+    actor = replace(actor, scopes=actor.scopes | {"access:read"})
+    arguments: dict[str, Any] = {"resource_id": resource}
+    if duration is not None:
+        arguments["duration_seconds"] = duration
+    result = AccessProposalService(access["proposals"]).invoke(
+        actor, task, "propose_access_change", arguments
+    )
+    if expected is None:
+        assert result["allowed"] is False and result["reason"] == "POLICY_DENIED"
+        assert scalar(connections, "SELECT count(*) FROM service_desk.access_request") == 0
+    else:
+        assert result["allowed"] is True
+        assert (
+            scalar(connections, "SELECT duration_seconds FROM service_desk.access_request")
+            == expected
+        )
+        assert scalar(connections, "SELECT state FROM service_desk.access_state") == "draft"
+    assert scalar(connections, "SELECT count(*) FROM service_desk.access_approval") == 0
+    assert scalar(connections, "SELECT count(*) FROM service_desk.access_grant") == 0
+
+
 def test_workload_cannot_be_beneficiary(
     access: dict[str, AccessStore], connections: dict[str, str]
 ) -> None:

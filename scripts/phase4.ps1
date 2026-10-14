@@ -50,7 +50,7 @@ try {
         } finally {
             Compose 'phase4' @('up', '-d', '--pull', 'never')
         }
-        foreach ($probe in @('check_phase4_network', 'check_phase4_workflows', 'check_phase4_model', 'check_phase4_logs')) {
+        foreach ($probe in @('check_phase4_boundary', 'check_phase4_network', 'check_phase4_workflows', 'check_phase4_model', 'check_phase4_logs')) {
             Invoke-Checked $python @("scripts/$probe.py", '--docker', $DockerPath)
         }
     }

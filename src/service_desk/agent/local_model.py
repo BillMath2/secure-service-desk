@@ -108,6 +108,20 @@ class LocalModelProvider:
         has_source = any(
             h.get("result", {}).get("allowed") is True for h in context.get("history", [])
         )
+        proposal_prepared = any(
+            h.get("call", {}).get("name") == "propose_access_change"
+            and h.get("result", {}).get("allowed") is True
+            for h in context.get("history", [])
+        )
+        # A successful local proposal ends the action portion of this task.
+        # This state comes from trusted tool history, never from ticket prose.
+        response_format = (
+            AnswerTurn.model_json_schema()
+            if proposal_prepared
+            else TURN.json_schema()
+            if has_source
+            else ToolTurn.model_json_schema()
+        )
         value = await self._json(
             "/api/generate",
             {
@@ -115,7 +129,7 @@ class LocalModelProvider:
                 "prompt": PREFIX + request + SUFFIX,
                 "raw": True,
                 "stream": False,
-                "format": TURN.json_schema() if has_source else ToolTurn.model_json_schema(),
+                "format": response_format,
                 "keep_alive": "5m",
                 "options": {
                     "temperature": 0,
@@ -140,8 +154,11 @@ class LocalModelProvider:
         content = value.get("response")
         if not isinstance(content, str) or len(content.encode()) > 8192:
             raise BoundaryDenied("OUTPUT_LIMIT")
+        turn = TURN.validate_json(content, strict=True)
+        if proposal_prepared and not isinstance(turn, AnswerTurn):
+            raise BoundaryDenied("SERVICE_ERROR")
         return ProviderReply(
-            turn=TURN.validate_json(content, strict=True),
+            turn=turn,
             input_tokens=used_input,
             output_tokens=used_output,
         )

@@ -98,6 +98,11 @@ def test_cited_run_fresh_context_and_no_credentials(connections: dict[str, str])
         )
         assert not asyncio.run(assistant.run(login, t, marker))["allowed"]
     assert len(provider.requests) == 6
+    # Growing history must not displace the stable policy/catalog prefix; all
+    # source results remain in each complete request and each new task starts fresh.
+    prefixes = [request.split(',"history":', 1)[0] for request in provider.requests]
+    assert prefixes[0] == prefixes[1] == prefixes[2]
+    assert prefixes[3] == prefixes[4] == prefixes[5]
     assert "first-task-marker" not in "".join(provider.requests[3:])
     assert all(json.loads(r)["history"] == [] for r in provider.requests[::3])
     for forbidden in (login.access_token, login.identity.subject, "A69F", "C15D", "csrf"):

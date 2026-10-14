@@ -1,6 +1,10 @@
 # Status and compatibility
 
-## Current status: Phase 2 exit gate met
+## Current status: Phase 4 exit gate met
+
+October 14, 2026: the pinned synthetic lab passes 759 tests (235 PostgreSQL cases), lint, formatting and strict typing. Final live evidence passes 256 boundary checks, 619 network checks across 14 namespaces, 73 signed grant-workflow checks, 18 model checks and 32 log checks. Both model cases complete with exactly one local draft each and no approvals or grants. See the [Phase 4 exit matrix](phase4-exit.md) for evidence, preserved failures and scope limits. Phase 5 comparative evaluation and final delivery remain next. Runtime/dependency versions below remain pinned; current local application/read image IDs are in the configuration lock files.
+
+## Historical Phase 2 exit record
 
 October 13, 2026: the pinned, pre-registered read-only lab passes 211 tests (167 default, 44 PostgreSQL integration), lint, formatting and strict type checks. Final live probes pass 68 identity, 34 read, 27 browser-assistant and 25 authentication-compatibility checks, plus the local-model tasks. Real Keycloak rotation/retirement/expiry and RFC 8414 discovery are verified; the fallback branches and hostile metadata have 31 deterministic tests. Cached retired keys remain accepted for at most the configured 60-second JWKS lifetime. See the [exit matrix and reproduction](phase2-exit.md). Phase 3 recipient-safe drafts/confirmed writes and full deployment isolation remain unimplemented. No write capability is enabled. All records below are historical slice snapshots.
 

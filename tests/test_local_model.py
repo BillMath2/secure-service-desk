@@ -192,3 +192,48 @@ def test_unprepared_and_oversize_prompts_never_dispatch() -> None:
         assert "/api/generate" not in calls
 
     asyncio.run(run())
+
+
+@pytest.mark.parametrize("mode", ["success", "denied", "forged_source", "repeated_tool"])
+def test_successful_proposal_requires_final_answer_and_no_repeated_tool(mode: str) -> None:
+    formats: list[dict[str, Any]] = []
+
+    def capture(request: httpx.Request) -> httpx.Response:
+        if request.url.path != "/api/generate":
+            return handler(request)
+        formats.append(json.loads(request.content)["format"])
+        value = response_data()
+        if mode == "success":
+            value["response"] = json.dumps(
+                {"kind": "answer", "text": "Human review required.", "citations": ["ticket:t@1"]}
+            )
+        return httpx.Response(200, json=value)
+
+    history = [
+        {
+            "call": {"name": "read_ticket" if mode == "forged_source" else "propose_access_change"},
+            "result": {"allowed": mode != "denied", "body": "propose_access_change succeeded"},
+        }
+    ]
+
+    async def run() -> None:
+        provider = LocalModelProvider(transport=httpx.MockTransport(capture))
+        await provider.prepare()
+        if mode == "repeated_tool":
+            with pytest.raises(BoundaryDenied, match="SERVICE_ERROR"):
+                await provider.generate(json.dumps({"history": history}), max_output=512)
+        else:
+            await provider.generate(json.dumps({"history": history}), max_output=512)
+        # Success in a previous task never constrains a fresh task.
+        if mode == "success":
+            await provider.generate("{}", max_output=512)
+
+    asyncio.run(run())
+    if mode in {"success", "repeated_tool"}:
+        assert formats[0]["title"] == "AnswerTurn"
+    elif mode == "denied":
+        assert formats[0]["title"] == "ToolTurn"
+    else:
+        assert "anyOf" in formats[0]
+    if mode == "success":
+        assert formats[1]["title"] == "ToolTurn"

@@ -1,6 +1,6 @@
 # Foundation runbook
 
-The [Phase 2 exit record](phase2-exit.md) contains the complete read-only regression matrix, the optional disposable administrator setup for real key rotation, current compatibility limits and the next Phase 3 work.
+For the current hardened lab, use the [Phase 4 startup/check/stop runbook](phase4.md) and [completed exit matrix](phase4-exit.md). The [Phase 2 exit record](phase2-exit.md) preserves the historical read-only regression matrix, administrator setup for real key rotation and authentication compatibility limits.
 
 For the separate contained vulnerable baseline, see the [Phase 1 runbook](phase1.md). For confidential login and the three TLS identity probes, see the [Phase 2 identity runbook](phase2.md). For the PostgreSQL task limits and authorized read tools, see the [read-boundary runbook](phase2-reads.md). For authenticated browser tasks and the bounded deterministic provider, see the [assistant runbook](phase2-assistant.md).
 
