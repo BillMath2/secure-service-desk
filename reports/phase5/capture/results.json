@@ -1,0 +1,127 @@
+{
+  "scope": "Saved-evidence OBS recording; synthetic lab, generated female UK narration",
+  "voice": "Microsoft Hazel / en-GB / female",
+  "artifacts": {
+    "mkv": {
+      "path": ".lab/demo/secure-service-desk-evidence.mkv",
+      "bytes": 15392636,
+      "sha256": "66dfc80683210ceeb360545512224ac26667c8c8d7f977162fac45c90d8e39cd"
+    },
+    "mp4": {
+      "path": ".lab/demo/secure-service-desk-evidence.mp4",
+      "bytes": 15574204,
+      "sha256": "0a12586a0fed174faf65570d1c1e2bc915165450eaed0fdb477d48b4168f60fc"
+    }
+  },
+  "streams": [
+    {
+      "type": "video",
+      "codec": "h264",
+      "duration_seconds": 238.066015625
+    },
+    {
+      "type": "audio",
+      "codec": "aac",
+      "duration_seconds": 238.08
+    }
+  ],
+  "duration_seconds": 238.08,
+  "planned_audio_seconds": 236.61450000000002,
+  "video_frames_decoded": 7142,
+  "audio_frames_decoded": 11160,
+  "decoded_audio_seconds": 238.07999999997804,
+  "audio_peak": 0.8844922184944153,
+  "audio_rms": 0.12019319817670145,
+  "segment_audio_rms": [
+    0.11615036162447785,
+    0.11620671104432392,
+    0.12720480834886777,
+    0.11675742509442755,
+    0.12020557992115037,
+    0.12061963107960873,
+    0.11955216706529857,
+    0.12390301184335543
+  ],
+  "maximum_slide_schedule_lag_seconds": 0.016734699999986447,
+  "encoder_skipped_frames": 0,
+  "render_skipped_frames_during_capture": 15,
+  "frames": [
+    {
+      "slide": 1,
+      "seconds": 14.6669921875,
+      "path": "reports/phase5/capture/frames/slide-01.png",
+      "mean_pixel_difference": 1.5482970036008232,
+      "maximum_channel_rms_difference": 4.860717692413282
+    },
+    {
+      "slide": 2,
+      "seconds": 42.6,
+      "path": "reports/phase5/capture/frames/slide-02.png",
+      "mean_pixel_difference": 1.5444227430555557,
+      "maximum_channel_rms_difference": 4.67427981430374
+    },
+    {
+      "slide": 3,
+      "seconds": 70.6,
+      "path": "reports/phase5/capture/frames/slide-03.png",
+      "mean_pixel_difference": 1.551064814814815,
+      "maximum_channel_rms_difference": 5.01443864329871
+    },
+    {
+      "slide": 4,
+      "seconds": 101.9330078125,
+      "path": "reports/phase5/capture/frames/slide-04.png",
+      "mean_pixel_difference": 1.6973244598765433,
+      "maximum_channel_rms_difference": 5.610302514964196
+    },
+    {
+      "slide": 5,
+      "seconds": 134.1669921875,
+      "path": "reports/phase5/capture/frames/slide-05.png",
+      "mean_pixel_difference": 1.573450199331276,
+      "maximum_channel_rms_difference": 5.05940777761441
+    },
+    {
+      "slide": 6,
+      "seconds": 162.7669921875,
+      "path": "reports/phase5/capture/frames/slide-06.png",
+      "mean_pixel_difference": 1.535353491512346,
+      "maximum_channel_rms_difference": 4.924344630754256
+    },
+    {
+      "slide": 7,
+      "seconds": 189.8669921875,
+      "path": "reports/phase5/capture/frames/slide-07.png",
+      "mean_pixel_difference": 1.6681044238683127,
+      "maximum_channel_rms_difference": 5.669492801865193
+    },
+    {
+      "slide": 8,
+      "seconds": 220.3,
+      "path": "reports/phase5/capture/frames/slide-08.png",
+      "mean_pixel_difference": 1.7285546875,
+      "maximum_channel_rms_difference": 5.859948006961335
+    }
+  ],
+  "technical_passed": true,
+  "visual_review": "Passed: all eight extracted segment frames inspected for legibility, missing text and clipping",
+  "human_listening_review": "not claimed",
+  "limitations": [
+    "Saved evidence walkthrough, not live application interaction footage",
+    "Technical audio validation does not assess subjective voice quality"
+  ],
+  "audio_alignment": "reports/phase5/capture/audio-alignment.json",
+  "passed": true,
+  "inputs_sha256": {
+    "docs/demo/narration-final.txt": "c08e4cdd2acc92bfd7af82bbccb6212a3fe66be5cecf8177dad75da6611f9555",
+    "docs/demo/storyboard.json": "5322e3e019cdd107b183210f577dbd446054a370b555ed32a7ee5e390c90c331",
+    "docs/demo/record-demo.mjs": "d5d252683616dc1ca8cb69565852b0ff1b61e8f4045465e5cc28c93a6657c93b",
+    ".lab/demo/narration-final.wav": "7aef9de62a7afb07ba7e8c0db7e6f106a83bfcdb9628cc3bad6371e8e710f403",
+    "reports/phase5/demo-evidence.json": "7554af38614436052e711d0cf7482ce535ffca551037604d8078a2c6bd231cdb"
+  },
+  "asset_bundle": {
+    "path": ".lab/demo/secure-service-desk-demo-assets.zip",
+    "sha256": "d3c3a83d4747346feece9494574715dd1743d646100191b5cb27bbf62df61945",
+    "bytes": 12148486
+  }
+}

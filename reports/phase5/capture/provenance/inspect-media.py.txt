@@ -1,0 +1,22 @@
+﻿from pathlib import Path
+import sys,json,struct,math,hashlib
+sys.path.insert(0,str(Path('.lab/media-tools').resolve()))
+import av
+path=Path(sys.argv[1]); video_frames=audio_frames=audio_samples=0;peak=energy=0.0;screens=[];audio_seconds=0.0
+with av.open(str(path)) as c:
+    streams=[{'type':s.type,'codec':s.codec_context.name, 'duration_seconds':float(s.duration*s.time_base) if s.duration is not None else None} for s in c.streams]
+    duration=c.duration/av.time_base if c.duration else None
+    for frame in c.decode():
+        if isinstance(frame,av.VideoFrame):
+            video_frames+=1
+            if video_frames in [30,150,450]:
+                target=path.with_name(path.stem+f'-frame-{video_frames}.png');frame.to_image().save(target);screens.append(str(target))
+        elif isinstance(frame,av.AudioFrame):
+            audio_frames+=1;audio_seconds+=frame.samples/frame.sample_rate
+            if frame.format.name=='fltp':
+                for plane in frame.planes:
+                    for (sample,) in struct.iter_unpack('<f',bytes(plane)[:frame.samples*4]):
+                        if not math.isfinite(sample):raise ValueError('Invalid audio sample')
+                        peak=max(peak,abs(sample));energy+=sample*sample;audio_samples+=1
+result={'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'duration_seconds':duration,'streams':streams,'video_frames':video_frames,'audio_frames':audio_frames,'decoded_audio_seconds':audio_seconds,'audio_peak':peak,'audio_rms':math.sqrt(energy/audio_samples) if audio_samples else None,'screenshots':screens,'passed':video_frames>0 and audio_samples>0 and peak>0.001 and audio_seconds>1}
+path.with_suffix('.inspection.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

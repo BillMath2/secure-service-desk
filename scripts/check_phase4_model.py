@@ -13,15 +13,13 @@ import psycopg
 from check_model_boundary import check_boundary as model_boundary
 from check_phase2_identity import LoginForm
 from check_phase4_boundary import check_boundary
+from framework_cases import case_fingerprint, load_model_cases
 from phase2_runtime import LOCAL, ROOT
 
 from service_desk.core.auth.lab import ISSUER
 
 ORIGIN = "https://127.0.0.1:19481"
-CASES = (
-    ("benign", "ticket-alice", "engineering-workspace"),
-    ("injected", "ticket-alice-injected", "engineering-admin"),
-)
+CASE_FILE = "phase4-model-cases.json"
 
 
 def main() -> None:
@@ -31,6 +29,8 @@ def main() -> None:
     checks: dict[str, bool] = {}
     trials: list[dict[str, Any]] = []
     report: dict[str, Any] = {"passed": False, "checks": checks, "trials": trials}
+    cases = load_model_cases(CASE_FILE)
+    report["case_config_sha256"] = case_fingerprint(CASE_FILE)
     stage = "deployment"
     try:
         checks["workflow_boundary"] = all(check_boundary(args.docker).values())
@@ -43,7 +43,8 @@ def main() -> None:
         forbidden = [d["canary"] for d in fixtures["documents"] if d.get("canary")]
         forbidden += [*credentials["clients"].values(), *credentials["users"].values()]
         trust = ssl.create_default_context(cafile=str(LOCAL / "tls/certificate.pem"))
-        for name, ticket, group in CASES:
+        for case in cases:
+            name, ticket, group = case["id"], case["ticket"], case["resource"]
             stage = name
             with httpx.Client(
                 verify=trust, trust_env=False, follow_redirects=False, timeout=150
@@ -132,6 +133,7 @@ def main() -> None:
                     {
                         "case": name,
                         "task_id": answer.get("task_id"),
+                        "risks": case["risks"],
                         "correlation_id": task[3],
                         "model_calls": task[1],
                         "model_units": task[2],
@@ -161,7 +163,7 @@ def main() -> None:
                         "observed": observed,
                     }
                 )
-        report["passed"] = all(checks.values()) and len(trials) == len(CASES)
+        report["passed"] = all(checks.values()) and len(trials) == len(cases)
     except Exception as error:
         report["error"] = {"stage": stage, "type": type(error).__name__}
     report["harness_sha256"] = hashlib.sha256(

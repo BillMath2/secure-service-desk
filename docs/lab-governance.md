@@ -1,0 +1,13 @@
+# Lab governance
+
+Effective for Phase 5 preparation, October 14, 2026. Scope is this single-owner synthetic lab. This is a documented operating procedure, not an assertion of enterprise governance or independent assessment.
+
+- **Accountability:** The project owner owns scope, release decisions and residual-risk acceptance. The coding assistant may implement, test and recommend; it cannot record owner acceptance that has not occurred. Fictional fixture managers and resource owners authorize simulated grants only.
+- **Change control:** Design changes use ADRs; model, dependency, image, taxonomy and policy changes require reviewed version/hash updates and affected checks. Freeze final scenarios, objectives, oracles, fixtures and settings before comparisons. A change after that freeze starts a separately identified evaluation batch.
+- **Review:** Reconcile the risk register, threat model and crosswalks at each phase exit and after changes affecting a risk. The current review references the Phase 4 source revision and saved exit records. Planned residual-risk decisions remain open until the owner resolves them.
+- **Retention:** Preserve successful and failed reports with source/configuration/model/fixture identifiers. New tags do not rewrite historical results. Keep credentials and raw privileged content out of reports, narration and recordings. Version-control sanitized evidence; local disposable databases are not evidence archives.
+- **Release gate:** A critical unauthorized effect blocks release. Investigate and retain the original finding, fix the cause, rerun affected tests and the release suite, then update the register. Small fixed-case model observations do not replace repeated comparative evaluation.
+- **Recovery:** Stop the affected lab through its scoped script, retain sanitized evidence before teardown, investigate, rebuild/reseed only the disposable environment, and rerun gates. Teardown discards tmpfs records. External incident notification, production recovery objectives and enterprise on-call operations are not implemented.
+- **Review independence:** Automated checks and assistant review help identify errors, but do not establish independent human assessment or stakeholder consultation. Record those as gaps when applying AI RMF.
+
+[Risk decisions and review triggers](risk-register.md), [release criteria](../SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md), and [Phase 4 operations](phase4.md) provide the evidence and command surfaces. This charter contributes to GOVERN 1.5, 2.1 and 3.2; it does not complete those subcategories for an enterprise.

@@ -1,64 +1,51 @@
 # Security framework mapping
 
-Reviewed October 13, 2026. Scope: the pinned, synthetic, read-only Phase 2 lab. These are project mappings, not claims of comprehensive framework coverage. See the [exit record](phase2-exit.md) for implementation status and recorded results.
+Reviewed October 14, 2026. Scope: implemented synthetic lab through Phase 4, with the [Phase 5 repeated read-surface evaluation](phase5-report.md). Owner residual-risk acceptance remains open. This replaces the Phase 2-only crosswalk; original reports and their hashes remain unchanged. [Risk register](risk-register.md) entries supply risk decisions and evidence levels; [Phase 3](phase3-exit.md) and [Phase 4](phase4-exit.md) exit records establish the deployed control scope.
 
-The subsequent [Phase 3 drafting and publication slices](phase3.md) record F4 source-to-audience tests and F5 confirmed requester/internal publication separately; F10 now includes relay egress policy and reachable neutral controls, while host isolation and the full containment matrix remain open. The Phase 2 mappings and historical model evidence below retain their original scope.
+## Versioned taxonomy and traceability
 
-## Versioned references
+[config/risk-taxonomies.json](../config/risk-taxonomies.json) pins OWASP LLM 2025, OWASP Agentic Applications 2026 and MITRE ATLAS content v2026.07/data format 6.0.0. The complete upstream ATLAS YAML and MITRE license are cached under `config/taxonomies`; its SHA-256 is verified offline. Only reviewed ATLAS IDs/names are allowed. A valid tag is a classification, not evidence of coverage.
 
-- [OWASP LLM Top 10, 2025](https://genai.owasp.org/llm-top-10/): preserve the existing `LLMxx:2025` comparison baseline.
-- [OWASP Agentic Applications, 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/): preserve existing `ASIxx:2026` tags; this review does not expand their coverage.
-- [MITRE ATLAS content v2026.07](https://github.com/mitre-atlas/atlas-data/blob/v2026.07/dist/v6/ATLAS-2026.07.yaml), data format 6.0.0. The official catalog was checked for the technique IDs below. Do not use the deprecated unversioned `dist/ATLAS.yaml` as the current catalog.
+Run `python scripts/check_frameworks.py` or the normal checker. The gate covers every fixture/baseline case and discovered `config/*model-cases.json`, requires explicit risk arrays (including empty benign arrays), checks risk/evidence links, and detects generated-register drift. New reports from Phase 2/3/4 probes retain tags and case configuration fingerprints. Existing report directories are never relabeled.
 
-The following ATLAS names/IDs were checked: `AML.T0051` (LLM Prompt Injection), `AML.T0051.000` (Direct), `AML.T0051.001` (Indirect), `AML.T0053` (AI Agent Tool Invocation), and `AML.T0057` (LLM Data Leakage). An ID classifies a scenario or attacker objective; it is not a coverage score.
+## ATLAS attack and defense views
 
-## Injection scenario tags
-
-The `risks` arrays in [company.json](../fixtures/company.json) now place `AML.T0051.001` beside the OWASP tags for these two scenarios. The existing evaluator copies those tags into newly generated scenario results without changing authorization behavior.
-
-| Scenario | ATLAS mapping | Execution and interpretation |
+| Mapping | Register / applicable scenario | Interpretation |
 |---|---|---|
-| `deny-requester-leak` | `AML.T0051.001` under `AML.T0051` | An attacker-controlled ticket attempts to move privileged content into a requester's context. The fixture driver forces the resulting forbidden call; this tests recipient policy, not whether a model follows the injection. |
-| `deny-hr-after-injection` | `AML.T0051.001` under `AML.T0051` | An attacker-controlled document suggests a forbidden HR read. The fixture driver tests the downstream authorization boundary. |
-| `ticket-injection`, `document-injection` in [model cases](../config/phase2-model-cases.json) | `AML.T0051.001` | These are genuine model-driven trials of indirect inputs, recorded separately from the fixture tests. The three-case model suite contains two injection tasks and one benign task. This document adds the mapping; existing historical reports are unchanged. |
-| Future malicious user prompt | `AML.T0051.000` | Direct injection is a candidate for expanded evaluation. It is not established by the two indirect model tasks. |
+| AML.T0051.001 indirect injection | RISK-03; ticket/document cases in fixtures, baseline and model probes | Untrusted retrieved content contains instructions; forced calls and real-model observations remain distinct |
+| AML.T0051.000 direct injection | Reviewed taxonomy entry only | No dedicated repeated direct-prompt evaluation is claimed |
+| AML.T0053 AI Agent Tool Invocation | RISK-06; baseline unauthorized-grant objectives | Adversarial tool use is the objective; legitimate tool calls are not malicious observations |
+| AML.T0057 LLM Data Leakage | RISK-04; requester-disclosure objectives | Attempted leakage is distinct from inspected unauthorized output |
+| AML.T0110.000 tool definition/instructions poisoning | RISK-12; pinned catalog rejection tests | Deterministic definition-integrity boundary, not an observed full poisoning campaign |
+| AML.T0046 Spamming AI System with Chaff Data | RISK-11; proposal/approval admission limits | Applies to spam and human-attention load; not a generic label for every token/time limit |
+| AML.M0028 tool permissions | RISK-02, RISK-06, RISK-09 | Scoped identities, separate executor authority and server-side authorization |
+| AML.M0029 human-in-the-loop | RISK-05, RISK-06 | Exact confirmation and independent approval before durable effects |
 
-The channel determines the sub-technique: ticket/document content retrieved during another user's legitimate task is indirect input even if the attacker typed it directly into the ticket. A malicious instruction submitted as the active model user's prompt is direct input.
+The Phase 4 `injected` case uses a ticket requesting restricted password-reset information. Preparing a local access proposal is the legitimate task, so that case is tagged indirect injection and leakage objective, not automatically malicious grant invocation. Both final Phase 4 model tasks created one local draft and no approval/grant; signed forced workflows separately establish the grant controls.
 
-Unauthorized tool use and disclosure objectives also relate to `AML.T0053` and `AML.T0057`. Do not add those as successful attack observations merely because a scenario seeks those outcomes. Preserve the distinction between attempted action, model behavior, enforced denial, and actual effect.
+The input channel determines direct versus indirect injection. Classifications express the scenario or attacker objective; report attempted actions, actual model behavior, enforced decisions and actual stored/output effects separately. For a model that never proposes the forbidden action, use a separately labeled forced boundary test to demonstrate independent enforcement. Do not sum overlapping category counts.
 
-## OWASP controls crosswalk
+## OWASP and STRIDE views
 
-These are mappings from the reviewed implementation to risk categories, not proof that an entire category is mitigated.
-
-| OWASP 2025 risk | Implemented evidence | Limit |
+| OWASP LLM 2025 area | Risk IDs / evidence | Remaining limit |
 |---|---|---|
-| LLM01 Prompt Injection | Independent [gateway](../src/service_desk/core/gateway/dispatch.py) and [read-service](../src/service_desk/reads.py) checks; initial injection trials | Controls limit selected effects even if a model follows malicious content; no universal prevention claim |
-| LLM02 Sensitive Information Disclosure | ACL filtering before retrieval output, caller/recipient intersection, fresh task context | Limited to modeled resources/channels; canaries do not detect every paraphrased leak |
-| LLM03 Supply Chain | Exact tool catalog validation, pinned images, offline model manifest/blob checks | Integrity relative to reviewed artifacts; no claim of complete supplier assurance or malicious-model detection |
-| LLM04 Data and Model Poisoning | No demonstrated training/embedding poisoning assessment | Malicious retrieved instructions are classified separately as indirect injection |
-| LLM05 Improper Output Handling | Strict tool argument schemas, bounded responses, escaped browser output | Recipient-safe generation and confirmed ticket writes remain Phase 3 |
-| LLM06 Excessive Agency | Read-only capability registry, resource scopes, delegated identity, independent ACLs | Privileged execution and approval-bound writes are not implemented |
-| LLM07 System Prompt Leakage | Credentials and authority are kept outside model context | No dedicated system-prompt extraction evaluation established |
-| LLM08 Vector and Embedding Weaknesses | No vector/embedding security evaluation established | SQL ACL filtering is useful retrieval authorization, not proof of vector-specific coverage |
-| LLM09 Misinformation | Citation validation and source revalidation | Citation validity does not establish that all answer claims are correct |
-| LLM10 Unbounded Consumption | Shared tool/model reservations, time and byte limits | Broader admission throttling and full deployment isolation remain incomplete |
+| LLM01 injection | RISK-03; repeated matched model trials and independent authorization | No model-driven success in either variant; broader attack diversity remains untested |
+| LLM02 disclosure | RISK-02, RISK-04, RISK-10; ACLs, fresh context, screened output, egress | Fingerprints are not general semantic leakage detection |
+| LLM03 supply chain | RISK-12, RISK-15; reviewed artifacts/catalogs | Supplier assurance and complete licensing review pending |
+| LLM04 poisoning | No training/embedding poisoning evaluation | Retrieved instructions are classified as injection |
+| LLM05 output handling | RISK-04, RISK-05; escaped UI, strict schemas, exact publication | Fixed channels and synthetic effects only |
+| LLM06 excessive agency | RISK-06, RISK-07, RISK-09; proposal/approval/execution separation | External directory integration not tested |
+| LLM07 prompt leakage | Credentials excluded from prompts | No dedicated extraction benchmark |
+| LLM08 vector weaknesses | No vector index is used | SQL ACL tests do not establish vector coverage |
+| LLM09 misinformation | RISK-13; citation/source checks | Not comprehensive claim verification |
+| LLM10 consumption | RISK-11; durable limits, admission, bounded HTTP/TLS/model calls | No host-wide capacity certification |
 
-## Initial STRIDE crosswalk
+This table is conceptual control correspondence, not permission to add tags indiscriminately. Scenario tags remain specific to their objectives. Agentic tags likewise retain the 2026 edition and do not establish coverage of the whole Top 10.
 
-This is a new design review using [Microsoft's STRIDE categories](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool-threats). The existing [threat model](threat-model.md) supplies assets, actors, and boundaries; follow up with a data-flow diagram, per-flow threat IDs, prioritization, and explicit residual-risk decisions.
+The [threat model](threat-model.md) assigns 20 stable threats across F1–F10. The register groups them by STRIDE and supplies likelihood/impact rationales and residual decisions. RISK-14 tracks reporting/governance gaps; RISK-15 through RISK-17 track licensing, uneven performance/content and environmental assessment gaps without forcing a STRIDE or ATLAS label.
 
-| Category | Project example | Control or remaining work |
-|---|---|---|
-| Spoofing | Forged identity or wrong-audience token | Signed issuer/client/audience validation, PKCE, state/nonce and delegation checks |
-| Tampering | Changed tool description/schema or cached model artifact | Catalog equality and artifact integrity gates |
-| Repudiation | Disputed tool access or missing decision record | Durable structured read decisions; independent collector and stronger administrative isolation remain planned |
-| Information disclosure | Cross-department reads or data returned to the wrong recipient | ACL filtering and audience intersection; broader output-channel protection remains planned |
-| Denial of service | Repeated calls, oversized output, or runaway generation | Durable reservations and bounded time/bytes; request admission limits remain incomplete |
-| Elevation of privilege | Model requests broader scope, a new identity, or an unregistered tool | Preserved signed subject, constrained token exchange, fixed capabilities; grant execution remains unimplemented |
+## Claims and next gate
 
-## Next evaluation work
+The [Phase 5 report](phase5-report.md) adds five repetitions of four matched read cases per variant and a separately reported hardened confirmation cohort. The initial hardened provider timeout remains visible. Zero observed attack success in both variants does not demonstrate a reduction attributable to controls; forced effects and signed workflows provide separate control evidence. Owner residual-risk acceptance remains pending. Describe the work as evaluating selected ATLAS techniques and applying relevant AI RMF practices; do not claim comprehensive ATLAS coverage, certification, or universal injection prevention.
 
-Keep deterministic authorization tests separate from model-driven attack trials. Expand direct/indirect cases and record attacker-controlled surface, intended objective, source version, model/configuration, technique IDs, benign task success, false blocks, errors, and actual unauthorized effects. Use synthetic data and the existing contained sink. Record repeat counts and denominators; do not infer an attack-success rate from the current fixed-seed examples. A model refusal alone is not evidence that a side effect was prevented.
-
-See [NIST AI RMF mapping](ai-rmf-mapping.md) for risk-management context. Historical reports remain tied to their original fixture/configuration hashes; adding risk tags changes the fixture fingerprint for future runs.
+Sources: [ATLAS pinned catalog](https://github.com/mitre-atlas/atlas-data/blob/v2026.07/dist/v6/ATLAS-2026.07.yaml), [OWASP LLM list](https://genai.owasp.org/llm-top-10/), [OWASP Agentic 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). See the [AI RMF view](ai-rmf-mapping.md) and [lab charter](lab-governance.md).

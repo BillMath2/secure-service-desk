@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "owasp_llm": {
+    "edition": "2025",
+    "source": "https://genai.owasp.org/llm-top-10/",
+    "allowed": [
+      "LLM01:2025",
+      "LLM02:2025",
+      "LLM03:2025",
+      "LLM04:2025",
+      "LLM05:2025",
+      "LLM06:2025",
+      "LLM07:2025",
+      "LLM08:2025",
+      "LLM09:2025",
+      "LLM10:2025"
+    ]
+  },
+  "owasp_agentic": {
+    "edition": "2026",
+    "source": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+    "allowed": [
+      "ASI01:2026",
+      "ASI02:2026",
+      "ASI03:2026",
+      "ASI04:2026",
+      "ASI05:2026",
+      "ASI06:2026",
+      "ASI07:2026",
+      "ASI08:2026",
+      "ASI09:2026",
+      "ASI10:2026"
+    ]
+  },
+  "mitre_atlas": {
+    "content_version": "v2026.07",
+    "data_format": "6.0.0",
+    "source": "https://raw.githubusercontent.com/mitre-atlas/atlas-data/refs/tags/v2026.07/dist/v6/ATLAS-2026.07.yaml",
+    "catalog": "config/taxonomies/ATLAS-2026.07.yaml",
+    "sha256": "0e07bb07fc6423d72cdf24ddc2038a6905bcbc00ba571064153119ee1a5888d4",
+    "allowed": {
+      "AML.T0051": "LLM Prompt Injection",
+      "AML.T0051.000": "Direct",
+      "AML.T0051.001": "Indirect",
+      "AML.T0053": "AI Agent Tool Invocation",
+      "AML.T0057": "LLM Data Leakage",
+      "AML.T0110.000": "Definition and Instructions",
+      "AML.T0046": "Spamming AI System with Chaff Data",
+      "AML.M0028": "AI Agent Tools Permissions Configuration",
+      "AML.M0029": "Human In-the-Loop for AI Agent Actions"
+    }
+  }
+}

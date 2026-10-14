@@ -1,1 +1,6 @@
 *.sh text eol=lf
+# Runtime deployment gates compare exact source bytes with the reviewed images.
+# Preserve those bytes across checkouts instead of applying core.autocrlf.
+src/** -text
+# Preserve the exact upstream catalog bytes used by the offline SHA-256 gate.
+config/taxonomies/ATLAS-2026.07.yaml -text

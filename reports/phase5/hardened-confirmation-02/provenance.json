@@ -1,0 +1,8 @@
+{
+  "parent_freeze": "reports/phase5/comparison-01/freeze.json",
+  "parent_freeze_sha256": "163a44bf5971260f43abcc327e1e9c1bde0423821087cac40635c0c7fcf8b2ec",
+  "capture_hook_sha256": "c66b2e65114738520320e36735b547cc52f8d2a71d453659dd60f1da57f70d30",
+  "purpose": "Predeclared five-repetition confirmation after the initial timeout; original failed batch retained; no production timeout or model setting changed",
+  "condition": "After other regression jobs and baseline containers stopped; model may remain loaded; not a cold-start claim",
+  "public_demo_capture": "Only successful common-public answers, after unchanged actual-effect oracle passes"
+}

@@ -1,0 +1,23 @@
+{
+  "setup": "uv sync --locked --offline --group baseline with pinned Python 3.13.16 and existing download cache",
+  "fresh_virtual_environment": true,
+  "initial_non_database": {
+    "passed": 550,
+    "errors": 7,
+    "skipped_postgres": 235,
+    "cause": "scripts/check.ps1 did not create .lab before pytest basetemp"
+  },
+  "postgres": {
+    "passed": 235,
+    "failed": 0,
+    "skipped": 0,
+    "separate_port": 15434,
+    "fresh_schema_seed": true
+  },
+  "first_database_setup": {
+    "status": "error",
+    "reason": "Docker Desktop internal network did not publish host port; normal repository bridge configuration succeeded"
+  },
+  "original_repository_committed": false,
+  "complete": false
+}

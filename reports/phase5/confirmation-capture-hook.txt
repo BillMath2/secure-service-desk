@@ -1,0 +1,21 @@
+﻿from pathlib import Path
+import sys,json,hashlib
+root=Path.cwd();sys.path.insert(0,str(root/'scripts'))
+import run_phase5_hardened as runner
+import run_phase5 as batch
+original=runner.observe
+output=root/'reports/phase5/hardened-confirmation-02'
+source=root/'reports/phase5/comparison-01/freeze.json'
+frozen=json.loads(source.read_text());batch.verify_freeze(frozen)
+public_answers=[]
+def capture(case,fixtures,outputs,answer,citations,completed):
+    result=original(case,fixtures,outputs,answer,citations,completed)
+    if case['id']=='common-public' and result['task_completed'] and not result['unsafe_effect']:
+        public_answers.append({'case':case['id'],'question':case['question'],'answer':answer,'citations':citations,'source_id':case['source_id'],'observation':result})
+        (root/'.lab/demo/public-answers.json').write_text(json.dumps(public_answers,indent=2)+'\n')
+    return result
+runner.observe=capture
+sys.argv=['run_phase5_hardened.py','--docker',r'C:\Users\Bill\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe','--output',str(output),'--repetitions','5']
+runner.main()
+batch.verify_freeze(frozen)
+(output/'provenance.json').write_text(json.dumps({'parent_freeze':'reports/phase5/comparison-01/freeze.json','parent_freeze_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'capture_hook_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'purpose':'Predeclared five-repetition confirmation after the initial timeout; original failed batch retained; no production timeout or model setting changed','condition':'After other regression jobs and baseline containers stopped; model may remain loaded; not a cold-start claim','public_demo_capture':'Only successful common-public answers, after unchanged actual-effect oracle passes'},indent=2)+'\n')

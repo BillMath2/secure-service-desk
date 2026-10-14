@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-14T16:38:49.724354+00:00",
+  "scope": "Phase 5 framework preparation only; no repeated comparative model results",
+  "base_revision": "b627fb540e4a4816850344f43ecc660278f5c9af",
+  "working_tree_changes": true,
+  "framework_gate": {
+    "risks": 17,
+    "threats": 20,
+    "scenarios": 35
+  },
+  "validation": {
+    "lint": "passed",
+    "format": "passed",
+    "typing": "passed",
+    "non_postgres": {
+      "command": "scripts/check.ps1",
+      "passed": 547,
+      "postgres_skipped_for_separate_run": 235,
+      "seconds": 104.0
+    },
+    "postgres": {
+      "command": "DESK_READ_INTEGRATION=1 python -m pytest -m postgres",
+      "passed": 235,
+      "deselected": 547,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 159.259
+    },
+    "unique_tests_passed": 782,
+    "new_framework_tests_included": 23
+  },
+  "inputs_sha256": {
+    "config/phase2-model-cases.json": "f93a3a21b81eb56ac54e1f2dfbf44624a087e317baa9d26eb1bd72e3a2fc7b69",
+    "config/phase3-channel-model-cases.json": "5b5782d1717a6f63b7199cd7471735fc9ec6095336707ca3c5c698ef71818fe4",
+    "config/phase3-workflow-model-cases.json": "d1faa2caa1b8f8aef5871a41ce9e108c551cc234c3e70e9fb640e06b4f04c83f",
+    "config/phase4-model-cases.json": "085c6325cab7038a5bf28859fc52108639b37e036ff4260049307b940379d87e",
+    "config/risk-register.json": "d38c534e294cbff9bc8f3582ecfa052f607cba2107a2ede61ea38b1987567d5b",
+    "config/risk-taxonomies.json": "13a8ba51cc421c89d1fae91aeff840ebf5071a5ec4e247d3404ab9ac60608d19",
+    "config/taxonomies/ATLAS-2026.07.yaml": "0e07bb07fc6423d72cdf24ddc2038a6905bcbc00ba571064153119ee1a5888d4",
+    "docs/ai-rmf-mapping.md": "b1651e38add5201fcf24b2b0bc62714c53a253ac823a1e8d783a46a5cfb620b6",
+    "docs/lab-governance.md": "e5b800d7fceef6a3ce51af4f96855a5576b6d0d32e7b1fa646de1dedbb3c5c44",
+    "docs/risk-register.md": "e309b9c9ceac7bad364017c802fc52d09e94e799712d63f1c21a0bca83ee06ac",
+    "docs/security-framework-mapping.md": "098e587a9074c78da203ce1e5fa5142785bda91bffd220012dd3593224a16b6b",
+    "docs/threat-model.md": "75440d91801da71527789f79b2754db7dd07aa73a1483e0089a385a92efde549",
+    "fixtures/company.json": "9f0121f44ab6fc3f063b68cb9ff8ed32bb65aed790d3153b826616d1742c8ecb",
+    "lab_baseline/cases.json": "067552670e7772060f52ad39b71bef3697c2c70ab47822c74b83cbfdbe9e3e02",
+    "scripts/check_frameworks.py": "49b16d4e2f41a061cb9687dc65992ec575c12dd68a0ae7ba850202f0bdab741b",
+    "scripts/check_phase2_model.py": "5f26d4ca0f72a4c9a364e4c8debfdb88d069a8e9e88bb331c16d6c8c51dd2222",
+    "scripts/check_phase3_channels.py": "2783a73995e14ca5625fdef28e2a4796440f79fc3c2866c908c1c302fd522eeb",
+    "scripts/check_phase3_workflows.py": "903cef6aa7a5204fcdf59c8d635082cef977c1343873b959b4d86be2df4dc84f",
+    "scripts/check_phase4_model.py": "fd80da0f01f05e4ab937609eaa279d102357693a4bd1d653b698de7aec0d8db5",
+    "scripts/framework_cases.py": "f1ed0eba89ba39c28de68d642138b8f73c9ac5b7af8154e08069599923f705f9",
+    "tests/test_frameworks.py": "b2621c566c46fe4de3ae754d90b5e85d2ea2ebbd3240c0b562420b3329c9f155"
+  },
+  "not_completed": [
+    "final comparison corpus freeze",
+    "repeated baseline/hardened evaluation",
+    "final owner residual-risk decisions",
+    "clean-checkout verification",
+    "recorded demo and UK narration"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-14",
+  "scope": "Working-tree release and live synthetic IPv4 deployment",
+  "command": "powershell -NoProfile -File scripts/phase4.ps1 Check -DockerPath <Docker Desktop executable>",
+  "exit_code": 0,
+  "regression": {
+    "passed": 792,
+    "skipped": 0,
+    "failed": 0,
+    "postgresql_cases": 235,
+    "lint": "passed",
+    "formatting": "passed",
+    "strict_typing": "passed"
+  },
+  "log": {
+    "path": "reports/phase5/release/check.log",
+    "sha256": "9f7e2513686bf9c246e955e348cc05e46fcaa8e9af99d5a8232f8d2fbd2d4c6f"
+  },
+  "deployed_gates": {
+    "boundary": {
+      "path": "reports/phase4/runs/20261014T173607Z/boundary.json",
+      "sha256": "c85bb2efd84123e2e117843b3c10a168629c7dc1a3e03ee8529853f7fddd094c",
+      "passed": true,
+      "checks": 256
+    },
+    "network": {
+      "path": "reports/phase4/runs/20261014T174225Z/network-matrix.json",
+      "sha256": "88b045550c1f0eba4622bbfb8d5007c7ab6267f536f12b4aa90bc3ef066e1cf0",
+      "passed": true,
+      "checks": 619
+    },
+    "workflows": {
+      "path": "reports/phase4/runs/20261014T174352Z/workflows.json",
+      "sha256": "f416d56d31505c1e6eb38bc880e69193505f4965f2e9f9c2c5d8f4c560bcaf71",
+      "passed": true,
+      "checks": 73
+    },
+    "model": {
+      "path": "reports/phase4/runs/20261014T174637Z/model.json",
+      "sha256": "ca805cc12ff16991d7154dacfa573546c00e6f30f4c9b0d1f0cfd6283e55079a",
+      "passed": true,
+      "checks": 18
+    },
+    "logs": {
+      "path": "reports/phase4/runs/20261014T174641Z/logs.json",
+      "sha256": "fde392e87d917df7209b2da963cb7307ef082a3237b82a9e6373d4fc8e15bbdc",
+      "passed": true,
+      "checks": 32
+    }
+  },
+  "clean_checkout": [
+    "reports/phase5/clean-checkout-01/results.json",
+    "reports/phase5/clean-checkout-02/results.json",
+    "reports/phase5/clean-checkout-02/byte-preservation.json"
+  ],
+  "passed": true,
+  "limitations": [
+    "Synthetic grants and identities",
+    "IPv6 denial inspected, not live tested",
+    "Initial repeated-model provider timeout retained separately",
+    "Owner acceptance pending"
+  ]
+}

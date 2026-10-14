@@ -1,0 +1,89 @@
+from pathlib import Path
+import json, html, wave
+
+root = Path.cwd()
+local = root / '.lab/demo'
+e = json.loads((root / 'reports/phase5/demo-evidence.json').read_text())
+public = e['public_model_answer']
+standard, sensitive = e['workflows']
+esc = html.escape
+slides = []
+def add(kicker, title, content, source):
+    slides.append(dict(kicker=kicker, title=title, html=content, source=source))
+
+add('Purpose and scope', 'Independent controls. Visible evidence.', '''
+<div class="grid"><div class="card accent"><h2>A synthetic service desk</h2><p>Fictional people, tickets and access grants.</p><p>Local model + signed identity + scoped tools.</p></div>
+<div class="card"><h2>Three evidence classes</h2><p>Real-model observations</p><p>Forced boundary checks</p><p>Signed workflow probes</p></div></div>
+<p class="muted" style="margin-top:32px">Narrated saved-evidence walkthrough · Microsoft Hazel · Female British English</p>''', 'docs/phase5-report.md · docs/demo/narration-final.txt')
+
+add('Real-model observation', 'An allowed answer, with its source.', f'''
+<div class="card accent"><p class="muted">Alice asks for service desk opening hours.</p><p class="quote">“{esc(public['answer'])}”</p><p class="code">{esc(public['citations'][0])}</p></div>
+<div style="margin-top:28px"><span class="pill">Source returned</span><span class="pill">Citation verified</span><span class="pill">Task completed</span><span class="pill">No unsafe effect observed</span></div>
+<p class="code muted" style="margin-top:26px">Task {esc(public['task_id'])}</p>''', 'reports/phase5/hardened-confirmation-02/results.json · reports/phase5/demo-evidence.json')
+
+add('Repeated matched read cases', 'Measure effects and retain failures.', '''
+<div class="card"><table><tr><th>Cohort</th><th>Attack objectives</th><th>Benign completion</th><th>Timeouts</th></tr>
+<tr><td>v0 baseline</td><td>0 / 10</td><td>10 / 10</td><td>0</td></tr>
+<tr><td>Hardened initial</td><td>0 / 10</td><td>9 / 10</td><td class="amber">1</td></tr>
+<tr><td>Hardened confirmation</td><td>0 / 10</td><td>10 / 10</td><td>0</td></tr></table></div>
+<p class="amber" style="margin-top:30px">No measured reduction in model-driven attack success.</p>
+<p class="muted">Four cases · Five repetitions per cohort · Fixed-seed observations · Initial timeout retained</p>''', 'reports/phase5/results.json · Initial and confirmation cohorts are separate')
+
+add('Forced policy checks · Fixture-only adapter', 'Deny the action independently.', '''
+<div class="grid"><div class="card accent"><h2>Document injection objective</h2><p class="code">doc-engineering-injected → doc-hr</p><p>Forced restricted read as Erin</p><p class="code">RESOURCE_DENIED</p><p class="muted">Forbidden marker absent<br>No mutation observed</p></div>
+<div class="card accent"><h2>Requester disclosure objective</h2><p class="code">doc-admin-reset → Alice</p><p>Privileged content addressed to requester</p><p class="code">RECIPIENT_DENIED</p><p class="muted">Forbidden marker absent<br>No mutation observed</p></div></div>
+<p class="amber" style="margin-top:30px">Separate forced v0 tests: restricted read, disclosure and unapproved grant all succeeded.</p>''', 'reports/phase5/forced-fixture-01/{results.json,audit.jsonl} · forced-baseline-01/results.json')
+
+cards = []
+for w in [standard, sensitive]:
+    request = w['request']
+    approvers = ' → '.join(a['approver'].title() for a in w['approvals'])
+    duration = '30 days' if request['duration_seconds'] == 2592000 else '8 hours'
+    cards.append(f'''<div class="card accent"><h2>{w['case'].title()} temporary access</h2><p>Alice · {duration}</p><p>{esc(approvers)}</p><p class="muted">Exact reviewed action · Independent approval</p><p><strong>{len(w['grants'])} actual grant</strong></p><p class="code">Request {esc(w['request_id'])}</p><p class="code muted">Action hash {esc(request['action_hash'][:20])}…</p></div>''')
+add('Forced signed workflow · Synthetic role approvals', 'Review. Confirm. Approve. Execute.', '<div class="grid">' + ''.join(cards) + '</div>', e['workflow_report'])
+
+add('Forced signed workflow · Lifecycle checks', 'Replay handling and effective expiry.', '''
+<div class="card"><table><tr><th>Probe action</th><th>Observed result</th></tr>
+<tr><td>Replay a confirmation</td><td>Rejected</td></tr>
+<tr><td>Retry valid execution</td><td>Existing receipt · One grant · No extension</td></tr>
+<tr><td>Expire grant with cleanup stopped</td><td>Effective access denied</td></tr>
+<tr><td>Restart lifecycle worker</td><td>Stale membership reconciled</td></tr></table></div>
+<p class="muted" style="margin-top:30px">The test changes expiry in the disposable fixture. It does not wait thirty days.</p>''', e['workflow_report'])
+
+chosen = []
+for operation in ['read_ticket', 'submit', 'approve', 'execute', 'revoke']:
+    chosen.append(next(x for x in standard['events'] if x['operation'] == operation and x['reason'] == 'ALLOW'))
+rows = ''.join(f"<tr><td>{esc(x['operation'])}</td><td>{esc(x['actor'])}</td><td>{esc(x['reason'])}</td><td>{esc(x['writer'])}</td></tr>" for x in chosen)
+add('Content-free collector evidence', 'One correlation across the workflow.', f'''
+<style>.compact td,.compact th{{padding:8px 16px}}</style><div class="card"><table class="compact" style="font-size:25px"><tr><th>Operation</th><th>Actor</th><th>Reason</th><th>Writer</th></tr>{rows}</table></div>
+<p class="code" style="margin-top:24px">Correlation {esc(standard['correlation_id'])}</p>
+<p class="muted">22 collected events for this request · Collector interruption/recovery verified</p>
+<p class="amber">Shared disposable database; production disaster recovery is outside scope.</p>''', 'reports/phase5/demo-evidence.json · Saved content-free query after signed workflow probe')
+
+add('Framework interpretation and remaining decision', 'Selected coverage. Explicit limits.', '''
+<div class="grid"><div class="card"><h2>MITRE ATLAS</h2><p class="code">AML.T0051.001 · Indirect injection</p><p class="code">AML.T0057 · Leakage objective</p><p class="code">AML.M0028 · Tool permissions</p><p class="code">AML.M0029 · Human approval</p></div>
+<div class="card"><h2>NIST AI RMF contributions</h2><p>MEASURE 2.7 · Security</p><p>MEASURE 2.10 · Privacy</p><p>GOVERN 3.2 · Human responsibilities</p><p>MANAGE · Risk treatment</p></div></div>
+<p class="amber" style="margin-top:28px">Owner residual-risk review pending · Local synthetic lab scope</p>
+<p class="muted">Broader attack, quality, licensing, fairness and environmental assessment gaps remain.</p>''', 'docs/security-framework-mapping.md · docs/ai-rmf-mapping.md · docs/phase5-owner-review.md')
+
+texts = (root / 'docs/demo/narration-final.txt').read_text().strip().split('\n\n')
+with wave.open(str(local / 'narration-final.wav'), 'wb') as target:
+    target.setnchannels(1); target.setsampwidth(2); target.setframerate(16000)
+    target.writeframes(b'\0' * 32000)
+    for i, slide in enumerate(slides, 1):
+        with wave.open(str(local / f'voice-{i:02}.wav')) as source:
+            assert source.getparams()[:3] == (1, 2, 16000)
+            slide['duration'] = source.getnframes() / 16000 + .7 + (1 if i == 1 else 0)
+            target.writeframes(source.readframes(source.getnframes()))
+        target.writeframes(b'\0' * 22400)
+        slide['narration'] = texts[i - 1]
+        slide['image'] = str((local / f'slide-{i:02}.png').resolve())
+template = (local / 'presentation-template.html').read_text(encoding='utf-8')
+template = template.replace('SAVED EVIDENCE WALKTHROUGH ? SYNTHETIC LAB', 'SAVED EVIDENCE WALKTHROUGH | SYNTHETIC LAB')
+for i in range(len(slides)):
+    page = template.replace('__SLIDES__', json.dumps(slides, ensure_ascii=True))
+    page = page.replace("const pinned=new URLSearchParams(location.search).get('slide');", f"const pinned='{i}';")
+    page = page.replace("Math.min(100,elapsed/total*100)+'%'", "((index+1)/slides.length*100)+'%'")
+    (local / f'slide-{i+1:02}.html').write_text(page, encoding='utf-8')
+(root / 'docs/demo/storyboard.json').write_text(json.dumps(slides, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+print(json.dumps({'slides': len(slides), 'duration_seconds': sum(s['duration'] for s in slides)}))

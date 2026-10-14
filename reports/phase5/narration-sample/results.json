@@ -1,0 +1,13 @@
+{
+  "voice": "Microsoft Hazel",
+  "language": "en-GB",
+  "gender": "female",
+  "synthetic": true,
+  "duration_seconds": 34.0765,
+  "sample_rate": 16000,
+  "channels": 1,
+  "sample_width": 2,
+  "peak_pcm16": 25145,
+  "sha256": "1d8fb49c27865ebe35903b9a28b0302d8deb7ab60e4994b808420af31ca302ce",
+  "verification": "WAV decoded, expected PCM format, nonzero signal below clipping; human listening not claimed"
+}

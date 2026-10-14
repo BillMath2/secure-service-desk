@@ -1,0 +1,11 @@
+{
+  "protocol": "Five further repetitions of each of the four unchanged cases on the hardened variant",
+  "reason": "Investigate completion stability after one 45-second provider timeout during the initial mixed-workload batch",
+  "conditions": "No concurrent regression suite, second inference job or video encoding; existing model may remain loaded, so no cold-start reliability claim",
+  "settings_changed": false,
+  "production_limits_changed": false,
+  "parent_freeze_sha256": "163a44bf5971260f43abcc327e1e9c1bde0423821087cac40635c0c7fcf8b2ec",
+  "capture_hook_sha256": "c66b2e65114738520320e36735b547cc52f8d2a71d453659dd60f1da57f70d30",
+  "preserve_initial_batch": true,
+  "decision_rule": "Retain every trial; do not repeat further merely to obtain a preferred rate; report initial and confirmation cohorts separately"
+}

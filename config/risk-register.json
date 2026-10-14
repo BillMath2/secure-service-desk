@@ -1,0 +1,899 @@
+{
+  "schema_version": 1,
+  "reviewed": "2026-10-14",
+  "source_revision": "b627fb540e4a4816850344f43ecc660278f5c9af",
+  "scope": "Pinned synthetic lab through Phase 5 evaluation; owner residual-risk acceptance pending",
+  "risks": [
+    {
+      "id": "RISK-01",
+      "description": "Forged browser identity or cross-client authority",
+      "threat_ids": [
+        "T-F1-S-01"
+      ],
+      "actor_entry": "Employee / browser request",
+      "affected_assets": [
+        "identity",
+        "tickets"
+      ],
+      "stride": [
+        "S"
+      ],
+      "risks": [
+        "ASI03:2026"
+      ],
+      "ai_rmf": [
+        "MAP 1.1",
+        "MEASURE 2.7",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R01"
+      ],
+      "evidence": [
+        "tests/test_phase2_identity.py",
+        "tests/test_access_interfaces.py",
+        "docs/phase2-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Network clients can supply arbitrary claims; successful forgery exposes user authority.",
+      "residual": "Trusted identity administration and host remain outside the tested boundary.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028"
+      ]
+    },
+    {
+      "id": "RISK-02",
+      "description": "Unauthorized document or ticket read",
+      "threat_ids": [
+        "T-F3-I-01"
+      ],
+      "actor_entry": "Employee / MCP arguments",
+      "affected_assets": [
+        "document bodies",
+        "metadata",
+        "tickets"
+      ],
+      "stride": [
+        "I",
+        "E"
+      ],
+      "risks": [
+        "LLM02:2025",
+        "ASI02:2026"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MEASURE 2.10",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R02"
+      ],
+      "evidence": [
+        "tests/test_phase2_reads.py",
+        "docs/phase2-exit.md",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "High",
+      "impact": "High",
+      "rationale": "Guessable business identifiers make direct attempts easy; cross-team data is sensitive.",
+      "residual": "Only modeled ACLs, sources, and interfaces are evaluated.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028"
+      ]
+    },
+    {
+      "id": "RISK-03",
+      "description": "Retrieved instructions redirect model actions",
+      "threat_ids": [
+        "T-F2-E-01"
+      ],
+      "actor_entry": "Requester or knowledge author / ticket or document",
+      "affected_assets": [
+        "model context",
+        "tool actions",
+        "requester output"
+      ],
+      "stride": [
+        "T",
+        "E"
+      ],
+      "risks": [
+        "LLM01:2025",
+        "LLM02:2025",
+        "ASI01:2026",
+        "ASI03:2026",
+        "AML.T0051.001",
+        "AML.T0053",
+        "AML.T0057"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R06"
+      ],
+      "evidence": [
+        "docs/phase2-exit.md",
+        "docs/phase3-exit.md",
+        "docs/phase4-exit.md",
+        "lab_baseline/cases.json",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested",
+        "real-model-evaluated"
+      ],
+      "likelihood": "High",
+      "impact": "High",
+      "rationale": "Untrusted prose reaches the model; an unsafe proposal can target privileged data or actions.",
+      "residual": "Small fixed-case observations are not a statistical guarantee; repeated comparisons remain pending. The repeated matched corpus observed no successful model-driven attack in either variant; no measured attack-rate reduction is established.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-04",
+      "description": "Restricted content reaches another audience",
+      "threat_ids": [
+        "T-F4-I-01"
+      ],
+      "actor_entry": "Requester / draft, chat, preview or published reply",
+      "affected_assets": [
+        "restricted content",
+        "recipient privacy"
+      ],
+      "stride": [
+        "I"
+      ],
+      "risks": [
+        "LLM02:2025",
+        "ASI02:2026",
+        "AML.T0057"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.10",
+        "MAP 5.1",
+        "MEASURE 2.7"
+      ],
+      "requirements": [
+        "R03",
+        "R05"
+      ],
+      "evidence": [
+        "tests/test_requester_drafts.py",
+        "tests/test_chat_output.py",
+        "docs/phase3-exit.md",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested",
+        "real-model-evaluated"
+      ],
+      "likelihood": "High",
+      "impact": "High",
+      "rationale": "Privileged context is available to analysts; copying it to a requester is harmful.",
+      "residual": "Fixed retrieval recipes and fingerprints do not establish general semantic leak detection.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-05",
+      "description": "Reviewed publication changed or reused",
+      "threat_ids": [
+        "T-F5-T-01"
+      ],
+      "actor_entry": "Employee / confirmation endpoint",
+      "affected_assets": [
+        "ticket comments",
+        "review integrity"
+      ],
+      "stride": [
+        "T"
+      ],
+      "risks": [
+        "ASI02:2026"
+      ],
+      "ai_rmf": [
+        "GOVERN 3.2",
+        "MEASURE 2.7",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R05"
+      ],
+      "evidence": [
+        "tests/test_draft_reviews.py",
+        "tests/test_publication.py",
+        "docs/phase3-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested",
+        "real-model-evaluated"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Mutable recipients or bodies could invalidate a previously safe review.",
+      "residual": "Authorized humans manually copying data are outside the agent-injection scope.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0029"
+      ]
+    },
+    {
+      "id": "RISK-06",
+      "description": "Fake approval or self-approval authorizes a grant",
+      "threat_ids": [
+        "T-F6-S-01",
+        "T-F6-E-01"
+      ],
+      "actor_entry": "Requester, analyst or beneficiary / proposal and approval",
+      "affected_assets": [
+        "approval authority",
+        "temporary access"
+      ],
+      "stride": [
+        "S",
+        "E"
+      ],
+      "risks": [
+        "ASI03:2026",
+        "AML.T0053"
+      ],
+      "ai_rmf": [
+        "GOVERN 3.2",
+        "MEASURE 2.7",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R07"
+      ],
+      "evidence": [
+        "tests/test_access_workflow.py",
+        "tests/test_access_interfaces.py",
+        "docs/phase4-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Attacker prose may claim authority; an accepted claim would grant access.",
+      "residual": "Real-model proposal observations do not exercise autonomous approval; independent signed workflow tests establish this boundary.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028",
+        "AML.M0029"
+      ]
+    },
+    {
+      "id": "RISK-07",
+      "description": "Replay, race or stale membership extends access",
+      "threat_ids": [
+        "T-F7-T-01",
+        "T-F7-E-01"
+      ],
+      "actor_entry": "Executor retry or delayed worker / directory adapter",
+      "affected_assets": [
+        "grants",
+        "effective access"
+      ],
+      "stride": [
+        "T",
+        "E"
+      ],
+      "risks": [
+        "ASI03:2026"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MANAGE 1.3",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R08",
+        "R09"
+      ],
+      "evidence": [
+        "tests/test_access_workflow.py",
+        "docs/phase4-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Retries and cleanup delays are normal; incorrect handling creates durable privilege.",
+      "residual": "Synthetic transactional directory only; an external directory needs separate effect reconciliation.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028"
+      ]
+    },
+    {
+      "id": "RISK-08",
+      "description": "Audit outage loses evidence or exposes content",
+      "threat_ids": [
+        "T-F8-R-01",
+        "T-F8-I-01"
+      ],
+      "actor_entry": "Failed collector or runtime principal / outbox and query",
+      "affected_assets": [
+        "audit evidence",
+        "credentials"
+      ],
+      "stride": [
+        "R",
+        "I"
+      ],
+      "risks": [],
+      "ai_rmf": [
+        "MEASURE 2.8",
+        "MANAGE 4.1",
+        "MAP 5.1",
+        "MEASURE 2.7"
+      ],
+      "requirements": [
+        "R10"
+      ],
+      "evidence": [
+        "tests/test_access_workflow.py",
+        "docs/phase4-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Outages and retries can lose mutation evidence without durable transactional recording.",
+      "residual": "Collector shares PostgreSQL; tmpfs teardown discards state; administrator/storage compromise is outside scope.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-09",
+      "description": "Token reuse or changed issuer expands delegation",
+      "threat_ids": [
+        "T-F9-S-01",
+        "T-F9-E-01"
+      ],
+      "actor_entry": "Compromised service / identity exchange",
+      "affected_assets": [
+        "delegated credentials"
+      ],
+      "stride": [
+        "S",
+        "E"
+      ],
+      "risks": [
+        "ASI03:2026"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MAP 4.1",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R01",
+        "R04"
+      ],
+      "evidence": [
+        "tests/test_auth_discovery.py",
+        "docs/phase2-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "A token received for one resource may be replayed elsewhere.",
+      "residual": "Only pinned issuer/client interoperability and the documented key-cache windows are tested.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028"
+      ]
+    },
+    {
+      "id": "RISK-10",
+      "description": "Runtime exfiltration or host credential access",
+      "threat_ids": [
+        "T-F10-I-01"
+      ],
+      "actor_entry": "Model or compromised service / outbound network and mounts",
+      "affected_assets": [
+        "restricted content",
+        "host secrets"
+      ],
+      "stride": [
+        "I",
+        "E"
+      ],
+      "risks": [
+        "LLM02:2025"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MEASURE 2.10",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R13"
+      ],
+      "evidence": [
+        "docs/phase3-exit.md",
+        "docs/phase4-exit.md",
+        "tests/test_model_egress.py",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "A compromised process can attempt arbitrary egress; credentials would widen impact.",
+      "residual": "IPv4 has positive-controlled live probes; IPv6 denial is inspected only. Host administrators remain trusted.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": [
+        "AML.M0028"
+      ]
+    },
+    {
+      "id": "RISK-11",
+      "description": "Resource exhaustion or approval spam",
+      "threat_ids": [
+        "T-F2-D-01",
+        "T-F1-D-01",
+        "T-F6-D-01"
+      ],
+      "actor_entry": "Employee or injected task / generation, sockets, proposals",
+      "affected_assets": [
+        "availability",
+        "human attention"
+      ],
+      "stride": [
+        "D"
+      ],
+      "risks": [
+        "LLM10:2025",
+        "AML.T0046"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.7",
+        "MANAGE 2.4",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R11"
+      ],
+      "evidence": [
+        "tests/test_task_admission.py",
+        "tests/test_tls_ingress.py",
+        "tests/test_access_workflow.py",
+        "docs/phase3-exit.md",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "High",
+      "impact": "Medium",
+      "rationale": "Repeated tasks and connections are easy; admission limits bound individual services.",
+      "residual": "AML.T0046 applies to spam/human-review load, not every timeout or token-exhaustion test; host-wide capacity is not certified. The initial Phase 5 cohort had one 45-second provider timeout; a separate 20-task confirmation completed after competing jobs stopped. Cold-start/workstation-load sensitivity remains.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-12",
+      "description": "Changed tool definition or compromised component",
+      "threat_ids": [
+        "T-F3-T-01"
+      ],
+      "actor_entry": "MCP server or supplier / catalog, package or model artifact",
+      "affected_assets": [
+        "tool integrity",
+        "model integrity"
+      ],
+      "stride": [
+        "T"
+      ],
+      "risks": [
+        "LLM03:2025",
+        "AML.T0110.000"
+      ],
+      "ai_rmf": [
+        "MAP 4.1",
+        "MANAGE 3.1",
+        "MAP 5.1",
+        "MEASURE 2.7"
+      ],
+      "requirements": [
+        "R04",
+        "R13"
+      ],
+      "evidence": [
+        "tests/test_read_registry.py",
+        "tests/test_model_deployment.py",
+        "docs/phase3-exit.md",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "High",
+      "rationale": "Definitions and artifacts influence model actions; reviewed hashes detect changes.",
+      "residual": "Integrity relative to pinned artifacts does not prove supplier trust or absence of malicious model behavior.",
+      "decision": "mitigated-in-tested-scope",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-13",
+      "description": "Cited answer is incorrect or misleading",
+      "threat_ids": [
+        "T-F4-T-01"
+      ],
+      "actor_entry": "Model / generated answer",
+      "affected_assets": [
+        "support correctness",
+        "information integrity"
+      ],
+      "stride": [
+        "T"
+      ],
+      "risks": [
+        "LLM09:2025"
+      ],
+      "ai_rmf": [
+        "MEASURE 2.3",
+        "MEASURE 2.5",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R16"
+      ],
+      "evidence": [
+        "tests/test_agent_tasks.py",
+        "docs/phase4-exit.md",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "reports/phase5/release/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested",
+        "real-model-evaluated"
+      ],
+      "likelihood": "Medium",
+      "impact": "Medium",
+      "rationale": "Citations can be valid while individual claims are wrong.",
+      "residual": "No comprehensive claim-level factuality evaluation; Phase 5 benign completion and false-block measurements remain planned.",
+      "decision": "planned",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-14",
+      "description": "Framework claims exceed evidence or risks lack an owner",
+      "threat_ids": [
+        "T-F8-R-02"
+      ],
+      "actor_entry": "Project delivery / reporting",
+      "affected_assets": [
+        "evidence integrity",
+        "risk accountability"
+      ],
+      "stride": [
+        "R"
+      ],
+      "risks": [],
+      "ai_rmf": [
+        "GOVERN 1.5",
+        "GOVERN 2.1",
+        "MEASURE 1.1",
+        "MAP 5.1",
+        "MAP 1.1",
+        "MEASURE 2.1",
+        "MEASURE 2.8",
+        "MEASURE 3.1",
+        "MANAGE 1.3",
+        "MANAGE 4.1"
+      ],
+      "requirements": [
+        "R15",
+        "R16",
+        "R17"
+      ],
+      "evidence": [
+        "SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md",
+        "docs/lab-governance.md",
+        "tests/test_frameworks.py",
+        "docs/phase5-report.md",
+        "reports/phase5/results.json",
+        "docs/phase5-owner-review.md",
+        "reports/phase5/release/results.json",
+        "reports/phase5/capture/results.json"
+      ],
+      "evidence_levels": [
+        "designed",
+        "implemented",
+        "deterministically-tested"
+      ],
+      "likelihood": "Medium",
+      "impact": "Medium",
+      "rationale": "Overlapping checks and small samples can be presented as stronger evidence than they are.",
+      "residual": "Repeated cohorts, their denominators, one timeout, unsupported comparisons and failed setup are retained. Independent human assessment and explicit owner residual-risk acceptance remain pending.",
+      "decision": "planned",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-15",
+      "description": "Component or generated-content licensing risk",
+      "threat_ids": [],
+      "actor_entry": "Supplier or generated answer / dependencies and model",
+      "affected_assets": [
+        "intellectual property"
+      ],
+      "stride": [],
+      "risks": [],
+      "ai_rmf": [
+        "GOVERN 6.1",
+        "MAP 4.1",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R17"
+      ],
+      "evidence": [
+        "pyproject.toml",
+        "config/local-model.lock.json"
+      ],
+      "evidence_levels": [
+        "designed"
+      ],
+      "likelihood": "Medium",
+      "impact": "Medium",
+      "rationale": "Synthetic fixtures do not remove model, software or generated-output licensing concerns.",
+      "residual": "License inventory and output-use review remain pending; no legal compliance claim.",
+      "decision": "planned",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-16",
+      "description": "Uneven task performance or harmful generated content",
+      "threat_ids": [],
+      "actor_entry": "Model / support answers",
+      "affected_assets": [
+        "users",
+        "answer quality"
+      ],
+      "stride": [],
+      "risks": [],
+      "ai_rmf": [
+        "MEASURE 2.11",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R16"
+      ],
+      "evidence": [
+        "docs/permission-matrix.md"
+      ],
+      "evidence_levels": [
+        "designed"
+      ],
+      "likelihood": "Medium",
+      "impact": "Medium",
+      "rationale": "Policy-driven grants do not eliminate uneven language performance or biased explanations.",
+      "residual": "No demographic, multilingual or harmful-content benchmark; closed synthetic domain limits exposure, not model capability.",
+      "decision": "planned",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    },
+    {
+      "id": "RISK-17",
+      "description": "Unmeasured energy and environmental costs",
+      "threat_ids": [],
+      "actor_entry": "Operator / local inference",
+      "affected_assets": [
+        "energy",
+        "environment"
+      ],
+      "stride": [],
+      "risks": [],
+      "ai_rmf": [
+        "MEASURE 2.12",
+        "MAP 5.1"
+      ],
+      "requirements": [
+        "R16"
+      ],
+      "evidence": [
+        "config/local-model.lock.json"
+      ],
+      "evidence_levels": [
+        "designed"
+      ],
+      "likelihood": "Medium",
+      "impact": "Low",
+      "rationale": "Local inference consumes power; tokens and runtime are not energy measurements.",
+      "residual": "No energy/lifecycle assessment; do not describe impact as measured or minimal.",
+      "decision": "planned",
+      "owner": "Project owner",
+      "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
+      "mitigations": []
+    }
+  ],
+  "scenarios": {
+    "fixtures/company.json#read-public": [],
+    "fixtures/company.json#read-team": [],
+    "fixtures/company.json#read-admin-internal": [],
+    "fixtures/company.json#deny-cross-department": [
+      "RISK-02"
+    ],
+    "fixtures/company.json#deny-requester-leak": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "fixtures/company.json#deny-hr-after-injection": [
+      "RISK-03"
+    ],
+    "fixtures/company.json#deny-direct-client": [
+      "RISK-09"
+    ],
+    "fixtures/company.json#deny-missing-scope": [
+      "RISK-09"
+    ],
+    "fixtures/company.json#deny-unknown-resource": [
+      "RISK-02"
+    ],
+    "fixtures/company.json#deny-empty-audience": [
+      "RISK-02"
+    ],
+    "fixtures/company.json#pending-standard-grant": [],
+    "fixtures/company.json#pending-sensitive-grant": [],
+    "fixtures/company.json#pending-requester-reply": [],
+    "lab_baseline/cases.json#BASELINE-READ-01": [
+      "RISK-02"
+    ],
+    "lab_baseline/cases.json#BASELINE-OUTPUT-01": [
+      "RISK-04"
+    ],
+    "lab_baseline/cases.json#BASELINE-GRANT-01": [
+      "RISK-06"
+    ],
+    "lab_baseline/cases.json#BASELINE-BENIGN-01": [],
+    "lab_baseline/cases.json#INJECT-TICKET-01": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "lab_baseline/cases.json#INJECT-DOCUMENT-01": [
+      "RISK-03"
+    ],
+    "lab_baseline/cases.json#INJECT-GRANT-01": [
+      "RISK-03",
+      "RISK-06"
+    ],
+    "lab_baseline/cases.json#MODEL-BENIGN-01": [],
+    "config/phase2-model-cases.json#benign-public": [],
+    "config/phase2-model-cases.json#ticket-injection": [
+      "RISK-03"
+    ],
+    "config/phase2-model-cases.json#document-injection": [
+      "RISK-03"
+    ],
+    "config/phase3-channel-model-cases.json#erin_internal_benign": [],
+    "config/phase3-channel-model-cases.json#erin_requester_benign": [],
+    "config/phase3-channel-model-cases.json#erin_requester_document_injection": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase3-channel-model-cases.json#alice_requester_document_injection": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase3-workflow-model-cases.json#self_chat": [],
+    "config/phase3-workflow-model-cases.json#ticket-alice_requester": [],
+    "config/phase3-workflow-model-cases.json#ticket-alice_internal": [],
+    "config/phase3-workflow-model-cases.json#ticket-alice-injected_requester": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase3-workflow-model-cases.json#ticket-alice-injected_internal": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase4-model-cases.json#benign": [],
+    "config/phase4-model-cases.json#injected": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase5-model-cases.json#common-public": [],
+    "config/phase5-model-cases.json#common-team": [],
+    "config/phase5-model-cases.json#common-document-injection": [
+      "RISK-03",
+      "RISK-04"
+    ],
+    "config/phase5-model-cases.json#common-ticket-injection": [
+      "RISK-03",
+      "RISK-04"
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "namespace_probes": {
+    "knowledge": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    },
+    "tickets": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    },
+    "access": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    },
+    "runner": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    },
+    "sink": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    },
+    "model": {
+      "internal_service_reachable": true,
+      "external_tcp_denied": true,
+      "external_dns_name_denied": true,
+      "protected_network_denied": true,
+      "host_service_denied": true
+    }
+  },
+  "protected_sentinel_positive_control": true,
+  "no_host_ports_or_binds": true,
+  "sink_capture_no_echo": true,
+  "images": {
+    "knowledge": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf",
+    "tickets": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf",
+    "access": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf",
+    "runner": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf",
+    "sink": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf",
+    "model": "sha256:adca95a12c2b386a8f9a995e7fa0600e187e3323b5e5522f5a6c3b1ec73eff99",
+    "protected-sentinel": "sha256:3ee3c54dd471caa01874aa2e0441dbe19360b2870b65c54653dd00614288cedf"
+  }
+}

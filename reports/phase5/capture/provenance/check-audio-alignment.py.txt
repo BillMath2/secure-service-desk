@@ -1,0 +1,37 @@
+from pathlib import Path
+import sys, wave, math, json
+from array import array
+sys.path.insert(0, str(Path('.lab/media-tools').resolve()))
+import av
+
+with wave.open('.lab/demo/narration-final.wav') as source:
+    assert source.getparams()[:3] == (1, 2, 16000)
+    expected = array('h', source.readframes(source.getnframes()))
+actual = array('h')
+resampler = av.AudioResampler(format='s16', layout='mono', rate=16000)
+with av.open('.lab/demo/secure-service-desk-evidence.mp4') as source:
+    for frame in source.decode(audio=0):
+        for normalized in resampler.resample(frame):
+            actual.frombytes(bytes(normalized.planes[0])[:normalized.samples * 2])
+    for normalized in resampler.resample(None):
+        actual.frombytes(bytes(normalized.planes[0])[:normalized.samples * 2])
+def envelope(samples):
+    return [math.sqrt(sum(x*x for x in samples[i:i+320])/320)
+            for i in range(0, len(samples)-319, 320)]
+x, y = envelope(expected), envelope(actual)
+def correlation(lag):
+    start = max(0, -lag)
+    count = min(len(x), len(y)-lag) - start
+    a = x[start:start+count]
+    b = y[start+lag:start+lag+count]
+    ma, mb = sum(a)/count, sum(b)/count
+    numerator = sum((u-ma)*(v-mb) for u,v in zip(a,b))
+    return numerator / math.sqrt(sum((u-ma)**2 for u in a)*sum((v-mb)**2 for v in b))
+lag = max(range(-25, 26), key=correlation)
+result = {'method': 'Pearson correlation of 20ms RMS envelopes after mono 16kHz resampling',
+          'lag_seconds': lag * .02, 'correlation': correlation(lag),
+          'passed': abs(lag) <= 5 and correlation(lag) > .98,
+          'scope': 'Technical alignment with the generated source, not subjective listening approval'}
+assert result['passed'], result
+Path('reports/phase5/capture/audio-alignment.json').write_text(json.dumps(result, indent=2)+'\n')
+print(json.dumps(result))

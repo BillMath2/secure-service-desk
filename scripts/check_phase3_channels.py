@@ -13,6 +13,7 @@ import httpx
 import psycopg
 from check_model_boundary import check_boundary
 from check_phase2_identity import LoginForm
+from framework_cases import case_fingerprint, load_model_cases
 from phase2_runtime import LOCAL, ROOT, load_client
 
 from service_desk.agent.local_model import LocalModelProvider
@@ -54,6 +55,9 @@ def main() -> None:
         "browser publication is tested separately.",
     }
     original = None
+    case_file = "phase3-channel-model-cases.json"
+    cases = load_model_cases(case_file)
+    report["case_config_sha256"] = case_fingerprint(case_file)
     stage = "startup"
     dsns = json.loads((ROOT / ".lab/phase2-read/connections.json").read_text())
     try:
@@ -73,13 +77,9 @@ def main() -> None:
         ) as http:
             oidc = load_client(http, trust)
             oidc.check_discovery()
-            for user, channel, attack in (
-                ("erin", "internal", False),
-                ("erin", "requester", False),
-                ("erin", "requester", True),
-                ("alice", "requester", True),
-            ):
-                stage = user + "_" + channel + ("_document_injection" if attack else "_benign")
+            for case in cases:
+                user, channel, attack = case["user"], case["channel"], case["attack"]
+                stage = case["id"]
                 if attack:
                     assert original is not None
                     with psycopg.connect(dsns["admin"]) as db:
@@ -141,6 +141,7 @@ def main() -> None:
                     ).fetchall()
                 outcome = {
                     "case": stage,
+                    "risks": case["risks"],
                     "allowed": result.get("allowed") is True,
                     "reason": result.get("reason"),
                     "actual_model_calls": len(provider.requests),
@@ -163,7 +164,9 @@ def main() -> None:
                     and (attack or outcome["allowed"])
                 )
                 report["trials"].append(outcome)
-        report["passed"] = len(report["trials"]) == 4 and all(t["passed"] for t in report["trials"])
+        report["passed"] = len(report["trials"]) == len(cases) and all(
+            t["passed"] for t in report["trials"]
+        )
     except Exception as error:
         report["error"] = {"stage": stage, "type": type(error).__name__}
     finally:

@@ -1,0 +1,28 @@
+{
+  "path": ".lab\\demo\\2026-10-14 13-51-56.mkv",
+  "sha256": "976c96215d19b71ebbd9f8c1f3d1716a4f7ec42a6ca128d9cceb0e04db7af8d5",
+  "duration_seconds": 19.967,
+  "streams": [
+    {
+      "type": "video",
+      "codec": "h264",
+      "duration_seconds": null
+    },
+    {
+      "type": "audio",
+      "codec": "aac",
+      "duration_seconds": null
+    }
+  ],
+  "video_frames": 599,
+  "audio_frames": 936,
+  "decoded_audio_seconds": 19.968000000000057,
+  "audio_peak": 0.8468701243400574,
+  "audio_rms": 0.11685608167863934,
+  "screenshots": [
+    ".lab\\demo\\2026-10-14 13-51-56-frame-30.png",
+    ".lab\\demo\\2026-10-14 13-51-56-frame-150.png",
+    ".lab\\demo\\2026-10-14 13-51-56-frame-450.png"
+  ],
+  "passed": true
+}

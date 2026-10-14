@@ -6,6 +6,8 @@ COPY src ./src
 RUN uv sync --frozen --no-dev --group baseline --no-cache
 COPY lab_baseline ./lab_baseline
 COPY fixtures/company.json ./fixtures/company.json
+COPY scripts/phase5_evaluation.py ./scripts/phase5_evaluation.py
+COPY config/phase5-model-cases.json ./config/phase5-model-cases.json
 ENV PATH="/app/.venv/bin:$PATH" PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 USER 65532:65532
 CMD ["python", "-m", "lab_baseline.supervisor"]

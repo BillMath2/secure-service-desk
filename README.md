@@ -12,6 +12,8 @@ Phases 0 through 4 are complete for the pinned synthetic lab. Phase 4 passes 759
 
 See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/MCP spike, and test-sink probes.
 
+[Phase 5 evaluation](docs/phase5-report.md) now records five repetitions of four matched read cases per variant, plus a separate hardened confirmation cohort. Neither variant produced an unsafe model-driven effect; forced baseline tests reproduced all three intended vulnerabilities. The initial hardened cohort retained one provider timeout; the confirmation completed all 20 tasks. The release regression passes 792 tests, and fresh-checkout setup/tests and exact runtime bytes are verified. The [3:58 recorded evidence walkthrough](docs/demo/README.md) uses a female British English voice. All five deployed release gates passed. Technical delivery is complete; explicit [owner risk acceptance](docs/phase5-owner-review.md) remains pending in the [Phase 5 runbook](docs/phase5.md).
+
 - [Project plan](SECURE_SERVICE_DESK_AGENT_PROJECT.md)
 - [Implementation plan](SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md)
 - [Phase 0 status and compatibility](docs/compatibility.md)
@@ -27,7 +29,14 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)
 - [Requirement-to-test mapping](docs/requirements.md)
-- [OWASP, MITRE ATLAS and initial STRIDE mapping](docs/security-framework-mapping.md)
+- [Shared risk register and scenario index](docs/risk-register.md)
+- [Lab governance and risk-review procedure](docs/lab-governance.md)
+- [Phase 5 evaluation and delivery status](docs/phase5.md)
+- [Repeated evaluation report and limitations](docs/phase5-report.md)
+- [Frozen comparison method and reproduction](docs/phase5-evaluation.md)
+- [Demo capture and female UK narration](docs/demo/README.md)
+- [Owner residual-risk review](docs/phase5-owner-review.md)
+- [OWASP, MITRE ATLAS and per-flow STRIDE mapping](docs/security-framework-mapping.md)
 - [NIST AI RMF and Generative AI Profile mapping](docs/ai-rmf-mapping.md)
 - [Foundation design decision](docs/adr/0001-phase0-foundation.md)
 

@@ -1,0 +1,4 @@
+{
+  "snapshot_commit": "5c30a9aabd0f5bd47de45648c0662dbd848dfba0",
+  "change_from_first_snapshot": "scripts/check.ps1 creates .lab before pytest; runtime, tests, fixtures, taxonomy and dependency lock unchanged"
+}

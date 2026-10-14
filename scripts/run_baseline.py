@@ -27,7 +27,7 @@ def docker(*args: str, timeout: int = 90) -> str:
 def source_manifest() -> dict[str, str]:
     files = [
         p
-        for folder in ("src", "lab_baseline", "infra", "scripts")
+        for folder in ("src", "lab_baseline", "infra", "scripts", "config")
         for p in (ROOT / folder).rglob("*")
         if p.is_file() and p.suffix in (".py", ".json", ".yaml", ".Dockerfile")
     ]
@@ -149,7 +149,7 @@ def run(output: Path, mode: str) -> None:
             )
             + "\n"
         )
-        if mode == "all":
+        if mode in {"all", "phase5"}:
             integrity = json.loads(
                 docker(
                     "run",
@@ -172,14 +172,20 @@ def run(output: Path, mode: str) -> None:
             assert integrity == pin, "local model differs from reviewed lock"
             (output / "model-integrity.json").write_text(json.dumps(integrity, indent=2) + "\n")
         # Independent 660s host deadline, plus the 600s in-container child supervisor.
+        runner_args = (
+            [
+                "-c",
+                "from lab_baseline.supervisor import supervise; import sys; "
+                "sys.exit(supervise([sys.executable,'-m','lab_baseline.phase5']))",
+            ]
+            if mode == "phase5"
+            else ["-m", "lab_baseline.supervisor", "--mode", mode]
+        )
         docker(
             "exec",
             ids["runner"],
             "python",
-            "-m",
-            "lab_baseline.supervisor",
-            "--mode",
-            mode,
+            *runner_args,
             timeout=660,
         )
         # docker cp cannot reliably export from a container tmpfs on Docker Desktop.
@@ -199,6 +205,8 @@ def run(output: Path, mode: str) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--mode", choices=("all", "forced"), default="all")
+    parser.add_argument("--docker", default=DOCKER)
+    parser.add_argument("--mode", choices=("all", "forced", "phase5"), default="all")
     arguments = parser.parse_args()
+    DOCKER = arguments.docker
     run(arguments.output.resolve(), arguments.mode)

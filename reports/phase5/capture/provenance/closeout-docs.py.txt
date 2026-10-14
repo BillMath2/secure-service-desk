@@ -1,0 +1,73 @@
+from pathlib import Path
+import json, hashlib, zipfile, shutil
+root = Path.cwd()
+def update(path, old, new):
+    p = root / path
+    text = p.read_text(encoding='utf-8')
+    assert old in text, (path, old)
+    p.write_text(text.replace(old, new), encoding='utf-8')
+
+update('SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md',
+       '**Started (October 14, 2026): framework preparation.**',
+       '**Historical checkpoint (October 14, 2026): framework preparation.**')
+update('SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md',
+       'The final comparison corpus, repeated evaluation, final owner risk decisions, clean-checkout verification and recorded demo remain outstanding.',
+       'At that checkpoint the final comparison corpus, repeated evaluation, owner risk decisions, clean-checkout verification and recorded demo were outstanding; the current delivery status follows below.')
+update('SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md',
+       'Final deployed probe/capture evidence and explicit [owner risk review](docs/phase5-owner-review.md) remain the closing work.',
+       'The [final release evidence](reports/phase5/release/results.json) passes 256 boundary, 619 network, 73 signed workflow, 18 model and 32 log checks. The [3:58 recorded evidence walkthrough](docs/demo/README.md) is delivered with female British English narration and verified video/audio. Technical delivery is complete; explicit [owner risk review](docs/phase5-owner-review.md) is the remaining exit decision.')
+update('SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md',
+       'Verify the final capture/audio timing before delivery.',
+       'Final MP4/MKV delivery is recorded in the [capture inspection](reports/phase5/capture/results.json): 238.08 seconds, all eight segment frames inspected, non-silent unclipped audio, and source alignment within 40 ms. OBS recorded zero encoder skips and 15 render skips.')
+update('SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md',
+       'Next task: finish the deployed release probes and evidence walkthrough, then obtain the explicit owner residual-risk decision. Phase 5 matched comparisons, a separately reported confirmation cohort, grouped results, clean-checkout reproduction and the 792-test release regression are complete.',
+       'Next decision: obtain the explicit owner residual-risk decision for local synthetic lab/portfolio use in [docs/phase5-owner-review.md](docs/phase5-owner-review.md). Phase 5 technical delivery is complete: matched comparisons, a separately reported confirmation cohort, grouped results, clean-checkout reproduction, the 792-test release regression, all five deployed security gates, and the inspected 3:58 evidence walkthrough with female UK narration. The lab services have been stopped after evidence collection. Phase 5 is not marked closed without the owner decision.')
+update('README.md',
+       'Final evidence delivery and [owner risk acceptance](docs/phase5-owner-review.md) are tracked in the [Phase 5 runbook](docs/phase5.md).',
+       'The [3:58 recorded evidence walkthrough](docs/demo/README.md) uses a female British English voice. All five deployed release gates passed. Technical delivery is complete; explicit [owner risk acceptance](docs/phase5-owner-review.md) remains pending in the [Phase 5 runbook](docs/phase5.md).')
+
+p = root / 'reports/phase5/capture/results.json'
+capture = json.loads(p.read_text())
+capture['visual_review'] = 'Passed: all eight extracted segment frames inspected for legibility, missing text and clipping'
+capture['audio_alignment'] = 'reports/phase5/capture/audio-alignment.json'
+capture['passed'] = True
+capture['inputs_sha256'] = {s: hashlib.sha256((root/s).read_bytes()).hexdigest() for s in (
+    'docs/demo/narration-final.txt', 'docs/demo/storyboard.json', 'docs/demo/record-demo.mjs',
+    '.lab/demo/narration-final.wav', 'reports/phase5/demo-evidence.json')}
+p.write_text(json.dumps(capture, indent=2)+'\n')
+shutil.copy2(root / '.lab/demo/check-audio-alignment.py',
+             root / 'reports/phase5/capture/provenance/check-audio-alignment.py.txt')
+bundle = root / '.lab/demo/secure-service-desk-demo-assets.zip'
+assert not bundle.exists()
+assets = [root / f'.lab/demo/slide-{i:02}.png' for i in range(1,9)]
+assets += [root / f'.lab/demo/voice-{i:02}.wav' for i in range(1,9)]
+assets += [root / '.lab/demo/narration-final.wav', root / 'docs/demo/storyboard.json',
+           root / 'docs/demo/narration-final.txt', root / 'docs/demo/presentation-template.html']
+with zipfile.ZipFile(bundle, 'x', compression=zipfile.ZIP_DEFLATED) as archive:
+    for asset in assets:
+        archive.write(asset, asset.relative_to(root).as_posix())
+capture['asset_bundle'] = {'path': bundle.relative_to(root).as_posix(),
+    'sha256': hashlib.sha256(bundle.read_bytes()).hexdigest(), 'bytes': bundle.stat().st_size}
+p.write_text(json.dumps(capture, indent=2)+'\n')
+
+p = root / 'reports/phase5/results.json'
+result = json.loads(p.read_text())
+result['technical_delivery_complete'] = True
+result['delivery_evidence'] = {'release': 'reports/phase5/release/results.json',
+    'capture': 'reports/phase5/capture/results.json', 'owner_review': 'docs/phase5-owner-review.md'}
+for s in ('reports/phase5/release/results.json', 'reports/phase5/capture/results.json',
+          'reports/phase5/clean-checkout-02/byte-preservation.json', 'reports/phase5/demo-evidence.json'):
+    result['evidence_sha256'][s] = hashlib.sha256((root/s).read_bytes()).hexdigest()
+assert result['initial_matched_gate_passed'] is False
+assert result['owner_acceptance'] == 'pending' and result['phase5_exit_complete'] is False
+p.write_text(json.dumps(result, indent=2)+'\n')
+
+p = root / 'config/risk-register.json'
+register = json.loads(p.read_text())
+for risk in register['risks']:
+    if int(risk['id'].split('-')[1]) <= 14:
+        risk['evidence'].append('reports/phase5/release/results.json')
+    if risk['id'] == 'RISK-14':
+        risk['evidence'].append('reports/phase5/capture/results.json')
+p.write_text(json.dumps(register, indent=2, ensure_ascii=False)+'\n', encoding='utf-8')
+print('Final documentation, capture manifest and asset bundle written; owner decision remains pending.')

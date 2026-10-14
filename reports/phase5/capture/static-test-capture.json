@@ -1,0 +1,52 @@
+{
+  "mode": "static-source-validation",
+  "startedAt": "2026-10-14T17:51:56.012Z",
+  "voice": "Microsoft Hazel / en-GB / female",
+  "scope": "Saved executed evidence, synthetic identities; no live human interaction footage",
+  "transitions": [
+    {
+      "slide": 1,
+      "targetSeconds": 0,
+      "actualSeconds": 0
+    }
+  ],
+  "videoSettings": {
+    "baseHeight": 1080,
+    "baseWidth": 1920,
+    "fpsDenominator": 1,
+    "fpsNumerator": 30,
+    "outputHeight": 1080,
+    "outputWidth": 1920
+  },
+  "statsBefore": {
+    "activeFps": 28.064516409677424,
+    "availableDiskSpace": 373455.76171875,
+    "averageFrameRenderTime": 4.923955,
+    "cpuUsage": 1.0957835222576173,
+    "memoryUsage": 209.15625,
+    "outputSkippedFrames": 0,
+    "outputTotalFrames": 1127,
+    "renderSkippedFrames": 21,
+    "renderTotalFrames": 84817,
+    "webSocketSessionIncomingMessages": 15,
+    "webSocketSessionOutgoingMessages": 15
+  },
+  "recording": {
+    "outputPath": "C:/Github/secure-service-desk/.lab/demo/2026-10-14 13-51-56.mkv"
+  },
+  "statsAfter": {
+    "activeFps": 30.000000300000007,
+    "availableDiskSpace": 373446.71484375,
+    "averageFrameRenderTime": 3.114906,
+    "cpuUsage": 8.121543755231805,
+    "memoryUsage": 333.49609375,
+    "outputSkippedFrames": 0,
+    "outputTotalFrames": 598,
+    "renderSkippedFrames": 21,
+    "renderTotalFrames": 85417,
+    "webSocketSessionIncomingMessages": 20,
+    "webSocketSessionOutgoingMessages": 20
+  },
+  "finishedAt": "2026-10-14T17:52:16.575Z",
+  "passed": true
+}

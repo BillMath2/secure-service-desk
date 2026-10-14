@@ -330,7 +330,8 @@
       ],
       "expected_allow": true,
       "expected_reason": "ALLOW",
-      "expected_body_sha256": "15749d58b83f980f8a2b16574df19dda9102159c5bb152b459ab9b4d8fdb9e7a"
+      "expected_body_sha256": "15749d58b83f980f8a2b16574df19dda9102159c5bb152b459ab9b4d8fdb9e7a",
+      "risks": []
     },
     {
       "id": "read-team",
@@ -350,7 +351,8 @@
       ],
       "expected_allow": true,
       "expected_reason": "ALLOW",
-      "expected_body_sha256": "634a5035897cdf08aff22ce81a882f3608a5b20d5f59d7626ee3f44b4a7f560e"
+      "expected_body_sha256": "634a5035897cdf08aff22ce81a882f3608a5b20d5f59d7626ee3f44b4a7f560e",
+      "risks": []
     },
     {
       "id": "read-admin-internal",
@@ -369,7 +371,8 @@
       ],
       "expected_allow": true,
       "expected_reason": "ALLOW",
-      "expected_body_sha256": "6783ff2aeb5d1f41207e603b6d0cdef64ad5f67d6ef0aeaa31d25a4d3eda2175"
+      "expected_body_sha256": "6783ff2aeb5d1f41207e603b6d0cdef64ad5f67d6ef0aeaa31d25a4d3eda2175",
+      "risks": []
     },
     {
       "id": "deny-cross-department",
@@ -421,7 +424,8 @@
         "LLM01:2025",
         "LLM02:2025",
         "ASI01:2026",
-        "AML.T0051.001"
+        "AML.T0051.001",
+        "AML.T0057"
       ]
     },
     {
@@ -553,7 +557,8 @@
         "alice"
       ],
       "expected_allow": true,
-      "expected_reason": "ALLOW"
+      "expected_reason": "ALLOW",
+      "risks": []
     },
     {
       "id": "pending-sensitive-grant",
@@ -572,7 +577,8 @@
         "alice"
       ],
       "expected_allow": true,
-      "expected_reason": "ALLOW"
+      "expected_reason": "ALLOW",
+      "risks": []
     },
     {
       "id": "pending-requester-reply",
@@ -591,7 +597,8 @@
         "alice"
       ],
       "expected_allow": true,
-      "expected_reason": "ALLOW"
+      "expected_reason": "ALLOW",
+      "risks": []
     }
   ]
 }

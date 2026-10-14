@@ -13,6 +13,7 @@ import psycopg
 from check_app_boundary import check_boundary
 from check_model_boundary import check_boundary as model_boundary
 from check_phase2_identity import LoginForm
+from framework_cases import case_fingerprint, load_model_cases
 from phase2_runtime import LOCAL, ROOT
 
 from service_desk.core.auth.lab import ISSUER
@@ -34,6 +35,10 @@ def main() -> None:
         "real_model_invoked": False,
     }
     stage = "deployment"
+    case_file = "phase3-workflow-model-cases.json"
+    cases = load_model_cases(case_file)
+    report["case_config_sha256"] = case_fingerprint(case_file)
+    report["scenario_metadata"] = [{"id": c["id"], "risks": c["risks"]} for c in cases]
 
     def check(name: str, passed: bool) -> None:
         checks[name] = bool(passed)
@@ -104,13 +109,9 @@ def main() -> None:
                 ).fetchone()[0]
             check("chat_finished_with_model", chat_state[0] == "completed" and chat_state[1] > 0)
             check("chat_no_publication", chat_writes == 0)
-            for ticket, channel in (
-                ("ticket-alice", "requester"),
-                ("ticket-alice", "internal"),
-                ("ticket-alice-injected", "requester"),
-                ("ticket-alice-injected", "internal"),
-            ):
-                name = ticket + "_" + channel
+            for case in (c for c in cases if c["kind"] == "draft"):
+                ticket, channel = case["ticket"], case["channel"]
+                name = case["id"]
                 stage = name
                 route = ORIGIN + "/" + channel + "-drafts"
                 with psycopg.connect(dsns["admin"]) as db:

@@ -1,0 +1,87 @@
+{
+  "mode": "final-evidence-walkthrough",
+  "startedAt": "2026-10-14T17:52:32.843Z",
+  "voice": "Microsoft Hazel / en-GB / female",
+  "scope": "Saved executed evidence, synthetic identities; no live human interaction footage",
+  "transitions": [
+    {
+      "slide": 1,
+      "targetSeconds": 0,
+      "actualSeconds": 0
+    },
+    {
+      "slide": 2,
+      "targetSeconds": 29.277,
+      "actualSeconds": 29.2892238
+    },
+    {
+      "slide": 3,
+      "targetSeconds": 55.9115625,
+      "actualSeconds": 55.919527
+    },
+    {
+      "slide": 4,
+      "targetSeconds": 85.23818750000001,
+      "actualSeconds": 85.2549222
+    },
+    {
+      "slide": 5,
+      "targetSeconds": 118.59750000000001,
+      "actualSeconds": 118.6044069
+    },
+    {
+      "slide": 6,
+      "targetSeconds": 149.72637500000002,
+      "actualSeconds": 149.73654960000002
+    },
+    {
+      "slide": 7,
+      "targetSeconds": 175.7984375,
+      "actualSeconds": 175.81158039999997
+    },
+    {
+      "slide": 8,
+      "targetSeconds": 203.9293125,
+      "actualSeconds": 203.93567810000002
+    }
+  ],
+  "videoSettings": {
+    "baseHeight": 1080,
+    "baseWidth": 1920,
+    "fpsDenominator": 1,
+    "fpsNumerator": 30,
+    "outputHeight": 1080,
+    "outputWidth": 1920
+  },
+  "statsBefore": {
+    "activeFps": 30.000000300000007,
+    "availableDiskSpace": 373437.80859375,
+    "averageFrameRenderTime": 0.708758,
+    "cpuUsage": 1.382394621482684,
+    "memoryUsage": 209.33984375,
+    "outputSkippedFrames": 0,
+    "outputTotalFrames": 613,
+    "renderSkippedFrames": 23,
+    "renderTotalFrames": 85921,
+    "webSocketSessionIncomingMessages": 15,
+    "webSocketSessionOutgoingMessages": 15
+  },
+  "recording": {
+    "outputPath": "C:/Github/secure-service-desk/.lab/demo/2026-10-14 13-52-33.mkv"
+  },
+  "statsAfter": {
+    "activeFps": 30.000000300000007,
+    "availableDiskSpace": 373364.5546875,
+    "averageFrameRenderTime": 2.545374,
+    "cpuUsage": 7.544767111125396,
+    "memoryUsage": 336.55078125,
+    "outputSkippedFrames": 0,
+    "outputTotalFrames": 7141,
+    "renderSkippedFrames": 38,
+    "renderTotalFrames": 93065,
+    "webSocketSessionIncomingMessages": 27,
+    "webSocketSessionOutgoingMessages": 27
+  },
+  "finishedAt": "2026-10-14T17:56:31.522Z",
+  "passed": true
+}

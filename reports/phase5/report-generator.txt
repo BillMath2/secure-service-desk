@@ -1,0 +1,37 @@
+from pathlib import Path
+import json,hashlib,sys,statistics
+root=Path.cwd();sys.path.insert(0,str(root));sys.path.insert(0,str(root/'scripts'))
+from phase5_evaluation import summarize,sha,CASE_FILE
+from service_desk.fixtures import load_fixtures
+from lab_baseline.state import UnsafeState
+folder=root/'reports/phase5';cases=json.loads((root/CASE_FILE).read_text());case_map={c['id']:c for c in cases};fixtures=load_fixtures(root/'fixtures/company.json')
+def read(p):return json.loads(p.read_text())
+rows={'baseline':[dict(r,repetition=i) for i in range(1,6) for r in read(folder/f'comparison-01/baseline-{i:02}/results.json')['results']], 'hardened_initial':read(folder/'comparison-01/hardened/results.json')['results'], 'hardened_confirmation':read(folder/'hardened-confirmation-02/results.json')['results']}
+assert all(len(v)==20 for v in rows.values())
+register=read(root/'config/risk-register.json');risks={r['id']:r for r in register['risks']};groups={}
+for variant, trials in rows.items():
+    m=summarize(trials); m['benign_completion_all_trials']={'count':m['benign_completion']['count'],'denominator':m['all_benign_trials']};m['model_calls']=sum(r['model_calls'] for r in trials);lat=[r['elapsed_seconds'] for r in trials];m['latency_seconds']={'median':statistics.median(lat),'min':min(lat),'max':max(lat)}
+    groups[variant]={'overall':m}
+    for field in ['actor','entry_point','risks','stride']:
+        grouped={}
+        for row in trials:
+            if field=='stride':keys=sorted({s for rid in register['scenarios'][CASE_FILE+'#'+row['id']] for s in risks[rid]['stride']})
+            else:keys=row[field] if field=='risks' else [row[field]]
+            for key in keys:grouped.setdefault(key,[]).append(row)
+        groups[variant][field]={k:summarize(v) for k,v in grouped.items()}
+    if variant=='baseline':
+        calls=[]
+        for row in trials:
+            c=case_map[row['id']];ticket=c['source_id'].startswith('ticket-');name='read_ticket' if ticket else 'read_document';arg='ticket_id' if ticket else 'document_id';expected=UnsafeState(fixtures).invoke(name,{arg:c['source_id']});matched=sha([expected])==row['outputs_sha256'];assert matched
+            calls.append({'case':row['id'],'repetition':row['repetition'],'tool':name,'source_id':c['source_id'],'single_result_hash_verified':matched})
+        groups[variant]['actions']={'scope':'Tool/source reconstructed from exact output-array hashes and completed two-turn traces; no raw restricted bodies retained','trials':calls}
+    else:
+        actions={}
+        for row in trials:
+            for event in row['audit_events']:
+                if event['operation'] in ['read_document','read_ticket','search_documents']:
+                    key=event['operation']+':'+event['reason'];actions[key]=actions.get(key,0)+1
+        groups[variant]['actions']={'scope':'Recorded gateway admission and decision events; RESERVED and ALLOW are stages of the same call','events':actions,'admitted_tool_calls':sum(r['budget_counters'][2] for r in trials if r['budget_counters'])}
+paths=[folder/'comparison-01/freeze.json',folder/'comparison-01/comparison.json',folder/'confirmation-protocol.json',folder/'hardened-confirmation-02/results.json',folder/'hardened-confirmation-02/provenance.json',folder/'forced-baseline-01/results.json',folder/'forced-fixture-01/results.json']
+result={'scope':'Four fixed matched read cases, five repetitions per cohort; confirmation is additional evidence, not replacement of the failed initial cohort','groups':groups,'initial_matched_gate_passed':read(folder/'comparison-01/comparison.json')['matched_evaluation_gate_passed'],'forced_baseline':read(folder/'forced-baseline-01/results.json')['metrics']['forced'],'evidence_sha256':{p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'owner_acceptance':'pending','phase5_exit_complete':False,'limitations':['Fixed-seed correlated repetitions and only two attack cases','No observed model-driven unsafe effects in either variant; no measured reduction established','Initial hardened cohort had one provider timeout; confirmation is not cold-start reliability evidence','Exact-body/canary oracle is not general semantic or encoded leakage detection','Approval/lifecycle/publication comparison unsupported by v0; use separate deterministic signed-workflow evidence','Token totals contain provider-reported successful responses only; timed-out call consumption is unknown','Trusted host evaluator does not establish process/network isolation; deployment probes are separate']}
+(folder/'results.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v['overall'] for k,v in groups.items()}))

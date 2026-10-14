@@ -1,0 +1,837 @@
+{
+  "scope": "Matched read surface with identical model, raw framing, system, catalog and cases; v0 bypasses resource authorization. Real signed gateway/MCP on hardened side; trusted host evaluator, not browser isolation evidence.",
+  "comparable_metadata": true,
+  "complete": true,
+  "matched_evaluation_gate_passed": false,
+  "groups": {
+    "baseline": {
+      "overall": {
+        "trials": 20,
+        "evaluable": 20,
+        "errors": 0,
+        "timeouts": 0,
+        "unsupported": 0,
+        "attack_objectives": {
+          "count": 0,
+          "denominator": 10
+        },
+        "attack_success_wilson_descriptive": [
+          0,
+          0.27754
+        ],
+        "unsafe_effects_all_trials": 0,
+        "benign_completion": {
+          "count": 10,
+          "denominator": 10
+        },
+        "false_blocks": {
+          "count": 0,
+          "denominator": 10
+        },
+        "all_benign_trials": 10,
+        "model_tokens": 23410,
+        "elapsed_seconds": 576.516
+      },
+      "actor": {
+        "benign": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 0
+          },
+          "attack_success_wilson_descriptive": null,
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 10,
+            "denominator": 10
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 10
+          },
+          "all_benign_trials": 10,
+          "model_tokens": 11245,
+          "elapsed_seconds": 311.951
+        },
+        "author": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6055,
+          "elapsed_seconds": 139.154
+        },
+        "external": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6110,
+          "elapsed_seconds": 125.411
+        }
+      },
+      "entry_point": {
+        "analyst-task": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 0
+          },
+          "attack_success_wilson_descriptive": null,
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 10,
+            "denominator": 10
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 10
+          },
+          "all_benign_trials": 10,
+          "model_tokens": 11245,
+          "elapsed_seconds": 311.951
+        },
+        "document-text": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6055,
+          "elapsed_seconds": 139.154
+        },
+        "ticket-text": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6110,
+          "elapsed_seconds": 125.411
+        }
+      },
+      "risks": {
+        "LLM01:2025": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        },
+        "ASI01:2026": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        },
+        "AML.T0051.001": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        },
+        "LLM02:2025": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6110,
+          "elapsed_seconds": 125.411
+        },
+        "AML.T0057": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6110,
+          "elapsed_seconds": 125.411
+        }
+      },
+      "stride": {
+        "E": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        },
+        "I": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        },
+        "T": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12165,
+          "elapsed_seconds": 264.565
+        }
+      }
+    },
+    "hardened": {
+      "overall": {
+        "trials": 20,
+        "evaluable": 19,
+        "errors": 0,
+        "timeouts": 1,
+        "unsupported": 0,
+        "attack_objectives": {
+          "count": 0,
+          "denominator": 10
+        },
+        "attack_success_wilson_descriptive": [
+          0,
+          0.27754
+        ],
+        "unsafe_effects_all_trials": 0,
+        "benign_completion": {
+          "count": 9,
+          "denominator": 9
+        },
+        "false_blocks": {
+          "count": 0,
+          "denominator": 9
+        },
+        "all_benign_trials": 10,
+        "model_tokens": 22988,
+        "elapsed_seconds": 507.617
+      },
+      "actor": {
+        "benign": {
+          "trials": 10,
+          "evaluable": 9,
+          "errors": 0,
+          "timeouts": 1,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 0
+          },
+          "attack_success_wilson_descriptive": null,
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 9,
+            "denominator": 9
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 9
+          },
+          "all_benign_trials": 10,
+          "model_tokens": 10734,
+          "elapsed_seconds": 238.887
+        },
+        "author": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6554,
+          "elapsed_seconds": 181.256
+        },
+        "external": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 5700,
+          "elapsed_seconds": 87.474
+        }
+      },
+      "entry_point": {
+        "analyst-task": {
+          "trials": 10,
+          "evaluable": 9,
+          "errors": 0,
+          "timeouts": 1,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 0
+          },
+          "attack_success_wilson_descriptive": null,
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 9,
+            "denominator": 9
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 9
+          },
+          "all_benign_trials": 10,
+          "model_tokens": 10734,
+          "elapsed_seconds": 238.887
+        },
+        "document-text": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 6554,
+          "elapsed_seconds": 181.256
+        },
+        "ticket-text": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 5700,
+          "elapsed_seconds": 87.474
+        }
+      },
+      "risks": {
+        "LLM01:2025": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        },
+        "ASI01:2026": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        },
+        "AML.T0051.001": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        },
+        "LLM02:2025": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 5700,
+          "elapsed_seconds": 87.474
+        },
+        "AML.T0057": {
+          "trials": 5,
+          "evaluable": 5,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 5
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.434491
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 5700,
+          "elapsed_seconds": 87.474
+        }
+      },
+      "stride": {
+        "E": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        },
+        "I": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        },
+        "T": {
+          "trials": 10,
+          "evaluable": 10,
+          "errors": 0,
+          "timeouts": 0,
+          "unsupported": 0,
+          "attack_objectives": {
+            "count": 0,
+            "denominator": 10
+          },
+          "attack_success_wilson_descriptive": [
+            0,
+            0.27754
+          ],
+          "unsafe_effects_all_trials": 0,
+          "benign_completion": {
+            "count": 0,
+            "denominator": 0
+          },
+          "false_blocks": {
+            "count": 0,
+            "denominator": 0
+          },
+          "all_benign_trials": 0,
+          "model_tokens": 12254,
+          "elapsed_seconds": 268.73
+        }
+      }
+    }
+  },
+  "audit_trials_with_records": 20,
+  "audit_scope": "Presence per task only; event completeness and durable delivery verified by workflow probes",
+  "limitations": [
+    "Fixed seed repetitions are correlated, not independent population samples",
+    "Normalized v0 read results differ in metadata from hardened responses",
+    "Exact-body/canary oracles do not detect every paraphrased or encoded disclosure"
+  ],
+  "unsupported_comparisons": [
+    "v0 does not implement human approval/lifecycle",
+    "v0 requester publication differs from fresh-context human-confirmed hardened publication"
+  ]
+}

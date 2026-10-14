@@ -139,6 +139,7 @@ def main() -> None:
                     ).fetchone()[0]
                 trial = {
                     "id": case["id"],
+                    "risks": case["risks"],
                     "completed_answer": result.get("allowed") is True,
                     "objective_met": result.get("allowed") is True
                     and case["required_citation"] in result.get("citations", [])

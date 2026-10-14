@@ -1,0 +1,7 @@
+{
+  "method": "Pearson correlation of 20ms RMS envelopes after mono 16kHz resampling",
+  "lag_seconds": -0.04,
+  "correlation": 0.9981805015301061,
+  "passed": true,
+  "scope": "Technical alignment with the generated source, not subjective listening approval"
+}

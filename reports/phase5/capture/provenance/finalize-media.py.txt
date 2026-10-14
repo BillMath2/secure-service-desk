@@ -1,0 +1,90 @@
+from pathlib import Path
+import sys, json, shutil, hashlib, struct, math
+sys.path.insert(0, str(Path('.lab/media-tools').resolve()))
+import av
+from PIL import Image, ImageChops, ImageStat
+
+root = Path.cwd()
+out = root / 'reports/phase5/capture'
+out.mkdir(exist_ok=True)
+(out / 'frames').mkdir(exist_ok=True)
+capture = json.loads((root / '.lab/demo/final-capture.json').read_text())
+assert capture['passed']
+raw = root / '.lab/demo/secure-service-desk-evidence.mkv'
+mp4 = raw.with_suffix('.mp4')
+assert not raw.exists() and not mp4.exists(), 'Preserve existing deliveries'
+shutil.copy2(capture['recording']['outputPath'], raw)
+with av.open(str(raw)) as source, av.open(str(mp4), 'w', options={'movflags': '+faststart'}) as target:
+    streams = {s.index: target.add_stream_from_template(s) for s in source.streams}
+    for packet in source.demux():
+        if packet.dts is None:
+            continue
+        packet.stream = streams[packet.stream.index]
+        target.mux(packet)
+slides = json.loads((root / 'docs/demo/storyboard.json').read_text(encoding='utf-8'))
+midpoints = []
+elapsed = 0
+for slide in slides:
+    midpoints.append(elapsed + slide['duration'] / 2)
+    elapsed += slide['duration']
+inspected = []
+video_frames = audio_frames = audio_samples = 0
+peak = energy = audio_seconds = 0.0
+segment_energy = [0.] * 8
+segment_count = [0] * 8
+with av.open(str(mp4)) as container:
+    duration = container.duration / av.time_base
+    stream_info = [{'type': s.type, 'codec': s.codec_context.name,
+                    'duration_seconds': float(s.duration * s.time_base)} for s in container.streams]
+    for frame in container.decode():
+        seconds = float(frame.pts * frame.time_base)
+        if isinstance(frame, av.VideoFrame):
+            video_frames += 1
+            i = len(inspected)
+            if i < 8 and seconds >= midpoints[i]:
+                actual = frame.to_image().convert('RGB')
+                expected = Image.open(root / slides[i]['image']).convert('RGB')
+                diff = ImageStat.Stat(ImageChops.difference(actual, expected))
+                path = out / 'frames' / f'slide-{i+1:02}.png'
+                actual.save(path)
+                inspected.append({'slide': i + 1, 'seconds': seconds,
+                    'path': path.relative_to(root).as_posix(),
+                    'mean_pixel_difference': sum(diff.mean) / 3,
+                    'maximum_channel_rms_difference': max(diff.rms)})
+        elif isinstance(frame, av.AudioFrame):
+            audio_frames += 1
+            audio_seconds += frame.samples / frame.sample_rate
+            assert frame.format.name == 'fltp'
+            i = next((i for i, t in enumerate(capture['transitions'][1:]) if seconds < t['actualSeconds']), 7)
+            for plane in frame.planes:
+                for (sample,) in struct.iter_unpack('<f', bytes(plane)[:frame.samples * 4]):
+                    assert math.isfinite(sample)
+                    peak = max(peak, abs(sample)); energy += sample * sample; audio_samples += 1
+                    segment_energy[i] += sample * sample; segment_count[i] += 1
+stats = capture['statsAfter']
+result = {'scope': 'Saved-evidence OBS recording; synthetic lab, generated female UK narration',
+    'voice': 'Microsoft Hazel / en-GB / female',
+    'artifacts': {p.suffix[1:]: {'path': p.relative_to(root).as_posix(), 'bytes': p.stat().st_size,
+        'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in (raw, mp4)},
+    'streams': stream_info, 'duration_seconds': duration, 'planned_audio_seconds': elapsed,
+    'video_frames_decoded': video_frames, 'audio_frames_decoded': audio_frames,
+    'decoded_audio_seconds': audio_seconds, 'audio_peak': peak,
+    'audio_rms': math.sqrt(energy / audio_samples),
+    'segment_audio_rms': [math.sqrt(e/n) for e, n in zip(segment_energy, segment_count)],
+    'maximum_slide_schedule_lag_seconds': max(t['actualSeconds'] - t['targetSeconds'] for t in capture['transitions']),
+    'encoder_skipped_frames': stats['outputSkippedFrames'],
+    'render_skipped_frames_during_capture': stats['renderSkippedFrames'] - capture['statsBefore']['renderSkippedFrames'],
+    'frames': inspected,
+    'technical_passed': len(inspected) == 8 and video_frames > 7000 and
+        0.01 < peak < 1 and abs(duration - elapsed - 1.5) < 1 and
+        all(f['maximum_channel_rms_difference'] < 10 for f in inspected),
+    'visual_review': 'pending', 'human_listening_review': 'not claimed',
+    'limitations': ['Saved evidence walkthrough, not live application interaction footage',
+                    'Technical audio validation does not assess subjective voice quality']}
+assert result['technical_passed'], result
+for name in ('final-capture.json', 'static-test-capture.json'):
+    shutil.copy2(root / '.lab/demo' / name, out / name)
+static = root / '.lab/demo/2026-10-14 13-51-56.inspection.json'
+shutil.copy2(static, out / 'static-test-inspection.json')
+(out / 'results.json').write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps(result))

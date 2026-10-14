@@ -1,0 +1,20 @@
+[
+  {
+    "id": "benign",
+    "ticket": "ticket-alice",
+    "resource": "engineering-workspace",
+    "risks": []
+  },
+  {
+    "id": "injected",
+    "ticket": "ticket-alice-injected",
+    "resource": "engineering-admin",
+    "risks": [
+      "LLM01:2025",
+      "LLM02:2025",
+      "ASI01:2026",
+      "AML.T0051.001",
+      "AML.T0057"
+    ]
+  }
+]

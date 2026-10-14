@@ -1,0 +1,34 @@
+{
+  "path": ".lab\\demo\\capture-test.mkv",
+  "sha256": "90af6c58e222244b359b7d06cbe0352baa5c4ea97f4313e0e6625e7e56aa9c3c",
+  "duration_seconds": 37.098,
+  "streams": [
+    {
+      "type": "video",
+      "codec": "h264",
+      "duration_seconds": null
+    },
+    {
+      "type": "audio",
+      "codec": "aac",
+      "duration_seconds": null
+    }
+  ],
+  "video_frames": 1112,
+  "audio_frames": 1739,
+  "decoded_audio_seconds": 37.09866666666684,
+  "audio_peak": 0.7664244174957275,
+  "audio_rms": 0.11319203223641411,
+  "screenshots": [
+    ".lab\\demo\\capture-test-frame-30.png",
+    ".lab\\demo\\capture-test-frame-150.png",
+    ".lab\\demo\\capture-test-frame-450.png"
+  ],
+  "passed": true,
+  "visual_review": {
+    "initial_frame": "passed",
+    "later_frame": "partial browser-source text disappeared",
+    "final_capture_approved": false,
+    "treatment": "Use verified rendered image slides instead of a live browser texture; retest before final recording"
+  }
+}

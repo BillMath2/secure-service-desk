@@ -1,0 +1,7 @@
+{
+  "snapshot_commit": "14c5998678c919e55693c5f266fc3bbccdb0b12e",
+  "runtime_files": 53,
+  "byte_mismatches": [],
+  "fix": "src/** -text preserves existing reviewed runtime bytes; no source file edited",
+  "catalog_sha256": "0e07bb07fc6423d72cdf24ddc2038a6905bcbc00ba571064153119ee1a5888d4"
+}

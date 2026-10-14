@@ -1,0 +1,93 @@
+ Container service-desk-phase4-worker-1 Stopping 
+ Container service-desk-phase4-workflow-1 Stopping 
+ Container service-desk-phase4-agent-1 Stopping 
+ Container service-desk-phase4-proposals-1 Stopping 
+ Container service-desk-phase4-collector-1 Stopping 
+ Container service-desk-phase4-delivery-1 Stopping 
+ Container service-desk-phase4-executor-1 Stopping 
+ Container service-desk-phase4-browser-1 Stopping 
+ Container service-desk-phase4-execution-1 Stopping 
+ Container service-desk-phase4-delivery-1 Stopped 
+ Container service-desk-phase4-workflow-1 Stopped 
+ Container service-desk-phase4-worker-1 Stopped 
+ Container service-desk-phase4-execution-1 Stopped 
+ Container service-desk-phase4-browser-1 Stopped 
+ Container service-desk-phase4-executor-1 Stopped 
+ Container service-desk-phase4-collector-1 Stopped 
+ Container service-desk-phase4-proposals-1 Stopped 
+ Container service-desk-phase4-agent-1 Stopped 
+{"risks": 17, "threats": 20, "scenarios": 39}
+All checks passed!
+172 files already formatted
+Success: no issues found in 98 source files
+============================= test session starts =============================
+platform win32 -- Python 3.13.16, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Github\secure-service-desk
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 792 items
+
+tests\test_access_interfaces.py .........................                [  3%]
+tests\test_access_workflow.py .......................................... [  8%]
+....................                                                     [ 10%]
+tests\test_agent_envelopes.py ........                                   [ 11%]
+tests\test_agent_tasks.py ....................                           [ 14%]
+tests\test_app_egress.py ...........................                     [ 17%]
+tests\test_app_material.py ........................                      [ 20%]
+tests\test_app_rpc.py .........................                          [ 24%]
+tests\test_auth_discovery.py ...............................             [ 28%]
+tests\test_chat_output.py ..........                                     [ 29%]
+tests\test_database_gate.py ...................                          [ 31%]
+tests\test_database_limits.py .............                              [ 33%]
+tests\test_deployment_gate.py ..............                             [ 35%]
+tests\test_draft_reviews.py .......................                      [ 38%]
+tests\test_frameworks.py .......................                         [ 40%]
+tests\test_http_ingress.py ..................                            [ 43%]
+tests\test_internal_drafts.py ..................                         [ 45%]
+tests\test_local_model.py ...........................                    [ 48%]
+tests\test_model_deployment.py ..........                                [ 50%]
+tests\test_model_egress.py .........                                     [ 51%]
+tests\test_phase0.py ..............................                      [ 55%]
+tests\test_phase1.py ..............                                      [ 56%]
+tests\test_phase2_identity.py .......................................    [ 61%]
+tests\test_phase2_reads.py ........................                      [ 64%]
+tests\test_phase4_material.py ...........                                [ 66%]
+tests\test_phase5_evaluation.py ..........                               [ 67%]
+tests\test_publication.py .....................                          [ 70%]
+tests\test_read_deployment.py .............                              [ 71%]
+tests\test_read_egress.py ............................                   [ 75%]
+tests\test_read_process.py ...................                           [ 77%]
+tests\test_read_registry.py ............                                 [ 79%]
+tests\test_relay_egress.py ............................                  [ 82%]
+tests\test_relay_limits.py ..................                            [ 84%]
+tests\test_requester_drafts.py ............................              [ 88%]
+tests\test_task_admission.py ................                            [ 90%]
+tests\test_task_ui.py .................................................. [ 96%]
+........                                                                 [ 97%]
+tests\test_tls_ingress.py .................                              [100%]
+
+======================= 792 passed in 185.32s (0:03:05) =======================
+ Container service-desk-phase4-executor-1 Starting 
+ Container service-desk-phase4-collector-1 Starting 
+ Container service-desk-phase4-browser-1 Starting 
+ Container service-desk-phase4-delivery-1 Starting 
+ Container service-desk-phase4-workflow-1 Starting 
+ Container service-desk-phase4-execution-1 Starting 
+ Container service-desk-phase4-agent-1 Starting 
+ Container service-desk-phase4-worker-1 Starting 
+ Container service-desk-phase4-proposals-1 Starting 
+ Container service-desk-phase4-executor-1 Started 
+ Container service-desk-phase4-collector-1 Started 
+ Container service-desk-phase4-browser-1 Started 
+ Container service-desk-phase4-delivery-1 Started 
+ Container service-desk-phase4-workflow-1 Started 
+ Container service-desk-phase4-execution-1 Started 
+ Container service-desk-phase4-agent-1 Started 
+ Container service-desk-phase4-worker-1 Started 
+ Container service-desk-phase4-proposals-1 Started 
+{"passed": true, "report": "reports\\phase4\\runs\\20261014T173607Z"}
+{"passed": true, "checks": 619, "report": "reports\\phase4\\runs\\20261014T174225Z"}
+{"passed": true, "checks": 73, "report": "reports\\phase4\\runs\\20261014T174352Z"}
+{"passed": true, "report": "reports\\phase4\\runs\\20261014T174637Z"}
+{"passed": true, "report": "reports\\phase4\\runs\\20261014T174641Z"}
