@@ -33,3 +33,5 @@ Phase 2 exit (October 13, 2026): [31 discovery cases](../tests/test_auth_discove
 | R17 | Reproducible setup, compatibility, architecture, runbook, final demo (deliverables) | Lockfile, ADR, docs, `scripts/check.ps1`; future RELEASE-01 clean checkout, RELEASE-02 recorded demo | 0 foundations, 5 final |
 
 Risk tags use OWASP LLM 2025 and Agentic Applications 2026 as named comparison baselines. Current tags cover only the scenario-specific injection, disclosure, tool misuse, and identity concerns. They are not a complete assessment of either Top 10.
+
+The two indirect-injection fixture scenarios also carry `AML.T0051.001`, checked against MITRE ATLAS content v2026.07. The [framework mapping](security-framework-mapping.md) explains direct versus indirect injection, forced-call versus model-driven evidence, and uncovered categories. The [AI RMF mapping](ai-rmf-mapping.md) connects existing evidence and remaining work to Govern, Map, Measure, and Manage and references NIST AI 600-1. These mappings do not change the implementation status of any requirement above.

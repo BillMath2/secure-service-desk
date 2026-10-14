@@ -25,6 +25,8 @@ See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/M
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)
 - [Requirement-to-test mapping](docs/requirements.md)
+- [OWASP, MITRE ATLAS and initial STRIDE mapping](docs/security-framework-mapping.md)
+- [NIST AI RMF and Generative AI Profile mapping](docs/ai-rmf-mapping.md)
 - [Foundation design decision](docs/adr/0001-phase0-foundation.md)
 
 The default fixture harness is not an authenticated production service. Its controlled test identities, SQLite adapter, and forced tool calls must not be mistaken for a deployed MCP agent or a model-driven security evaluation.
