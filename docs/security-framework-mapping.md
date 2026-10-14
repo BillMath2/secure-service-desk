@@ -1,6 +1,6 @@
 # Security framework mapping
 
-Reviewed October 14, 2026. Scope: implemented synthetic lab through Phase 4, with the [Phase 5 repeated read-surface evaluation](phase5-report.md). Owner residual-risk acceptance remains open. This replaces the Phase 2-only crosswalk; original reports and their hashes remain unchanged. [Risk register](risk-register.md) entries supply risk decisions and evidence levels; [Phase 3](phase3-exit.md) and [Phase 4](phase4-exit.md) exit records establish the deployed control scope.
+Reviewed October 14, 2026. Scope: implemented synthetic lab through Phase 4, with the [Phase 5 repeated read-surface evaluation](phase5-report.md). [Owner residual-risk acceptance](phase5-owner-review.md) is recorded for local synthetic lab and portfolio use only. This replaces the Phase 2-only crosswalk; original reports and their hashes remain unchanged. [Risk register](risk-register.md) entries supply risk decisions and evidence levels; [Phase 3](phase3-exit.md) and [Phase 4](phase4-exit.md) exit records establish the deployed control scope.
 
 ## Versioned taxonomy and traceability
 
@@ -46,6 +46,6 @@ The [threat model](threat-model.md) assigns 20 stable threats across F1–F10. T
 
 ## Claims and next gate
 
-The [Phase 5 report](phase5-report.md) adds five repetitions of four matched read cases per variant and a separately reported hardened confirmation cohort. The initial hardened provider timeout remains visible. Zero observed attack success in both variants does not demonstrate a reduction attributable to controls; forced effects and signed workflows provide separate control evidence. Owner residual-risk acceptance remains pending. Describe the work as evaluating selected ATLAS techniques and applying relevant AI RMF practices; do not claim comprehensive ATLAS coverage, certification, or universal injection prevention.
+The [Phase 5 report](phase5-report.md) adds five repetitions of four matched read cases per variant and a separately reported hardened confirmation cohort. The initial hardened provider timeout remains visible. Zero observed attack success in both variants does not demonstrate a reduction attributable to controls; forced effects and signed workflows provide separate control evidence. The owner accepted the documented residual risks for local synthetic lab and portfolio use; production requires a separate review. Describe the work as evaluating selected ATLAS techniques and applying relevant AI RMF practices; do not claim comprehensive ATLAS coverage, certification, or universal injection prevention.
 
 Sources: [ATLAS pinned catalog](https://github.com/mitre-atlas/atlas-data/blob/v2026.07/dist/v6/ATLAS-2026.07.yaml), [OWASP LLM list](https://genai.owasp.org/llm-top-10/), [OWASP Agentic 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). See the [AI RMF view](ai-rmf-mapping.md) and [lab charter](lab-governance.md).

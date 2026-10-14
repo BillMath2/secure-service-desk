@@ -2,7 +2,7 @@
   "schema_version": 1,
   "reviewed": "2026-10-14",
   "source_revision": "b627fb540e4a4816850344f43ecc660278f5c9af",
-  "scope": "Pinned synthetic lab through Phase 5 evaluation; owner residual-risk acceptance pending",
+  "scope": "Phase 5 complete; owner accepted RISK-01 through RISK-17 on 2026-10-14 for local synthetic lab and portfolio use only; production requires a separate review and approval",
   "risks": [
     {
       "id": "RISK-01",
@@ -33,7 +33,8 @@
         "tests/test_phase2_identity.py",
         "tests/test_access_interfaces.py",
         "docs/phase2-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -84,7 +85,8 @@
         "docs/phase2-exit.md",
         "docs/phase5-report.md",
         "reports/phase5/results.json",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -141,7 +143,8 @@
         "lab_baseline/cases.json",
         "docs/phase5-report.md",
         "reports/phase5/results.json",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -152,7 +155,7 @@
       "likelihood": "High",
       "impact": "High",
       "rationale": "Untrusted prose reaches the model; an unsafe proposal can target privileged data or actions.",
-      "residual": "Small fixed-case observations are not a statistical guarantee; repeated comparisons remain pending. The repeated matched corpus observed no successful model-driven attack in either variant; no measured attack-rate reduction is established.",
+      "residual": "Small fixed-case observations are not a statistical guarantee; repeated comparisons cover only the frozen corpus. The repeated matched corpus observed no successful model-driven attack in either variant; no measured attack-rate reduction is established.",
       "decision": "mitigated-in-tested-scope",
       "owner": "Project owner",
       "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
@@ -192,7 +195,8 @@
         "docs/phase3-exit.md",
         "docs/phase5-report.md",
         "reports/phase5/results.json",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -238,7 +242,8 @@
         "tests/test_draft_reviews.py",
         "tests/test_publication.py",
         "docs/phase3-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -289,7 +294,8 @@
         "tests/test_access_workflow.py",
         "tests/test_access_interfaces.py",
         "docs/phase4-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -339,7 +345,8 @@
       "evidence": [
         "tests/test_access_workflow.py",
         "docs/phase4-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -386,7 +393,8 @@
       "evidence": [
         "tests/test_access_workflow.py",
         "docs/phase4-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -432,7 +440,8 @@
       "evidence": [
         "tests/test_auth_discovery.py",
         "docs/phase2-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -480,7 +489,8 @@
         "docs/phase3-exit.md",
         "docs/phase4-exit.md",
         "tests/test_model_egress.py",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -533,7 +543,8 @@
         "docs/phase3-exit.md",
         "docs/phase5-report.md",
         "reports/phase5/results.json",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -581,7 +592,8 @@
         "tests/test_read_registry.py",
         "tests/test_model_deployment.py",
         "docs/phase3-exit.md",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -627,7 +639,8 @@
         "docs/phase4-exit.md",
         "docs/phase5-report.md",
         "reports/phase5/results.json",
-        "reports/phase5/release/results.json"
+        "reports/phase5/release/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -684,7 +697,8 @@
         "reports/phase5/results.json",
         "docs/phase5-owner-review.md",
         "reports/phase5/release/results.json",
-        "reports/phase5/capture/results.json"
+        "reports/phase5/capture/results.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed",
@@ -694,7 +708,7 @@
       "likelihood": "Medium",
       "impact": "Medium",
       "rationale": "Overlapping checks and small samples can be presented as stronger evidence than they are.",
-      "residual": "Repeated cohorts, their denominators, one timeout, unsupported comparisons and failed setup are retained. Independent human assessment and explicit owner residual-risk acceptance remain pending.",
+      "residual": "Repeated cohorts, their denominators, one timeout, unsupported comparisons and failed setup are retained. Independent human assessment remains a gap. Owner residual-risk acceptance is recorded for local synthetic lab and portfolio use only.",
       "decision": "planned",
       "owner": "Project owner",
       "next_review": "Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change",
@@ -720,7 +734,8 @@
       ],
       "evidence": [
         "pyproject.toml",
-        "config/local-model.lock.json"
+        "config/local-model.lock.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed"
@@ -753,7 +768,8 @@
         "R16"
       ],
       "evidence": [
-        "docs/permission-matrix.md"
+        "docs/permission-matrix.md",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed"
@@ -786,7 +802,8 @@
         "R16"
       ],
       "evidence": [
-        "config/local-model.lock.json"
+        "config/local-model.lock.json",
+        "docs/phase5-owner-review.md"
       ],
       "evidence_levels": [
         "designed"
@@ -895,5 +912,30 @@
       "RISK-03",
       "RISK-04"
     ]
+  },
+  "owner_acceptance": {
+    "date": "2026-10-14",
+    "status": "accepted-for-local-synthetic-lab-and-portfolio-use",
+    "risk_ids": [
+      "RISK-01",
+      "RISK-02",
+      "RISK-03",
+      "RISK-04",
+      "RISK-05",
+      "RISK-06",
+      "RISK-07",
+      "RISK-08",
+      "RISK-09",
+      "RISK-10",
+      "RISK-11",
+      "RISK-12",
+      "RISK-13",
+      "RISK-14",
+      "RISK-15",
+      "RISK-16",
+      "RISK-17"
+    ],
+    "production_approved": false,
+    "record": "reports/phase5/owner-acceptance.json"
   }
 }

@@ -1445,10 +1445,11 @@
     "reports/phase5/release/results.json": "d425ccb1610ae631e49bb177e3f4087a7c2e70856a05bd47a454a49d760282d4",
     "reports/phase5/capture/results.json": "a728575ce136026551c21b6b6e95eed2972b6767efec92224a8a99e01604ca01",
     "reports/phase5/clean-checkout-02/byte-preservation.json": "54dd6f4592c9b397abf4633ce63593b40f90d7aef730b685bc27ad989838b15a",
-    "reports/phase5/demo-evidence.json": "7554af38614436052e711d0cf7482ce535ffca551037604d8078a2c6bd231cdb"
+    "reports/phase5/demo-evidence.json": "7554af38614436052e711d0cf7482ce535ffca551037604d8078a2c6bd231cdb",
+    "reports/phase5/owner-acceptance.json": "37f06308fb14b92e0746c7249c761bede4d54e7144827a96d46bcddd734ce3c9"
   },
-  "owner_acceptance": "pending",
-  "phase5_exit_complete": false,
+  "owner_acceptance": "accepted-for-local-synthetic-lab-and-portfolio-use",
+  "phase5_exit_complete": true,
   "limitations": [
     "Fixed-seed correlated repetitions and only two attack cases",
     "No observed model-driven unsafe effects in either variant; no measured reduction established",
@@ -1463,5 +1464,7 @@
     "release": "reports/phase5/release/results.json",
     "capture": "reports/phase5/capture/results.json",
     "owner_review": "docs/phase5-owner-review.md"
-  }
+  },
+  "owner_decision_record": "reports/phase5/owner-acceptance.json",
+  "production_approved": false
 }

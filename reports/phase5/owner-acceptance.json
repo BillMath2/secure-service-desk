@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-14",
+  "decision_maker": "Project owner (user)",
+  "status": "accepted-for-local-synthetic-lab-and-portfolio-use",
+  "owner_response_verbatim": "yes i accept them",
+  "context": "Owner accepted after clarification that the proposal covers local synthetic testing and portfolio demonstrations, with a separate readiness assessment and approval required for production.",
+  "risk_ids": [
+    "RISK-01",
+    "RISK-02",
+    "RISK-03",
+    "RISK-04",
+    "RISK-05",
+    "RISK-06",
+    "RISK-07",
+    "RISK-08",
+    "RISK-09",
+    "RISK-10",
+    "RISK-11",
+    "RISK-12",
+    "RISK-13",
+    "RISK-14",
+    "RISK-15",
+    "RISK-16",
+    "RISK-17"
+  ],
+  "production_approved": false,
+  "planned_improvement_work_remains_open": true,
+  "initial_failed_comparison_gate_preserved": true,
+  "new_review_triggers": [
+    "Real users or data",
+    "External directory changes",
+    "Public service exposure",
+    "Production use",
+    "Model or dependency changes",
+    "Policy or deployment-boundary changes"
+  ],
+  "review_document": "docs/phase5-owner-review.md",
+  "evidence_sha256": {
+    "reports/phase5/release/results.json": "d425ccb1610ae631e49bb177e3f4087a7c2e70856a05bd47a454a49d760282d4",
+    "reports/phase5/capture/results.json": "a728575ce136026551c21b6b6e95eed2972b6767efec92224a8a99e01604ca01",
+    "reports/phase5/comparison-01/comparison.json": "f7fd088c9897d11adcf66734b40cf71bec37317e4c8a229b0bb056c1be40a73a",
+    "reports/phase5/hardened-confirmation-02/results.json": "5633c40f9641d16c737336e6cf3c4578d8b427642a3a4eda94aac38645bc5a17"
+  },
+  "phase5_exit_complete": true
+}

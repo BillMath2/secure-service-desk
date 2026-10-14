@@ -2,9 +2,9 @@
 
 Generated from [config/risk-register.json](../config/risk-register.json). Edit that source, then run `python scripts/check_frameworks.py --write-view`.
 
-Reviewed 2026-10-14; source revision `b627fb540e4a4816850344f43ecc660278f5c9af`. Pinned synthetic lab through Phase 5 evaluation; owner residual-risk acceptance pending.
+Reviewed 2026-10-14; source revision `b627fb540e4a4816850344f43ecc660278f5c9af`. Phase 5 complete; owner accepted RISK-01 through RISK-17 on 2026-10-14 for local synthetic lab and portfolio use only; production requires a separate review and approval.
 
-Ratings describe inherent likelihood/impact in this synthetic lab, not measured probabilities. Mitigated means evidence for the stated scope; it does not mean zero residual risk. Planned decisions and owner acceptance remain open. Model evidence on a row does not turn every linked deterministic test into a model trial.
+Ratings describe inherent likelihood/impact in this synthetic lab, not measured probabilities. Mitigated means evidence for the stated scope; it does not mean zero residual risk. Planned treatment work remains open; see the [owner review](phase5-owner-review.md) for residual-risk acceptance and scope. Model evidence on a row does not turn every linked deterministic test into a model trial.
 
 ## RISK-01: Forged browser identity or cross-client authority
 
@@ -18,7 +18,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R01
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_phase2_identity.py](../tests/test_phase2_identity.py), [tests/test_access_interfaces.py](../tests/test_access_interfaces.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_phase2_identity.py](../tests/test_phase2_identity.py), [tests/test_access_interfaces.py](../tests/test_access_interfaces.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Network clients can supply arbitrary claims; successful forgery exposes user authority.
 - **Residual / gap:** Trusted identity administration and host remain outside the tested boundary.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -35,7 +35,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R02
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_phase2_reads.py](../tests/test_phase2_reads.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_phase2_reads.py](../tests/test_phase2_reads.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** High / High. Guessable business identifiers make direct attempts easy; cross-team data is sensitive.
 - **Residual / gap:** Only modeled ACLs, sources, and interfaces are evaluated.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -52,9 +52,9 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R06
 - **Evidence levels:** designed, implemented, deterministically-tested, real-model-evaluated
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [docs/phase2-exit.md](../docs/phase2-exit.md), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase4-exit.md](../docs/phase4-exit.md), [lab_baseline/cases.json](../lab_baseline/cases.json), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [docs/phase2-exit.md](../docs/phase2-exit.md), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase4-exit.md](../docs/phase4-exit.md), [lab_baseline/cases.json](../lab_baseline/cases.json), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** High / High. Untrusted prose reaches the model; an unsafe proposal can target privileged data or actions.
-- **Residual / gap:** Small fixed-case observations are not a statistical guarantee; repeated comparisons remain pending. The repeated matched corpus observed no successful model-driven attack in either variant; no measured attack-rate reduction is established.
+- **Residual / gap:** Small fixed-case observations are not a statistical guarantee; repeated comparisons cover only the frozen corpus. The repeated matched corpus observed no successful model-driven attack in either variant; no measured attack-rate reduction is established.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
 
 ## RISK-04: Restricted content reaches another audience
@@ -69,7 +69,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R03, R05
 - **Evidence levels:** designed, implemented, deterministically-tested, real-model-evaluated
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_requester_drafts.py](../tests/test_requester_drafts.py), [tests/test_chat_output.py](../tests/test_chat_output.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_requester_drafts.py](../tests/test_requester_drafts.py), [tests/test_chat_output.py](../tests/test_chat_output.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** High / High. Privileged context is available to analysts; copying it to a requester is harmful.
 - **Residual / gap:** Fixed retrieval recipes and fingerprints do not establish general semantic leak detection.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -86,7 +86,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R05
 - **Evidence levels:** designed, implemented, deterministically-tested, real-model-evaluated
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_draft_reviews.py](../tests/test_draft_reviews.py), [tests/test_publication.py](../tests/test_publication.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_draft_reviews.py](../tests/test_draft_reviews.py), [tests/test_publication.py](../tests/test_publication.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Mutable recipients or bodies could invalidate a previously safe review.
 - **Residual / gap:** Authorized humans manually copying data are outside the agent-injection scope.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -103,7 +103,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R07
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [tests/test_access_interfaces.py](../tests/test_access_interfaces.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [tests/test_access_interfaces.py](../tests/test_access_interfaces.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Attacker prose may claim authority; an accepted claim would grant access.
 - **Residual / gap:** Real-model proposal observations do not exercise autonomous approval; independent signed workflow tests establish this boundary.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -120,7 +120,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R08, R09
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Retries and cleanup delays are normal; incorrect handling creates durable privilege.
 - **Residual / gap:** Synthetic transactional directory only; an external directory needs separate effect reconciliation.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -137,7 +137,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R10
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Outages and retries can lose mutation evidence without durable transactional recording.
 - **Residual / gap:** Collector shares PostgreSQL; tmpfs teardown discards state; administrator/storage compromise is outside scope.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -154,7 +154,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R01, R04
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_auth_discovery.py](../tests/test_auth_discovery.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_auth_discovery.py](../tests/test_auth_discovery.py), [docs/phase2-exit.md](../docs/phase2-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. A token received for one resource may be replayed elsewhere.
 - **Residual / gap:** Only pinned issuer/client interoperability and the documented key-cache windows are tested.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -171,7 +171,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R13
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase4-exit.md](../docs/phase4-exit.md), [tests/test_model_egress.py](../tests/test_model_egress.py), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase4-exit.md](../docs/phase4-exit.md), [tests/test_model_egress.py](../tests/test_model_egress.py), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. A compromised process can attempt arbitrary egress; credentials would widen impact.
 - **Residual / gap:** IPv4 has positive-controlled live probes; IPv6 denial is inspected only. Host administrators remain trusted.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -188,7 +188,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R11
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_task_admission.py](../tests/test_task_admission.py), [tests/test_tls_ingress.py](../tests/test_tls_ingress.py), [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_task_admission.py](../tests/test_task_admission.py), [tests/test_tls_ingress.py](../tests/test_tls_ingress.py), [tests/test_access_workflow.py](../tests/test_access_workflow.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** High / Medium. Repeated tasks and connections are easy; admission limits bound individual services.
 - **Residual / gap:** AML.T0046 applies to spam/human-review load, not every timeout or token-exhaustion test; host-wide capacity is not certified. The initial Phase 5 cohort had one 45-second provider timeout; a separate 20-task confirmation completed after competing jobs stopped. Cold-start/workstation-load sensitivity remains.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -205,7 +205,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R04, R13
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** mitigated-in-tested-scope
-- **Evidence:** [tests/test_read_registry.py](../tests/test_read_registry.py), [tests/test_model_deployment.py](../tests/test_model_deployment.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_read_registry.py](../tests/test_read_registry.py), [tests/test_model_deployment.py](../tests/test_model_deployment.py), [docs/phase3-exit.md](../docs/phase3-exit.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / High. Definitions and artifacts influence model actions; reviewed hashes detect changes.
 - **Residual / gap:** Integrity relative to pinned artifacts does not prove supplier trust or absence of malicious model behavior.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -222,7 +222,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R16
 - **Evidence levels:** designed, implemented, deterministically-tested, real-model-evaluated
 - **Decision:** planned
-- **Evidence:** [tests/test_agent_tasks.py](../tests/test_agent_tasks.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json)
+- **Evidence:** [tests/test_agent_tasks.py](../tests/test_agent_tasks.py), [docs/phase4-exit.md](../docs/phase4-exit.md), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / Medium. Citations can be valid while individual claims are wrong.
 - **Residual / gap:** No comprehensive claim-level factuality evaluation; Phase 5 benign completion and false-block measurements remain planned.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -239,9 +239,9 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R15, R16, R17
 - **Evidence levels:** designed, implemented, deterministically-tested
 - **Decision:** planned
-- **Evidence:** [SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md](../SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md), [docs/lab-governance.md](../docs/lab-governance.md), [tests/test_frameworks.py](../tests/test_frameworks.py), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [reports/phase5/capture/results.json](../reports/phase5/capture/results.json)
+- **Evidence:** [SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md](../SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md), [docs/lab-governance.md](../docs/lab-governance.md), [tests/test_frameworks.py](../tests/test_frameworks.py), [docs/phase5-report.md](../docs/phase5-report.md), [reports/phase5/results.json](../reports/phase5/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md), [reports/phase5/release/results.json](../reports/phase5/release/results.json), [reports/phase5/capture/results.json](../reports/phase5/capture/results.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / Medium. Overlapping checks and small samples can be presented as stronger evidence than they are.
-- **Residual / gap:** Repeated cohorts, their denominators, one timeout, unsupported comparisons and failed setup are retained. Independent human assessment and explicit owner residual-risk acceptance remain pending.
+- **Residual / gap:** Repeated cohorts, their denominators, one timeout, unsupported comparisons and failed setup are retained. Independent human assessment remains a gap. Owner residual-risk acceptance is recorded for local synthetic lab and portfolio use only.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
 
 ## RISK-15: Component or generated-content licensing risk
@@ -256,7 +256,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R17
 - **Evidence levels:** designed
 - **Decision:** planned
-- **Evidence:** [pyproject.toml](../pyproject.toml), [config/local-model.lock.json](../config/local-model.lock.json)
+- **Evidence:** [pyproject.toml](../pyproject.toml), [config/local-model.lock.json](../config/local-model.lock.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / Medium. Synthetic fixtures do not remove model, software or generated-output licensing concerns.
 - **Residual / gap:** License inventory and output-use review remain pending; no legal compliance claim.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -273,7 +273,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R16
 - **Evidence levels:** designed
 - **Decision:** planned
-- **Evidence:** [docs/permission-matrix.md](../docs/permission-matrix.md)
+- **Evidence:** [docs/permission-matrix.md](../docs/permission-matrix.md), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / Medium. Policy-driven grants do not eliminate uneven language performance or biased explanations.
 - **Residual / gap:** No demographic, multilingual or harmful-content benchmark; closed synthetic domain limits exposure, not model capability.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change
@@ -290,7 +290,7 @@ Ratings describe inherent likelihood/impact in this synthetic lab, not measured 
 - **Requirements:** R16
 - **Evidence levels:** designed
 - **Decision:** planned
-- **Evidence:** [config/local-model.lock.json](../config/local-model.lock.json)
+- **Evidence:** [config/local-model.lock.json](../config/local-model.lock.json), [docs/phase5-owner-review.md](../docs/phase5-owner-review.md)
 - **Likelihood / impact:** Medium / Low. Local inference consumes power; tokens and runtime are not energy measurements.
 - **Residual / gap:** No energy/lifecycle assessment; do not describe impact as measured or minimal.
 - **Owner / next review:** Project owner; Phase 5 exit, or any relevant source, policy, model, dependency, or deployment change

@@ -15,12 +15,14 @@
   "streaming_active": false,
   "remaining_service_desk_containers": [],
   "obs": "Dedicated profile left open; authenticated control server enabled for reuse",
-  "owner_decision": "pending",
-  "phase5_exit_complete": false,
+  "owner_decision": "accepted-for-local-synthetic-lab-and-portfolio-use",
+  "phase5_exit_complete": true,
   "technical_delivery_complete": true,
   "source_sha256": {
     "docs/demo/record-demo.mjs": "d5d252683616dc1ca8cb69565852b0ff1b61e8f4045465e5cc28c93a6657c93b",
     "docs/demo/obs-request.mjs": "3701533a2782a3695d318d6ba8b6ee864b2aadceda5c33f2bf5778858c982372",
     "scripts/check.ps1": "5fab7f185af3e967cd641613d3a72813a1de3ba4885ac67af15d8a6b7d426510"
-  }
+  },
+  "owner_decision_record": "reports/phase5/owner-acceptance.json",
+  "production_approved": false
 }

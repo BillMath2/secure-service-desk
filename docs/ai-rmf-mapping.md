@@ -8,7 +8,7 @@ The evidence level on each risk is scoped to the cited control. Documentation of
 
 | Subcategory | Risk IDs and lab contribution | Evidence / remaining gap |
 |---|---|---|
-| GOVERN 1.5, 2.1 | RISK-14: owner, review cadence, evidence retention | [Lab charter](lab-governance.md) established; final owner residual-risk decisions pending |
+| GOVERN 1.5, 2.1 | RISK-14: owner, review cadence, evidence retention | [Lab charter](lab-governance.md) established; [owner residual-risk acceptance](phase5-owner-review.md) recorded October 14, 2026 for local synthetic lab/portfolio use only; broader assessment gaps remain |
 | GOVERN 3.2 | RISK-05/06: human/model/executor roles | Exact review and independent approvals tested in [Phase 4](phase4-exit.md); no organizational training/oversight assessment |
 | GOVERN 6.1 | RISK-12/15: component stewardship | Pins and integrity checks implemented; licensing/supplier review incomplete |
 | MAP 1.1 | RISK-01/03/14: purpose, actors, context | [Threat model](threat-model.md), synthetic fixtures and permission matrix; external stakeholder consultation not performed |

@@ -1,43 +1,189 @@
 # Secure Service Desk Agent Lab
 
-A synthetic AI security lab where the model proposes actions and independent code enforces permissions.
+A local AI security lab that demonstrates how to give an assistant useful tools while keeping identity, permissions, human approval, and execution under independent control.
 
-Phases 0 through 4 are complete for the pinned synthetic lab. Phase 4 passes 759 tests and the final deployed containment, grant-workflow, model-completion and log checks. The authenticated assistant supports authorized reads, fresh recipient-safe drafts and exact human-confirmed ticket writes. Access proposals now require independent human approval; a separate executor creates temporary grants, and expiry/review checks deny access independently of cleanup. Service-scoped outboxes deliver correlated events to a protected audit collector. The [Phase 4 exit matrix](docs/phase4-exit.md) records the tests, deployed grant workflows, containment evidence and scope limits. Phase 5 covers repeated comparative evaluation and final delivery.
+The assistant answers support questions from authorized sources, prepares audience-specific ticket replies, and proposes temporary access. Separate services validate each action, require human confirmation where appropriate, and enforce approval, expiry, and audit rules. All people, tickets, documents, and directory grants are synthetic.
+
+## Quick demo
+
+**[Watch the 3:58 narrated demonstration](docs/demo/secure-service-desk-demo.mp4)** — 1080p video with a female British English voice.
+
+The video walks through saved evidence of an allowed cited answer, injection and disclosure boundary checks, standard and sensitive access approvals, replay handling, expiry, and correlated audit events. It distinguishes real-model observations from forced security tests. See the [demo guide and transcript](docs/demo/README.md) for evidence references and capture details.
+
+## Architecture
+
+The model proposes actions; trusted application code decides whether those actions are allowed. Human approval and grant execution use separate identities, services, and credentials.
+
+```text
+                     LOCAL WORKSTATION / DOCKER DESKTOP (LINUX)
+
+ [Requester / Analyst / Approver]                 [Keycloak]
+                 |                                  ^
+                 | HTTPS                            | OIDC / OAuth 2.0
+                 v                                  v
+          [Browser application] <-------------------+
+                 |
+                 +-- assistant tasks --> [Agent + policy gateway]
+                 |                              |            |
+                 |                    scoped MCP calls       +--> [Model relay]
+                 |                              |                        |
+                 |                              v                        v
+                 |                  [Knowledge / Tickets /       [Ollama + Qwen3]
+                 |                   Access proposals]            local inference
+                 |                              |
+                 |                              v
+                 |                             [DB]
+                 |
+                 +-- confirm exact reply --> [Publisher] ------------> [DB]
+                 |
+                 +-- submit / approve ------> [Workflow service] ----> [DB]
+
+ [Executor runner] -- workload identity --> [Execution MCP] <---------> [DB]
+                                            rechecks approval;
+                                            creates one grant
+
+ [Lifecycle worker] -- expiry / review / reconciliation -------------> [DB]
+
+ [Read, workflow, execution and lifecycle outboxes]
+                 |
+                 +-- authenticated delivery --> [Audit collector] ---> [DB]
+
+ [DB] = Shared PostgreSQL instance with separate service roles:
+        fixtures, tasks, immutable requests, approvals, synthetic grants,
+        lifecycle state, transactional outboxes and protected audit tables
+```
+
+This is a logical architecture, not a network allow-list. Keycloak also supplies scoped service identities. Runtime processes have separate containers, restricted mounts and credentials, bounded listeners, and default-deny outbound rules. Published service ports bind to loopback. The model has no approval or grant-execution authority.
+
+Authorization is checked at the gateway, tool services, and database boundaries. Requester replies use fresh context limited to their audience. Access requests bind the reviewed action to an exact confirmation: standard access requires an eligible manager or owner; sensitive access requires a manager followed by a distinct resource owner. Effective access expires even if membership cleanup is delayed.
+
+The collector has its own service identity and protected tables, but shares the lab's PostgreSQL instance. The database uses disposable storage; this architecture does not provide production backup or disaster recovery.
+
+## Technologies
+
+| Area | Technology and purpose |
+|---|---|
+| Application and agent | Python 3.13, FastAPI, Uvicorn and Pydantic; a bounded tool-calling loop, validated contracts and browser workflows |
+| Tool interfaces | Model Context Protocol (MCP) Python SDK; separate knowledge, ticket, proposal and execution services |
+| Local model | Qwen3-4B-Instruct-2507, quantized as `qwen3:4b-instruct-2507-q4_K_M`, served by Ollama through a restricted relay |
+| Identity | Keycloak, OpenID Connect and OAuth 2.0; authorization code with PKCE, signed tokens, client/audience checks and workload identities |
+| State and policy | PostgreSQL 18 and Psycopg; scoped roles, transactional policy checks, immutable records, idempotent effects and audit outboxes |
+| Isolation and transport | Docker Desktop Linux containers, Docker Compose, TLS and nftables; separate runtime boundaries and controlled egress |
+| Reproducibility and quality | uv lockfile, pinned images/model hashes, pytest, Ruff and mypy |
+| Security analysis | Per-flow STRIDE, selected OWASP LLM/Agentic and MITRE ATLAS mappings, NIST AI RMF and Generative AI Profile review |
+| Demonstration | OBS Studio and local Microsoft Hazel speech synthesis for recorded evidence and narration |
+
+## Skills demonstrated
+
+| Skill | How the lab demonstrates it |
+|---|---|
+| Secure AI system design | Separates untrusted model output from authorization, approval and execution authority |
+| Agent and MCP engineering | Builds bounded tool use with validated schemas, pinned tool catalogs, budgets, deadlines and cancellation |
+| Identity and access management | Enforces user and workload identity, resource permissions, recipient boundaries and independent approver eligibility |
+| Human approval workflow design | Presents provenance and exact actions for confirmation; supports ordered approvals and temporary access reviews |
+| Reliable distributed workflows | Uses idempotent execution, transactional outboxes, collector recovery and lifecycle reconciliation |
+| Container and network security | Restricts service credentials, mounts, capabilities and outbound connectivity; verifies boundaries with deployed probes |
+| Adversarial testing and evaluation | Separates forced attacks from model behavior and checks actual data disclosure, stored effects, task completion and failure conditions |
+| Threat modeling and risk communication | Connects threats, controls and evidence to a shared risk register and scoped framework mappings |
+
+## Run locally
+
+The supported operator workflow uses Windows PowerShell and Docker Desktop with Linux containers. Local inference requires no cloud model account or API key.
+
+### 1. Prepare the environment
+
+From the repository root, install the locked Python environment:
 
 ```powershell
 .\scripts\bootstrap.ps1
-.\scripts\check.ps1
-.\.venv\Scripts\service-desk.exe evaluate --output reports/runs/first-run
 ```
 
-See the [runbook](docs/runbook.md) for setup, evidence, the optional real OIDC/MCP spike, and test-sink probes.
+Start Docker Desktop, then confirm that its engine responds with `linux`:
 
-[Phase 5 evaluation](docs/phase5-report.md) now records five repetitions of four matched read cases per variant, plus a separate hardened confirmation cohort. Neither variant produced an unsafe model-driven effect; forced baseline tests reproduced all three intended vulnerabilities. The initial hardened cohort retained one provider timeout; the confirmation completed all 20 tasks. The release regression passes 792 tests, and fresh-checkout setup/tests and exact runtime bytes are verified. The [3:58 recorded evidence walkthrough](docs/demo/README.md) uses a female British English voice. All five deployed release gates passed. Technical delivery is complete; explicit [owner risk acceptance](docs/phase5-owner-review.md) remains pending in the [Phase 5 runbook](docs/phase5.md).
+```powershell
+docker info --format '{{.OSType}}'
+```
 
-- [Project plan](SECURE_SERVICE_DESK_AGENT_PROJECT.md)
-- [Implementation plan](SECURE_SERVICE_DESK_AGENT_IMPLEMENTATION_PLAN.md)
-- [Phase 0 status and compatibility](docs/compatibility.md)
-- [Phase 1 baseline and runbook](docs/phase1.md)
-- [Phase 2 identity foundation](docs/phase2.md)
-- [Phase 2 authorized reads, shared limits and next steps](docs/phase2-reads.md)
-- [Phase 2 authenticated assistant demo and limits](docs/phase2-assistant.md)
-- [Phase 2 local model, containment and initial trials](docs/phase2-model.md)
-- [Phase 2 exit matrix and remaining deployment limits](docs/phase2-exit.md)
-- [Phase 3 implementation and historical exit evidence](docs/phase3.md)
-- [Phase 4 approvals, lifecycle, audit and startup/check/stop commands](docs/phase4.md)
-- [Threat model](docs/threat-model.md)
+Startup expects the pinned container images and verified model cache to be present. On a new machine, follow the [model preload instructions](docs/phase1.md#reproduce), [model integrity and runtime setup](docs/phase2-model.md), and [application image build and pinning instructions](docs/phase4.md#local-image-updates). The model download is approximately 2.5 GB. These preparation steps are already complete on the original demo workstation; normal startup reuses the cache and does not download replacement model weights.
+
+### 2. Start the complete lab
+
+```powershell
+.\scripts\phase4.ps1 Start
+```
+
+The script prepares identity and service material, starts the database and model, launches the isolated application services, and runs startup boundary checks. Wait for:
+
+```text
+Phase 4 ready: https://127.0.0.1:19481/access (local CA trust required).
+```
+
+If Docker is not on PATH, pass its installed executable location. For the original workstation:
+
+```powershell
+.\scripts\phase4.ps1 Start -DockerPath 'C:\Users\Bill\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe'
+```
+
+### 3. Trust the local certificate and sign in
+
+After preparation has generated the lab certificate, import its public CA certificate into your Windows user's trusted root store:
+
+```powershell
+Import-Certificate `
+  -FilePath '.\.lab\phase2\tls\certificate.pem' `
+  -CertStoreLocation 'Cert:\CurrentUser\Root'
+```
+
+Restart the browser and open **[https://127.0.0.1:19481/](https://127.0.0.1:19481/)**. Generated synthetic passwords are stored under `users` in `.lab/phase2/credentials.json`. Keep that file out of screen recordings; it also contains service credentials.
+
+| Account | Demo role |
+|---|---|
+| `erin` | Analyst who asks questions and prepares requests |
+| `alice` | Requester and beneficiary of the example access request |
+| `morgan` | Alice's manager and first approver for sensitive access |
+| `olivia` | Engineering resource owner and second approver for sensitive access |
+| `harper` | Designated audit reader |
+
+Use separate browser profiles for different roles so their sessions stay distinct. Certificates are short-lived; consult the [identity configuration guidance](docs/phase2.md) if startup reports expired or incomplete material.
+
+### 4. Walk through a support task and access request
+
+1. Sign in as `erin`. Enter ticket `ticket-alice` and ask: **What are the service desk opening hours? Cite the source.**
+2. Open **Access requests and approvals**. Prepare a draft for ticket `ticket-alice` and resource `engineering-workspace`; leave duration blank to use the policy default and enter a short synthetic justification.
+3. Review the ticket provenance, policy results and exact action, then confirm submission for independent approval.
+4. As `morgan`, open the approval inbox, review the request, and approve the exact action. Refresh to see the executor's grant result.
+5. Repeat with `engineering-admin` to demonstrate the sensitive workflow: Morgan approves first, then `olivia` approves as a distinct resource owner.
+
+For a model-generated proposal, ask the assistant on `ticket-alice`: **Prepare a local access proposal for engineering-workspace using propose_access_change. Do not submit it. Report its request ID and explain the required human review.** Human submission and approval remain separate steps.
+
+### 5. Stop or reset the lab
+
+```powershell
+.\scripts\phase4.ps1 Stop
+```
+
+Stop removes the lab's containers and networks and discards the disposable database, including demo requests and grants. It preserves local keys, model/image caches and saved recordings. Start again for fresh fixtures. Use the same `-DockerPath` option if needed.
+
+## Validation and scope
+
+Run the complete regression and deployed security checks outside a presentation:
+
+```powershell
+.\scripts\phase4.ps1 Check
+```
+
+This temporarily stops application services and changes synthetic fixture records. The [evaluation report](docs/phase5-report.md) separates model observations, forced boundary tests, deployed workflows and unsupported comparisons. It retains failed runs and reliability limitations; zero observed model-driven attack success in both evaluated variants does not establish a measured security improvement.
+
+The lab is intended for local synthetic testing and portfolio demonstrations. [Owner risk acceptance](docs/phase5-owner-review.md) covers that scope. Production use, real employee data and external directory integration require a separate readiness review and approval. Framework mappings describe selected practices and techniques, not certification or comprehensive attack coverage.
+
+## Further reading
+
+- [Operator runbook and service boundaries](docs/phase4.md)
+- [Threat model and trust boundaries](docs/threat-model.md)
 - [Permission matrix](docs/permission-matrix.md)
 - [Tool and event contracts](docs/contracts.md)
-- [Requirement-to-test mapping](docs/requirements.md)
-- [Shared risk register and scenario index](docs/risk-register.md)
-- [Lab governance and risk-review procedure](docs/lab-governance.md)
-- [Phase 5 evaluation and delivery status](docs/phase5.md)
-- [Repeated evaluation report and limitations](docs/phase5-report.md)
-- [Frozen comparison method and reproduction](docs/phase5-evaluation.md)
-- [Demo capture and female UK narration](docs/demo/README.md)
-- [Owner residual-risk review](docs/phase5-owner-review.md)
-- [OWASP, MITRE ATLAS and per-flow STRIDE mapping](docs/security-framework-mapping.md)
+- [Security framework mapping](docs/security-framework-mapping.md)
 - [NIST AI RMF and Generative AI Profile mapping](docs/ai-rmf-mapping.md)
-- [Foundation design decision](docs/adr/0001-phase0-foundation.md)
-
-The default fixture harness is not an authenticated production service. Its controlled test identities, SQLite adapter, and forced tool calls must not be mistaken for a deployed MCP agent or a model-driven security evaluation.
+- [Risk register](docs/risk-register.md)
+- [Evaluation results and limitations](docs/phase5-report.md)
+- [Demo transcript, evidence and recording guide](docs/demo/README.md)

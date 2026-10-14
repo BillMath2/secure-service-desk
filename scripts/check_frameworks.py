@@ -56,7 +56,9 @@ def render_register(register: dict[str, Any]) -> str:
         "",
         "Ratings describe inherent likelihood/impact in this synthetic lab, not measured "
         "probabilities. Mitigated means evidence for the stated scope; it does not mean zero "
-        "residual risk. Planned decisions and owner acceptance remain open. Model evidence "
+        "residual risk. Planned treatment work remains open; see the "
+        "[owner review](phase5-owner-review.md) for residual-risk acceptance and scope. "
+        "Model evidence "
         "on a row does not turn every linked deterministic test into a model trial.",
         "",
     ]
