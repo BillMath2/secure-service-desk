@@ -6,7 +6,7 @@ The assistant answers support questions from authorized sources, prepares audien
 
 ## Quick demo
 
-**[Watch the 3:58 narrated demonstration](docs/demo/secure-service-desk-demo.mp4)** — 1080p video with a female British English voice.
+**[Watch the 3:58 narrated demonstration](docs/demo/secure-service-desk-demo.mp4)**
 
 The video walks through saved evidence of an allowed cited answer, injection and disclosure boundary checks, standard and sensitive access approvals, replay handling, expiry, and correlated audit events. It distinguishes real-model observations from forced security tests. See the [demo guide and transcript](docs/demo/README.md) for evidence references and capture details.
 
